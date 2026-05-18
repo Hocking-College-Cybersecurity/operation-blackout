@@ -1449,35 +1449,54 @@ const CipherStage = ({ data, onSuccess, onFail, onHint, hintsUsed, onEduToggle }
           </div>
         </div>
 
-        <div className="w-full max-w-2xl bg-black/30 border border-[#22c55e]/20 p-4 rounded-lg text-left space-y-3">
-          <h4 className="text-[8px] uppercase text-[#22c55e]/40 font-black tracking-widest">Common ROT13 Tools</h4>
-          <div className="flex flex-wrap gap-2">
-            <a
-              href="https://gchq.github.io/CyberChef/#recipe=ROT13(true,true,false,13)"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block px-3 py-2 border border-[#22c55e]/40 text-[#22c55e] text-[9px] font-black uppercase tracking-[0.15em] hover:bg-[#22c55e] hover:text-black transition-all"
-            >
-              Open CyberChef
-            </a>
-            <a
-              href="https://rot13.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block px-3 py-2 border border-[#22c55e]/40 text-[#22c55e] text-[9px] font-black uppercase tracking-[0.15em] hover:bg-[#22c55e] hover:text-black transition-all"
-            >
-              Open ROT13.com
-            </a>
-            <a
-              href="https://www.dcode.fr/rot-cipher"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block px-3 py-2 border border-[#22c55e]/40 text-[#22c55e] text-[9px] font-black uppercase tracking-[0.15em] hover:bg-[#22c55e] hover:text-black transition-all"
-            >
-              Open dCode ROT
-            </a>
+        <div className="w-full max-w-2xl bg-black/30 border border-[#22c55e]/20 p-4 rounded-lg text-left space-y-4">
+          <h4 className="text-[8px] uppercase text-[#22c55e]/40 font-black tracking-widest">Cipher Decode Resources</h4>
+
+          <div className="space-y-1">
+            <p className="text-[8px] text-[#22c55e]/60 uppercase font-black tracking-widest">All-in-One</p>
+            <div className="flex flex-wrap gap-2">
+              <a href="https://gchq.github.io/CyberChef/" target="_blank" rel="noopener noreferrer" className="inline-block px-3 py-2 border border-[#22c55e]/40 text-[#22c55e] text-[9px] font-black uppercase tracking-[0.15em] hover:bg-[#22c55e] hover:text-black transition-all">CyberChef</a>
+              <a href="https://www.dcode.fr/en" target="_blank" rel="noopener noreferrer" className="inline-block px-3 py-2 border border-[#22c55e]/40 text-[#22c55e] text-[9px] font-black uppercase tracking-[0.15em] hover:bg-[#22c55e] hover:text-black transition-all">dCode (200+ ciphers)</a>
+              <a href="https://cryptii.com/" target="_blank" rel="noopener noreferrer" className="inline-block px-3 py-2 border border-[#22c55e]/40 text-[#22c55e] text-[9px] font-black uppercase tracking-[0.15em] hover:bg-[#22c55e] hover:text-black transition-all">Cryptii</a>
+            </div>
           </div>
-          <p className="text-[9px] text-[#e5e7eb]/70 font-mono">
+
+          <div className="space-y-1">
+            <p className="text-[8px] text-[#22c55e]/60 uppercase font-black tracking-widest">ROT / Caesar / Shift</p>
+            <div className="flex flex-wrap gap-2">
+              <a href="https://rot13.com/" target="_blank" rel="noopener noreferrer" className="inline-block px-3 py-2 border border-[#22c55e]/40 text-[#22c55e] text-[9px] font-black uppercase tracking-[0.15em] hover:bg-[#22c55e] hover:text-black transition-all">ROT13.com</a>
+              <a href="https://www.dcode.fr/caesar-cipher" target="_blank" rel="noopener noreferrer" className="inline-block px-3 py-2 border border-[#22c55e]/40 text-[#22c55e] text-[9px] font-black uppercase tracking-[0.15em] hover:bg-[#22c55e] hover:text-black transition-all">Caesar Cipher (dCode)</a>
+              <a href="https://gchq.github.io/CyberChef/#recipe=ROT13(true,true,false,13)" target="_blank" rel="noopener noreferrer" className="inline-block px-3 py-2 border border-[#22c55e]/40 text-[#22c55e] text-[9px] font-black uppercase tracking-[0.15em] hover:bg-[#22c55e] hover:text-black transition-all">CyberChef ROT13</a>
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <p className="text-[8px] text-[#22c55e]/60 uppercase font-black tracking-widest">Vigenère / Keyword</p>
+            <div className="flex flex-wrap gap-2">
+              <a href="https://www.dcode.fr/vigenere-cipher" target="_blank" rel="noopener noreferrer" className="inline-block px-3 py-2 border border-[#22c55e]/40 text-[#22c55e] text-[9px] font-black uppercase tracking-[0.15em] hover:bg-[#22c55e] hover:text-black transition-all">Vigenère (dCode)</a>
+              <a href="https://www.guballa.de/vigenere-solver" target="_blank" rel="noopener noreferrer" className="inline-block px-3 py-2 border border-[#22c55e]/40 text-[#22c55e] text-[9px] font-black uppercase tracking-[0.15em] hover:bg-[#22c55e] hover:text-black transition-all">Vigenère Solver</a>
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <p className="text-[8px] text-[#22c55e]/60 uppercase font-black tracking-widest">Base64 / Hex / Binary</p>
+            <div className="flex flex-wrap gap-2">
+              <a href="https://www.base64decode.org/" target="_blank" rel="noopener noreferrer" className="inline-block px-3 py-2 border border-[#22c55e]/40 text-[#22c55e] text-[9px] font-black uppercase tracking-[0.15em] hover:bg-[#22c55e] hover:text-black transition-all">Base64 Decode</a>
+              <a href="https://www.rapidtables.com/convert/number/hex-to-ascii.html" target="_blank" rel="noopener noreferrer" className="inline-block px-3 py-2 border border-[#22c55e]/40 text-[#22c55e] text-[9px] font-black uppercase tracking-[0.15em] hover:bg-[#22c55e] hover:text-black transition-all">Hex to ASCII</a>
+              <a href="https://www.rapidtables.com/convert/number/binary-to-ascii.html" target="_blank" rel="noopener noreferrer" className="inline-block px-3 py-2 border border-[#22c55e]/40 text-[#22c55e] text-[9px] font-black uppercase tracking-[0.15em] hover:bg-[#22c55e] hover:text-black transition-all">Binary to ASCII</a>
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <p className="text-[8px] text-[#22c55e]/60 uppercase font-black tracking-widest">Morse / Substitution / Atbash</p>
+            <div className="flex flex-wrap gap-2">
+              <a href="https://morsecode.world/international/translator.html" target="_blank" rel="noopener noreferrer" className="inline-block px-3 py-2 border border-[#22c55e]/40 text-[#22c55e] text-[9px] font-black uppercase tracking-[0.15em] hover:bg-[#22c55e] hover:text-black transition-all">Morse Translator</a>
+              <a href="https://www.dcode.fr/substitution-cipher" target="_blank" rel="noopener noreferrer" className="inline-block px-3 py-2 border border-[#22c55e]/40 text-[#22c55e] text-[9px] font-black uppercase tracking-[0.15em] hover:bg-[#22c55e] hover:text-black transition-all">Substitution (dCode)</a>
+              <a href="https://www.dcode.fr/atbash-cipher" target="_blank" rel="noopener noreferrer" className="inline-block px-3 py-2 border border-[#22c55e]/40 text-[#22c55e] text-[9px] font-black uppercase tracking-[0.15em] hover:bg-[#22c55e] hover:text-black transition-all">Atbash (dCode)</a>
+            </div>
+          </div>
+
+          <p className="text-[9px] text-[#e5e7eb]/70 font-mono border-t border-[#22c55e]/10 pt-3">
             Use only puzzle text in external tools. Do not paste passwords, student data, or private information.
           </p>
         </div>
