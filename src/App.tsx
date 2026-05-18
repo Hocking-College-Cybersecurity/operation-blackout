@@ -889,13 +889,14 @@ const TimerDisplay = ({ timeLeft, practiceMode = false }: { timeLeft: number, pr
   );
 };
 
-const GlobalProgressTracker = ({ currentStage }: { currentStage: GameStage }) => {
+const GlobalProgressTracker = ({ currentStage, defendedCount, totalCount }: { currentStage: GameStage; defendedCount: number; totalCount: number }) => {
   const steps: GameStage[] = ['phishing', 'osint', 'network', 'cipher', 'final'];
   const currentIndex = steps.indexOf(currentStage);
+  const defensePercent = totalCount === 0 ? 0 : Math.round((defendedCount / totalCount) * 100);
 
   return (
-    <div className="w-full h-8 bg-black border-x-4 border-b-4 border-[#22c55e]/40 rounded-b-lg px-4 flex items-center justify-between font-mono crt-flicker">
-      <div className="flex items-center gap-2">
+    <div className="w-full bg-black border-x-4 border-b-4 border-[#22c55e]/40 rounded-b-lg px-4 py-2 flex items-center justify-between gap-4 font-mono crt-flicker">
+      <div className="flex items-center gap-2 shrink-0">
         <span className="text-[8px] font-black text-[#22c55e]/40 uppercase tracking-widest">DEPLOYMENT_SAT-COMM_UPLINK:</span>
         <div className="flex gap-1">
           {steps.map((s, i) => (
@@ -908,8 +909,18 @@ const GlobalProgressTracker = ({ currentStage }: { currentStage: GameStage }) =>
           ))}
         </div>
       </div>
-      <div className="flex items-center gap-4 text-[8px] font-black uppercase italic">
+      <div className="flex-1 max-w-sm space-y-1">
+        <div className="flex items-center justify-between text-[8px] font-black uppercase tracking-widest">
+          <span className="text-[#22c55e]">School Defense Coverage</span>
+          <span className="text-white/70">{defendedCount}/{totalCount}</span>
+        </div>
+        <div className="w-full h-1.5 bg-white/5 border border-[#22c55e]/15 p-[1px]">
+          <div className="h-full bg-[#22c55e] transition-all duration-500" style={{ width: `${defensePercent}%` }} />
+        </div>
+      </div>
+      <div className="flex items-center gap-4 text-[8px] font-black uppercase italic shrink-0">
         <span className="text-white/60 tracking-widest">{currentStage.toUpperCase()}</span>
+        <span className="text-[#22c55e]">{defensePercent}% defended</span>
         <span className="text-amber-500 animate-pulse">!! SECTOR_UNSECURED !!</span>
         <span className="text-[#22c55e]/40">V_04.8.2</span>
       </div>
@@ -1269,6 +1280,11 @@ const QuestionStage = ({
   selectedChoice,
   onChoice,
   onSubmit,
+  puzzleData,
+  freeResponse,
+  onFreeResponseChange,
+  selectedNetworkIp,
+  onSelectNetworkIp,
   osintHardImageSrc,
   osintHardGuess,
   onOsintHardGuessChange,
@@ -1284,6 +1300,11 @@ const QuestionStage = ({
   selectedChoice: number | null;
   onChoice: (index: number) => void;
   onSubmit: () => void;
+  puzzleData: PuzzleData | null;
+  freeResponse: string;
+  onFreeResponseChange: (value: string) => void;
+  selectedNetworkIp: string | null;
+  onSelectNetworkIp: (value: string | null) => void;
   osintHardImageSrc?: string;
   osintHardGuess: string;
   onOsintHardGuessChange: (value: string) => void;
@@ -1297,6 +1318,17 @@ const QuestionStage = ({
 }) => {
   const support = QUESTION_SUPPORT[question.id];
   const isOsintReverseImage = question.id === 'osint-hard';
+  const isSpotThePhish = question.id === 'phishing-easy';
+  const isWiresharkChallenge = question.id === 'network-easy';
+  const isRedactedTextChallenge = question.id === 'cipher-easy';
+  const encryptedWord = puzzleData?.cipher.encrypted ?? 'URYYB';
+  const submitDisabled = isOsintReverseImage
+    ? osintHardGuess.trim().length === 0
+    : isWiresharkChallenge
+      ? !selectedNetworkIp
+      : isRedactedTextChallenge
+        ? freeResponse.trim().length === 0
+        : selectedChoice === null;
 
   return (
   <div className="w-full h-full flex flex-col">
@@ -1321,7 +1353,7 @@ const QuestionStage = ({
         <p className="text-[10px] uppercase tracking-widest text-[#22c55e]/70 font-black mb-2">Mission Brief</p>
         <p className="text-sm text-white leading-relaxed">{question.prompt}</p>
         <p className="mt-3 text-[11px] text-[#e5e7eb]/65 leading-relaxed">
-          Review the evidence, make the safest call for your team, and stop River Phantom from wiping the records for grades 9 through 12 before the whole school gets trapped repeating the year all summer.
+          Review the evidence, make the safest call for your team, and stop River Phantom from wiping the records for grades 9 through 12 before students get trapped inside the school for the summer.
         </p>
         {support && (
           <div className="mt-4 border-t border-[#22c55e]/20 pt-3">
@@ -1349,6 +1381,91 @@ const QuestionStage = ({
           />
           <p className="text-[10px] text-white/50">Accepted examples: Nelsonville, Hocking College</p>
         </div>
+      ) : isSpotThePhish ? (
+        <div className="bg-black/40 border border-[#22c55e]/20 rounded-lg p-4 space-y-3">
+          <p className="text-[10px] uppercase tracking-widest text-[#22c55e]/70 font-black">Spot The Phish</p>
+          <p className="text-[11px] text-[#e5e7eb]/70 leading-relaxed">
+            Make the live triage call: quarantine the malicious message or let it pass.
+          </p>
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              onClick={() => onChoice(0)}
+              className={cn(
+                'p-4 border rounded text-[10px] font-black uppercase tracking-widest transition-all',
+                selectedChoice === 0
+                  ? 'border-[#22c55e] bg-[#22c55e]/10 text-[#22c55e]'
+                  : 'border-white/10 bg-white/5 text-white/80 hover:border-[#22c55e]/30'
+              )}
+            >
+              Quarantine Message
+            </button>
+            <button
+              onClick={() => onChoice(1)}
+              className={cn(
+                'p-4 border rounded text-[10px] font-black uppercase tracking-widest transition-all',
+                selectedChoice === 1
+                  ? 'border-[#22c55e] bg-[#22c55e]/10 text-[#22c55e]'
+                  : 'border-white/10 bg-white/5 text-white/80 hover:border-[#22c55e]/30'
+              )}
+            >
+              Allow Through
+            </button>
+          </div>
+        </div>
+      ) : isWiresharkChallenge ? (
+        <div className="bg-black/40 border border-[#22c55e]/20 rounded-lg p-4 space-y-3">
+          <p className="text-[10px] uppercase tracking-widest text-[#22c55e]/70 font-black">Wireshark Analysis</p>
+          <p className="text-[11px] text-[#e5e7eb]/70 leading-relaxed">
+            Review the captured traffic and identify the source IP running the hostile probe sweep.
+          </p>
+          <div className="border border-[#22c55e]/20 rounded overflow-hidden font-mono text-[10px]">
+            <div className="grid grid-cols-[70px_1fr_60px_1fr] gap-2 px-3 py-2 bg-[#22c55e]/10 text-[#22c55e] font-black uppercase tracking-widest">
+              <span>Time</span>
+              <span>Source</span>
+              <span>Port</span>
+              <span>Info</span>
+            </div>
+            <div className="max-h-56 overflow-y-auto">
+              {(puzzleData?.network.logs ?? []).map((log, index) => (
+                <button
+                  key={`${log.time}-${log.src}-${index}`}
+                  onClick={() => onSelectNetworkIp(log.src)}
+                  className={cn(
+                    'w-full grid grid-cols-[70px_1fr_60px_1fr] gap-2 px-3 py-2 text-left border-t border-[#22c55e]/10 transition-all',
+                    selectedNetworkIp === log.src
+                      ? 'bg-[#22c55e]/10 text-[#22c55e]'
+                      : 'bg-black/20 text-[#e5e7eb]/75 hover:bg-white/5'
+                  )}
+                >
+                  <span>{log.time}</span>
+                  <span>{log.src}</span>
+                  <span>{log.port}</span>
+                  <span>{log.info}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+          <p className="text-[10px] text-white/50">Selected source: {selectedNetworkIp ?? 'none selected'}</p>
+        </div>
+      ) : isRedactedTextChallenge ? (
+        <div className="bg-black/40 border border-[#22c55e]/20 rounded-lg p-4 space-y-3">
+          <p className="text-[10px] uppercase tracking-widest text-[#22c55e]/70 font-black">Redacted Text Recovery</p>
+          <div className="border border-[#22c55e]/20 bg-black/60 p-4 rounded space-y-2 font-mono">
+            <p className="text-[9px] uppercase tracking-widest text-[#22c55e]/50">Recovered ciphertext</p>
+            <p className="text-2xl font-black tracking-[0.35em] text-[#22c55e] break-all">{encryptedWord}</p>
+          </div>
+          <p className="text-[11px] text-[#e5e7eb]/70 leading-relaxed">
+            Decode the intercepted keyword and enter the recovered word to restore the next defense control.
+          </p>
+          <input
+            type="text"
+            value={freeResponse}
+            onChange={(e) => onFreeResponseChange(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && onSubmit()}
+            placeholder="Enter decoded keyword..."
+            className="w-full bg-black/60 border border-[#22c55e]/30 px-4 py-3 font-mono text-[#22c55e] text-xs outline-none focus:border-[#22c55e] placeholder:text-[#22c55e]/20 uppercase tracking-wider"
+          />
+        </div>
       ) : (
         <div className="grid gap-3">
           {question.choices.map((choice, idx) => (
@@ -1374,15 +1491,15 @@ const QuestionStage = ({
         </button>
         <button
           onClick={isOsintReverseImage ? onSubmitOsintHard : onSubmit}
-          disabled={isOsintReverseImage ? osintHardGuess.trim().length === 0 : selectedChoice === null}
+          disabled={submitDisabled}
           className={cn(
             'px-6 py-3 text-[10px] uppercase tracking-widest font-black transition-all',
-            (isOsintReverseImage ? osintHardGuess.trim().length === 0 : selectedChoice === null)
+            submitDisabled
               ? 'border border-[#22c55e]/20 text-[#22c55e]/20 cursor-not-allowed'
               : 'bg-[#22c55e] text-black hover:bg-white'
           )}
         >
-          {isOsintReverseImage ? 'Submit Location' : 'Submit Answer'}
+          {isOsintReverseImage ? 'Submit Location' : isWiresharkChallenge ? 'Confirm Suspicious Source' : isRedactedTextChallenge ? 'Submit Decoded Word' : isSpotThePhish ? 'Submit Triage Decision' : 'Submit Answer'}
         </button>
       </div>
     </div>
@@ -2492,6 +2609,8 @@ export default function App() {
   const [stagePoints, setStagePoints] = useState(0);
   const [activeQuestion, setActiveQuestion] = useState<QuestionItem | null>(null);
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
+  const [freeResponse, setFreeResponse] = useState('');
+  const [selectedNetworkIp, setSelectedNetworkIp] = useState<string | null>(null);
   const [completedQuestions, setCompletedQuestions] = useState<Record<string, boolean>>({});
   const [osintHardGuess, setOsintHardGuess] = useState('');
   const [showQuestionResources, setShowQuestionResources] = useState(false);
@@ -2674,7 +2793,7 @@ export default function App() {
     setMessages([{ text: "BLACKOUT RANKED boot sequence engaged...", type: 'info', timestamp: 'SYSTEM' }]);
     addMessage(`OPERATIVE IDENTIFIED: ${name.toUpperCase()}`, 'success');
     addMessage("ALERT: Rival faction RIVER PHANTOM breached South Gallia systems.", 'error');
-    addMessage("OBJECTIVE: Defend attendance, grades, and senior clearance before lockout.", 'warning');
+    addMessage("OBJECTIVE: Defend grades 9 through 12 before students get trapped inside the school for the summer.", 'warning');
     addMessage("TACTICAL MODE: Choose any category and any difficulty.", 'info');
     addMessage("Complete all 15 challenge boxes to secure class records.", 'info');
     addMessage("Type 'HELP' in the system console for available sub-routines.", 'info');
@@ -2692,6 +2811,8 @@ export default function App() {
     setStagePoints(0);
     setActiveQuestion(null);
     setSelectedChoice(null);
+    setFreeResponse('');
+    setSelectedNetworkIp(null);
     setCompletedQuestions({});
     setOsintHardGuess('');
     setShowQuestionResources(false);
@@ -2725,6 +2846,8 @@ export default function App() {
   const selectQuestion = (question: QuestionItem) => {
     setActiveQuestion(question);
     setSelectedChoice(null);
+    setFreeResponse('');
+    setSelectedNetworkIp(null);
     setOsintHardGuess('');
     setShowQuestionResources(false);
     setHintsUsedCount(0);
@@ -2743,6 +2866,8 @@ export default function App() {
     const solvedAfter = Object.keys(completedQuestions).length + (completedQuestions[question.id] ? 0 : 1);
     setActiveQuestion(null);
     setSelectedChoice(null);
+    setFreeResponse('');
+    setSelectedNetworkIp(null);
     setOsintHardGuess('');
     setShowQuestionResources(false);
     setStage('board');
@@ -2753,7 +2878,39 @@ export default function App() {
   };
 
   const submitQuestionAnswer = () => {
-    if (!activeQuestion || selectedChoice === null) return;
+    if (!activeQuestion) return;
+
+    if (activeQuestion.id === 'phishing-easy') {
+      if (selectedChoice === null) return;
+      if (selectedChoice === 0) {
+        completeQuestion(activeQuestion);
+      } else {
+        handleStageFail('The phish was allowed through. River Phantom gained a foothold.', 20);
+      }
+      return;
+    }
+
+    if (activeQuestion.id === 'network-easy') {
+      if (!selectedNetworkIp || !puzzleData) return;
+      if (selectedNetworkIp === puzzleData.network.suspiciousIp) {
+        completeQuestion(activeQuestion);
+      } else {
+        handleStageFail('Wrong source selected. The hostile probe is still active on the wire.', 25);
+      }
+      return;
+    }
+
+    if (activeQuestion.id === 'cipher-easy') {
+      if (!puzzleData || freeResponse.trim().length === 0) return;
+      if (freeResponse.trim().toUpperCase() === puzzleData.cipher.word) {
+        completeQuestion(activeQuestion);
+      } else {
+        handleStageFail('Decoded text mismatch. The recovery keyword is still unreadable.', 20);
+      }
+      return;
+    }
+
+    if (selectedChoice === null) return;
 
     if (selectedChoice === activeQuestion.answerIndex) {
       completeQuestion(activeQuestion);
@@ -2867,7 +3024,7 @@ export default function App() {
               <TimerDisplay timeLeft={timeLeft} practiceMode={PRACTICE_MODE} />
             </div>
           </header>
-          <GlobalProgressTracker currentStage={stage} />
+          <GlobalProgressTracker currentStage={stage} defendedCount={Object.keys(completedQuestions).length} totalCount={totalQuestions} />
 
           <div className="flex-1 grid grid-cols-12 gap-4 h-full overflow-hidden min-h-0">
             {/* Left Sidebar */}
@@ -2896,6 +3053,11 @@ export default function App() {
                         selectedChoice={selectedChoice}
                         onChoice={setSelectedChoice}
                         onSubmit={submitQuestionAnswer}
+                        puzzleData={puzzleData}
+                        freeResponse={freeResponse}
+                        onFreeResponseChange={setFreeResponse}
+                        selectedNetworkIp={selectedNetworkIp}
+                        onSelectNetworkIp={setSelectedNetworkIp}
                         osintHardImageSrc={activeQuestion.id === 'osint-hard' ? puzzleData?.osint.locationImage : undefined}
                         osintHardGuess={osintHardGuess}
                         onOsintHardGuessChange={setOsintHardGuess}
@@ -2905,6 +3067,8 @@ export default function App() {
                         onBack={() => {
                           setActiveQuestion(null);
                           setSelectedChoice(null);
+                          setFreeResponse('');
+                          setSelectedNetworkIp(null);
                           setOsintHardGuess('');
                           setShowQuestionResources(false);
                           setStage('board');
@@ -2922,7 +3086,7 @@ export default function App() {
               <div className="p-5 border-t border-[#22c55e]/20 bg-black/40 backdrop-blur-md">
                 <p className="text-[10px] text-white/50 leading-relaxed font-mono">
                   <span className="text-[#22c55e] mr-2 font-black tracking-widest uppercase">Intel Brief:</span> 
-                  {stage === 'board' && "RIVER PHANTOM is racing to delete year-end passing records. Pick your lanes and lock systems down."}
+                  {stage === 'board' && "RIVER PHANTOM is racing to wipe grades 9 through 12. Pick your lanes, lock systems down, and keep students from getting trapped inside the school for the summer."}
                   {activeQuestion && `Question active: ${activeQuestion.prompt}`}
                 </p>
               </div>
