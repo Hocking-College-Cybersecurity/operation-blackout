@@ -111,77 +111,139 @@ const QUESTION_SUPPORT: Record<string, QuestionSupport> = {
   'phishing-easy': {
     realisticExample: 'Your friend shares a "free skin" login link in a group chat before a Friday night match.',
     howToSolve: ['Check the domain spelling carefully.', 'Never log in from chat links. Open the official site directly.', 'Report suspicious links to your coach/teacher.'],
-    resources: [{ label: 'CISA: Avoid Social Engineering and Phishing', href: 'https://www.cisa.gov/news-events/news/avoiding-social-engineering-and-phishing-attacks' }]
+    resources: [
+      { label: 'CISA: Avoid Social Engineering and Phishing', href: 'https://www.cisa.gov/news-events/news/avoiding-social-engineering-and-phishing-attacks' },
+      { label: 'FTC: How to recognize phishing', href: 'https://consumer.ftc.gov/articles/how-recognize-and-avoid-phishing-scams' },
+      { label: 'Google Phishing Quiz', href: 'https://phishingquiz.withgoogle.com/' }
+    ]
   },
   'phishing-medium': {
     realisticExample: 'A panic DM says your gaming account will be banned in 10 minutes unless you verify now.',
     howToSolve: ['Ignore urgent pressure tactics.', 'Log in through the official app/site only.', 'Enable MFA on the account immediately.'],
-    resources: [{ label: 'FTC: How to recognize and report spam texts', href: 'https://consumer.ftc.gov/articles/how-recognize-and-report-spam-text-messages' }]
+    resources: [
+      { label: 'FTC: How to recognize and report spam texts', href: 'https://consumer.ftc.gov/articles/how-recognize-and-report-spam-text-messages' },
+      { label: 'Discord Safety Center', href: 'https://discord.com/safety' },
+      { label: 'CISA: Multi-factor authentication', href: 'https://www.cisa.gov/mfa' }
+    ]
   },
   'phishing-hard': {
     realisticExample: 'A school notice looks real but sender authentication details do not line up.',
     howToSolve: ['Compare sender, reply-to, and auth results together.', 'Treat mixed SPF/DKIM signals as suspicious.', 'Verify by contacting school staff through known channels.'],
-    resources: [{ label: 'Google: Authenticate email with SPF/DKIM/DMARC', href: 'https://support.google.com/a/answer/2466563' }]
+    resources: [
+      { label: 'Google: Authenticate email with SPF/DKIM/DMARC', href: 'https://support.google.com/a/answer/2466563' },
+      { label: 'Cloudflare: What is DMARC?', href: 'https://www.cloudflare.com/learning/email-security/what-is-dmarc/' },
+      { label: 'Microsoft: Anti-phishing protection', href: 'https://learn.microsoft.com/en-us/defender-office-365/anti-phishing-protection-about' }
+    ]
   },
   'osint-easy': {
     realisticExample: 'Someone guesses your password style from public TikTok and Instagram posts.',
     howToSolve: ['Audit what personal details are public.', 'Avoid password clues in bios/posts.', 'Use unique passphrases for each account.'],
-    resources: [{ label: 'NCSC: People and passwords', href: 'https://www.ncsc.gov.uk/collection/top-tips-for-staying-secure-online/password-managers' }]
+    resources: [
+      { label: 'OSINT Framework', href: 'https://osintframework.com/' },
+      { label: 'Bellingcat Toolkit', href: 'https://www.bellingcat.com/resources/how-tos/' },
+      { label: 'NCSC: People and passwords', href: 'https://www.ncsc.gov.uk/collection/top-tips-for-staying-secure-online/password-managers' }
+    ]
   },
   'osint-medium': {
     realisticExample: 'An attacker combines pet names and graduation years to build targeted password guesses.',
     howToSolve: ['Never use personal details in passwords.', 'Use a password manager and random generation.', 'Turn on MFA for school/social/gaming accounts.'],
-    resources: [{ label: 'CISA: Creating a password tip sheet', href: 'https://www.cisa.gov/news-events/news/creating-password-tip-sheet' }]
+    resources: [
+      { label: 'OSINT Framework', href: 'https://osintframework.com/' },
+      { label: 'Bellingcat Toolkit', href: 'https://www.bellingcat.com/resources/how-tos/' },
+      { label: 'CISA: Creating a password tip sheet', href: 'https://www.cisa.gov/news-events/news/creating-password-tip-sheet' }
+    ]
   },
   'osint-hard': {
     realisticExample: 'You are given an image clue and must geolocate it using reverse-image and landmark analysis.',
     howToSolve: ['Inspect visible landmarks and architecture.', 'Run a reverse-image lookup to find similar images/pages.', 'Correlate clues to city or campus name before submitting.'],
-    resources: [{ label: 'Google Lens', href: 'https://lens.google.com/' }, { label: 'Bing Visual Search', href: 'https://www.bing.com/visualsearch' }, { label: 'Yandex Images', href: 'https://yandex.com/images/' }]
+    resources: [
+      { label: 'OSINT Framework', href: 'https://osintframework.com/' },
+      { label: 'Bellingcat Toolkit', href: 'https://www.bellingcat.com/resources/how-tos/' },
+      { label: 'Google Lens', href: 'https://lens.google.com/' },
+      { label: 'Bing Visual Search', href: 'https://www.bing.com/visualsearch' },
+      { label: 'Yandex Images', href: 'https://yandex.com/images/' }
+    ]
   },
   'network-easy': {
     realisticExample: 'During a school event stream, one external IP probes many ports in sequence.',
     howToSolve: ['Identify repeated source IP patterns.', 'Check for sequential/high-volume port attempts.', 'Block and monitor that source at perimeter controls.'],
-    resources: [{ label: 'Cloudflare: What is a port scan?', href: 'https://www.cloudflare.com/learning/security/glossary/what-is-a-port-scan/' }]
+    resources: [
+      { label: 'Cloudflare: What is a port scan?', href: 'https://www.cloudflare.com/learning/security/glossary/what-is-a-port-scan/' },
+      { label: 'Wireshark Display Filters', href: 'https://wiki.wireshark.org/DisplayFilters' },
+      { label: 'Nmap Reference Guide', href: 'https://nmap.org/book/man.html' }
+    ]
   },
   'network-medium': {
     realisticExample: 'One compromised lab PC tries to spread toward grade and attendance systems.',
     howToSolve: ['Use segmentation between student and admin networks.', 'Limit lateral movement with ACLs/firewalls.', 'Apply least privilege for service accounts and shares.'],
-    resources: [{ label: 'NIST: Zero Trust architecture', href: 'https://www.nist.gov/publications/zero-trust-architecture' }]
+    resources: [
+      { label: 'NIST: Zero Trust architecture', href: 'https://www.nist.gov/publications/zero-trust-architecture' },
+      { label: 'CISA Network Segmentation Guidance', href: 'https://www.cisa.gov/resources-tools/resources/defense-depth' },
+      { label: 'Microsoft: Lateral movement paths', href: 'https://learn.microsoft.com/en-us/security/compass/incident-response-playbook-lateral-movement' }
+    ]
   },
   'network-hard': {
     realisticExample: 'A host sends periodic low-volume callbacks to a rare domain every 5 minutes.',
     howToSolve: ['Look for periodic beacon timing patterns.', 'Correlate DNS + endpoint process telemetry.', 'Isolate host, then investigate persistence and C2.'],
-    resources: [{ label: 'MITRE ATT&CK: C2 techniques', href: 'https://attack.mitre.org/tactics/TA0011/' }]
+    resources: [
+      { label: 'MITRE ATT&CK: C2 techniques', href: 'https://attack.mitre.org/tactics/TA0011/' },
+      { label: 'MITRE ATT&CK: Beaconing', href: 'https://attack.mitre.org/techniques/T1071/' },
+      { label: 'Wireshark Display Filters', href: 'https://wiki.wireshark.org/DisplayFilters' }
+    ]
   },
   'cipher-easy': {
     realisticExample: 'A club challenge uses ROT13 to hide a simple keyword in plain sight.',
     howToSolve: ['Remember ROT13 shifts by 13.', 'Decode quickly using a ROT13 tool table.', 'Confirm output still makes contextual sense.'],
-    resources: [{ label: 'dCode ROT Cipher', href: 'https://www.dcode.fr/rot-cipher' }]
+    resources: [
+      { label: 'CyberChef ROT13', href: 'https://gchq.github.io/CyberChef/#recipe=ROT13(true,true,false,13)' },
+      { label: 'dCode ROT Cipher', href: 'https://www.dcode.fr/rot-cipher' },
+      { label: 'ROT13.com', href: 'https://rot13.com/' }
+    ]
   },
   'cipher-medium': {
     realisticExample: 'You need to decode a Caesar-shifted hint before rival team steals points.',
     howToSolve: ['Test likely small shifts first.', 'Check letter frequency and known words.', 'Validate by reversing shift against original context.'],
-    resources: [{ label: 'Cryptii Caesar cipher', href: 'https://cryptii.com/pipes/caesar-cipher' }]
+    resources: [
+      { label: 'Cryptii Caesar cipher', href: 'https://cryptii.com/pipes/caesar-cipher' },
+      { label: 'dCode Caesar Cipher', href: 'https://www.dcode.fr/caesar-cipher' },
+      { label: 'CyberChef Caesar/ROT', href: 'https://gchq.github.io/CyberChef/' }
+    ]
   },
   'cipher-hard': {
     realisticExample: 'Advanced challenge asks why one-time pads are special compared to simple ciphers.',
     howToSolve: ['Focus on key properties: random, equal length, never reused.', 'Distinguish theoretical security from practical key management.', 'Explain why reuse breaks secrecy.'],
-    resources: [{ label: 'Khan Academy: One-time pad', href: 'https://www.khanacademy.org/computing/computer-science/cryptography' }]
+    resources: [
+      { label: 'Khan Academy: One-time pad', href: 'https://www.khanacademy.org/computing/computer-science/cryptography' },
+      { label: 'Cryptography Notes: One-time pad', href: 'https://www.cs.cornell.edu/courses/cs513/2005fa/MCinfo/otp.html' },
+      { label: 'CyberChef', href: 'https://gchq.github.io/CyberChef/' }
+    ]
   },
   'final-easy': {
     realisticExample: 'Your team wants one tool to solve everything, but incidents keep bypassing single defenses.',
     howToSolve: ['Apply layered controls (MFA, filtering, segmentation, backups).', 'Assume one control can fail.', 'Build overlap and monitoring between layers.'],
-    resources: [{ label: 'CISA: Defense in depth', href: 'https://www.cisa.gov/resources-tools/resources/defense-depth' }]
+    resources: [
+      { label: 'CISA: Defense in depth', href: 'https://www.cisa.gov/resources-tools/resources/defense-depth' },
+      { label: 'NIST CSF 2.0', href: 'https://www.nist.gov/cyberframework' },
+      { label: 'CISA Cybersecurity Best Practices', href: 'https://www.cisa.gov/topics/cybersecurity-best-practices' }
+    ]
   },
   'final-medium': {
     realisticExample: 'A class account is hijacked right before grade lock-in and panic spreads.',
     howToSolve: ['Contain affected accounts/systems first.', 'Preserve evidence and logs.', 'Then eradicate and recover with communications plan.'],
-    resources: [{ label: 'CISA Incident Response', href: 'https://www.cisa.gov/incident-response' }]
+    resources: [
+      { label: 'CISA Incident Response', href: 'https://www.cisa.gov/incident-response' },
+      { label: 'NIST Computer Security Incident Handling Guide', href: 'https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final' },
+      { label: 'Microsoft Incident Response Guidance', href: 'https://learn.microsoft.com/en-us/security/operations/incident-response-overview' }
+    ]
   },
   'final-hard': {
     realisticExample: 'Shared Wi-Fi and known devices are trusted by default, leading to quiet misuse.',
     howToSolve: ['Continuously verify identity/device context.', 'Use least privilege and short-lived trust.', 'Require re-authentication for sensitive actions.'],
-    resources: [{ label: 'NIST CSF 2.0', href: 'https://www.nist.gov/cyberframework' }]
+    resources: [
+      { label: 'NIST CSF 2.0', href: 'https://www.nist.gov/cyberframework' },
+      { label: 'NIST Zero Trust Architecture', href: 'https://www.nist.gov/publications/zero-trust-architecture' },
+      { label: 'Microsoft Zero Trust Guidance', href: 'https://www.microsoft.com/en-us/security/business/zero-trust' }
+    ]
   }
 };
 
