@@ -304,6 +304,79 @@ const STAGE_HINTS: Record<string, string[]> = {
   ]
 };
 
+const STAGE_SOLVER_LINKS: Partial<Record<GameStage, { title: string; links: { label: string; href: string }[] }>> = {
+  phishing: {
+    title: 'How to Solve: Phishing',
+    links: [
+      { label: 'CISA Phishing Guidance', href: 'https://www.cisa.gov/news-events/news/avoiding-social-engineering-and-phishing-attacks' },
+      { label: 'FTC: How to Recognize Phishing', href: 'https://consumer.ftc.gov/articles/how-recognize-and-avoid-phishing-scams' },
+      { label: 'Google Phishing Quiz', href: 'https://phishingquiz.withgoogle.com/' }
+    ]
+  },
+  osint: {
+    title: 'How to Solve: OSINT',
+    links: [
+      { label: 'OSINT Framework', href: 'https://osintframework.com/' },
+      { label: 'Bellingcat Toolkit', href: 'https://www.bellingcat.com/resources/how-tos/' },
+      { label: 'SANS OSINT Basics', href: 'https://www.sans.org/blog/what-is-open-source-intelligence/' }
+    ]
+  },
+  network: {
+    title: 'How to Solve: Network',
+    links: [
+      { label: 'Wireshark Display Filters', href: 'https://wiki.wireshark.org/DisplayFilters' },
+      { label: 'CISA Network Security', href: 'https://www.cisa.gov/topics/cybersecurity-best-practices' },
+      { label: 'Cloudflare Port Scanning', href: 'https://www.cloudflare.com/learning/security/glossary/what-is-port-scanning/' }
+    ]
+  },
+  cipher: {
+    title: 'How to Solve: Ciphers',
+    links: [
+      { label: 'CyberChef ROT13', href: 'https://gchq.github.io/CyberChef/#recipe=ROT13(true,true,false,13)' },
+      { label: 'ROT13.com', href: 'https://rot13.com/' },
+      { label: 'dCode ROT Cipher', href: 'https://www.dcode.fr/rot-cipher' }
+    ]
+  },
+  final: {
+    title: 'How to Solve: Final',
+    links: [
+      { label: 'NIST CSF 2.0 Overview', href: 'https://www.nist.gov/cyberframework' },
+      { label: 'CISA Defense in Depth', href: 'https://www.cisa.gov/resources-tools/resources/defense-depth' },
+      { label: 'CISA Incident Response', href: 'https://www.cisa.gov/incident-response' }
+    ]
+  }
+};
+
+const SolveLinksPanel = ({ stage }: { stage: GameStage }) => {
+  const resources = STAGE_SOLVER_LINKS[stage];
+  if (!resources) return null;
+
+  return (
+    <div className="bg-black border-4 border-[#22c55e]/30 rounded-lg p-4 shadow-[0_0_30px_rgba(34,197,94,0.08)]">
+      <div className="flex items-center justify-between mb-3 border-b border-[#22c55e]/20 pb-2">
+        <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#22c55e]">{resources.title}</h3>
+        <BookOpen size={14} className="text-[#22c55e]/70" />
+      </div>
+      <div className="space-y-2">
+        {resources.links.map((resource) => (
+          <a
+            key={resource.href}
+            href={resource.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block p-2 border border-[#22c55e]/20 text-[10px] text-[#e5e7eb]/85 hover:text-black hover:bg-[#22c55e] transition-all font-mono"
+          >
+            {resource.label}
+          </a>
+        ))}
+      </div>
+      <p className="mt-3 text-[9px] text-[#22c55e]/60 font-mono">
+        Use only challenge data in external tools.
+      </p>
+    </div>
+  );
+};
+
 const STAGE_EDUCATION = {
   phishing: {
     title: "SECTOR 01: Social Engineering",
@@ -1336,6 +1409,39 @@ const CipherStage = ({ data, onSuccess, onFail, onHint, hintsUsed, onEduToggle }
           </div>
         </div>
 
+        <div className="w-full max-w-2xl bg-black/30 border border-[#22c55e]/20 p-4 rounded-lg text-left space-y-3">
+          <h4 className="text-[8px] uppercase text-[#22c55e]/40 font-black tracking-widest">Common ROT13 Tools</h4>
+          <div className="flex flex-wrap gap-2">
+            <a
+              href="https://gchq.github.io/CyberChef/#recipe=ROT13(true,true,false,13)"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block px-3 py-2 border border-[#22c55e]/40 text-[#22c55e] text-[9px] font-black uppercase tracking-[0.15em] hover:bg-[#22c55e] hover:text-black transition-all"
+            >
+              Open CyberChef
+            </a>
+            <a
+              href="https://rot13.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block px-3 py-2 border border-[#22c55e]/40 text-[#22c55e] text-[9px] font-black uppercase tracking-[0.15em] hover:bg-[#22c55e] hover:text-black transition-all"
+            >
+              Open ROT13.com
+            </a>
+            <a
+              href="https://www.dcode.fr/rot-cipher"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block px-3 py-2 border border-[#22c55e]/40 text-[#22c55e] text-[9px] font-black uppercase tracking-[0.15em] hover:bg-[#22c55e] hover:text-black transition-all"
+            >
+              Open dCode ROT
+            </a>
+          </div>
+          <p className="text-[9px] text-[#e5e7eb]/70 font-mono">
+            Use only puzzle text in external tools. Do not paste passwords, student data, or private information.
+          </p>
+        </div>
+
         <div className="w-full max-w-md space-y-6">
           <div className="relative">
             <RefreshCw size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#22c55e]/40 animate-spin-slow" />
@@ -2073,6 +2179,7 @@ export default function App() {
             {/* Right Sidebar */}
             <aside className="col-span-3 flex flex-col gap-4 overflow-hidden">
               <NetworkVitals integrity={dbIntegrity} />
+              <SolveLinksPanel stage={stage} />
               <DecryptionRig hintsCount={hints.length} stage={stage} />
             </aside>
           </div>
