@@ -57,7 +57,7 @@ interface QuestionSupport {
   resources: { label: string; href: string }[];
 }
 
-const PRACTICE_MODE = true;
+const PRACTICE_MODE = false;
 
 const DIFFICULTY_POINTS: Record<Difficulty, number> = {
   easy: 100,
