@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="dCode-style Caesar cipher tool screenshot showing S maps to V with +3 shift">
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Letter-shift solver screenshot showing a worked example without final answer text">
   <rect width="1280" height="720" fill="#f5f5f5"/>
   <rect x="40" y="34" width="1200" height="652" rx="12" fill="#ffffff" stroke="#d1d5db"/>
   <rect x="40" y="34" width="1200" height="58" rx="12" fill="#f59e0b"/>
-  <text x="70" y="71" font-family="Segoe UI, Arial" font-size="24" fill="#111827" font-weight="700">dCode - Caesar Cipher Solver</text>
+  <text x="70" y="71" font-family="Segoe UI, Arial" font-size="24" fill="#111827" font-weight="700">Shift Cipher Solver</text>
 
   <text x="78" y="136" font-family="Segoe UI, Arial" font-size="22" fill="#111827" font-weight="700">Shift value</text>
   <rect x="220" y="108" width="80" height="42" rx="8" fill="#fff7ed" stroke="#fb923c"/>
@@ -10,9 +10,9 @@
 
   <rect x="78" y="176" width="1124" height="190" rx="10" fill="#f9fafb"/>
   <text x="108" y="248" font-family="Consolas, monospace" font-size="34" fill="#111827">Plaintext: S</text>
-  <text x="108" y="304" font-family="Consolas, monospace" font-size="34" fill="#111827">Shift path: S -> T -> U -> V</text>
+  <text x="108" y="304" font-family="Consolas, monospace" font-size="34" fill="#111827">Shift path: S -> ? -> ? -> ?</text>
 
   <rect x="78" y="390" width="1124" height="250" rx="10" fill="#111827"/>
-  <text x="108" y="464" font-family="Segoe UI, Arial" font-size="30" fill="#fcd34d" font-weight="700">Result: V</text>
-  <text x="108" y="510" font-family="Segoe UI, Arial" font-size="22" fill="#fde68a">For Caesar +3, plaintext S becomes V.</text>
+  <text x="108" y="464" font-family="Segoe UI, Arial" font-size="30" fill="#fcd34d" font-weight="700">Result field locked</text>
+  <text x="108" y="510" font-family="Segoe UI, Arial" font-size="22" fill="#fde68a">Use the displayed shift to complete the sequence yourself.</text>
 </svg>

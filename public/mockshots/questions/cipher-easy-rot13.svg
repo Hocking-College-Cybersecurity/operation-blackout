@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="CyberChef-style interface screenshot for ROT13 decoding">
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Cipher tool screenshot showing a simple letter rotation workflow">
   <rect width="1280" height="720" fill="#1f2937"/>
   <rect x="34" y="30" width="1212" height="660" rx="12" fill="#111827" stroke="#374151"/>
   <rect x="34" y="30" width="1212" height="56" rx="12" fill="#0b1220"/>
-  <text x="64" y="66" font-family="Segoe UI, Arial" font-size="22" fill="#f3f4f6" font-weight="700">CyberChef</text>
-  <text x="182" y="66" font-family="Segoe UI, Arial" font-size="16" fill="#9ca3af">Recipe: ROT13</text>
+  <text x="64" y="66" font-family="Segoe UI, Arial" font-size="22" fill="#f3f4f6" font-weight="700">Cipher Tool</text>
+  <text x="182" y="66" font-family="Segoe UI, Arial" font-size="16" fill="#9ca3af">Recipe: rotate letters</text>
 
   <rect x="64" y="106" width="360" height="560" rx="10" fill="#0f172a"/>
   <text x="88" y="142" font-family="Segoe UI, Arial" font-size="18" fill="#cbd5e1" font-weight="700">Input</text>
@@ -13,11 +13,11 @@
   <rect x="458" y="106" width="330" height="560" rx="10" fill="#0f172a"/>
   <text x="482" y="142" font-family="Segoe UI, Arial" font-size="18" fill="#cbd5e1" font-weight="700">Recipe</text>
   <rect x="482" y="170" width="282" height="72" rx="8" fill="#1f2937" stroke="#f59e0b"/>
-  <text x="506" y="214" font-family="Segoe UI, Arial" font-size="22" fill="#fde68a">ROT13 (shift 13)</text>
+  <text x="506" y="214" font-family="Segoe UI, Arial" font-size="22" fill="#fde68a">Rotation preset loaded</text>
 
   <rect x="822" y="106" width="390" height="560" rx="10" fill="#0f172a"/>
   <text x="846" y="142" font-family="Segoe UI, Arial" font-size="18" fill="#cbd5e1" font-weight="700">Output</text>
   <rect x="846" y="160" width="342" height="470" rx="8" fill="#020617"/>
   <text x="870" y="236" font-family="Consolas, monospace" font-size="28" fill="#22c55e">URYYB</text>
-  <text x="870" y="290" font-family="Segoe UI, Arial" font-size="20" fill="#fcd34d">ROT13 shifts letters by 13.</text>
+  <text x="870" y="290" font-family="Segoe UI, Arial" font-size="20" fill="#fcd34d">Compare input and output to infer the rotation.</text>
 </svg>

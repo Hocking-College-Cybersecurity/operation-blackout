@@ -81,35 +81,35 @@ const CATEGORY_LABELS: Record<Category, string> = {
 
 const QUESTION_BANK: Record<Category, QuestionItem[]> = {
   phishing: [
-    { id: 'phishing-easy', category: 'phishing', difficulty: 'easy', points: 100, prompt: 'A teammate posts a free-skins link in Discord. Biggest red flag?', choices: ['All caps text', 'Misspelled URL requesting login', 'Meme image attached', 'Uses countdown timer'], answerIndex: 1, hint: 'Spoofed domains are the fastest way to spot phishing.' },
-    { id: 'phishing-medium', category: 'phishing', difficulty: 'medium', points: 200, prompt: 'DM says your game account is banned and asks to verify now. Best move?', choices: ['Use DM link fast', 'Send password to support', 'Open official app/site and verify there', 'Ignore forever'], answerIndex: 2, hint: 'Never verify through panic links.' },
-    { id: 'phishing-hard', category: 'phishing', difficulty: 'hard', points: 300, prompt: 'School alert email passes SPF but fails DKIM and has mismatched reply-to. Conclusion?', choices: ['Safe enough', 'Likely spoofed/tampered', 'Just formatting issue', 'Only attachment is risky'], answerIndex: 1, hint: 'Mixed auth signals plus identity mismatch = suspicious.' }
+    { id: 'phishing-easy', category: 'phishing', difficulty: 'easy', points: 100, prompt: 'Mission Brief: A teammate drops a "free skins" login link into the squad Discord while senior records are under attack. Which clue most clearly tells you the link is a trap before anyone hands over credentials?', choices: ['The message is loud and dramatic', 'The login domain is misspelled', 'The post includes a joke image', 'The sender adds a countdown'], answerIndex: 1, hint: 'Spoofed domains are the fastest way to spot phishing.' },
+    { id: 'phishing-medium', category: 'phishing', difficulty: 'medium', points: 200, prompt: 'Mission Brief: An urgent DM claims your gaming account is banned and says you must verify immediately or lose access before the finals stream. What is the safest move if you want to keep the operation secure?', choices: ['Rush through the link before the timer ends', 'Send your password to the contact claiming to help', 'Leave the DM and verify only through the official site or app', 'Write it off and never investigate the claim'], answerIndex: 2, hint: 'Never verify through panic links.' },
+    { id: 'phishing-hard', category: 'phishing', difficulty: 'hard', points: 300, prompt: 'Mission Brief: A school alert about policy changes lands in your inbox while River Phantom targets graduation systems. SPF passes, DKIM fails, and the reply-to address does not match the sender. What conclusion should your team report?', choices: ['The message is trustworthy enough to follow', 'The message is likely spoofed or tampered with', 'The mismatch is only cosmetic formatting noise', 'The only danger would be a malicious attachment'], answerIndex: 1, hint: 'Mixed auth signals plus identity mismatch = suspicious.' }
   ],
   osint: [
-    { id: 'osint-easy', category: 'osint', difficulty: 'easy', points: 100, prompt: 'Someone guessed your password theme from social posts. This is:', choices: ['Brute force only', 'OSINT from public info', 'Inside job required', 'Wi-Fi sniffing'], answerIndex: 1, hint: 'OSINT uses open/public data.' },
-    { id: 'osint-medium', category: 'osint', difficulty: 'medium', points: 200, prompt: 'Most dangerous combo from social media for password guessing?', choices: ['Favorite snack + shoe size', 'Pet name + graduation year', 'Backpack color + meme', 'Controller brand + weather'], answerIndex: 1, hint: 'People reuse pet names and milestone years.' },
-    { id: 'osint-hard', category: 'osint', difficulty: 'hard', points: 300, prompt: 'Reverse image challenge: identify the city or college shown in the location evidence.', choices: ['Run reverse-image lookup and infer location', 'Only check profile bio text', 'Ignore visual landmarks', 'Guess randomly'], answerIndex: 0, hint: 'Use visible landmarks plus reverse-image tooling to identify the location.' }
+    { id: 'osint-easy', category: 'osint', difficulty: 'easy', points: 100, prompt: 'Mission Brief: The attacker is building password guesses from public posts while trying to lock your class into summer school. If someone figures out your password theme from social media alone, what technique are they using?', choices: ['Blind brute-force pressure against the login portal', 'Open-source intelligence gathered from public posts', 'An inside accomplice feeding them private details', 'Wireless interception from nearby devices'], answerIndex: 1, hint: 'OSINT uses open/public data.' },
+    { id: 'osint-medium', category: 'osint', difficulty: 'medium', points: 200, prompt: 'Mission Brief: Your team needs to identify which public details would give River Phantom the best chance to guess student passwords. Which combination is the most dangerous to leave exposed online?', choices: ['Favorite snack and shoe size', 'Pet name and graduation year', 'Backpack color and a meme post', 'Controller brand and today’s weather'], answerIndex: 1, hint: 'People reuse pet names and milestone years.' },
+    { id: 'osint-hard', category: 'osint', difficulty: 'hard', points: 300, prompt: 'Mission Brief: A location photo is the only lead left in the case file. Use the image evidence to identify the city or college tied to the attacker before the records wipe completes.', choices: ['Run reverse-image and landmark analysis to identify the place', 'Rely only on profile text and ignore the image', 'Discard visible landmarks as a distraction', 'Submit a random guess and hope it lands'], answerIndex: 0, hint: 'Use visible landmarks plus reverse-image tooling to identify the location.' }
   ],
   network: [
-    { id: 'network-easy', category: 'network', difficulty: 'easy', points: 100, prompt: 'One IP probes many ports in sequence. This is:', choices: ['Patch check', 'Port scan', 'Cloud sync', 'Certificate refresh'], answerIndex: 1, hint: 'Recon starts by checking open doors.' },
-    { id: 'network-medium', category: 'network', difficulty: 'medium', points: 200, prompt: 'Best control to limit spread after one PC compromise?', choices: ['Flat network', 'Open file shares', 'Network segmentation', 'Disable logs'], answerIndex: 2, hint: 'Isolate trust zones.' },
-    { id: 'network-hard', category: 'network', difficulty: 'hard', points: 300, prompt: 'Every-5-minute outbound callbacks to rare domain usually indicate:', choices: ['Normal patching', 'C2 beaconing', 'DNS cache update', 'Printer sync'], answerIndex: 1, hint: 'Periodic low-volume callbacks are beacon behavior.' }
+    { id: 'network-easy', category: 'network', difficulty: 'easy', points: 100, prompt: 'Mission Brief: Your monitoring board shows one outside address touching service after service on the same switch in rapid order. What kind of activity is the attacker most likely performing?', choices: ['A routine patch validation sweep', 'A reconnaissance port scan', 'A normal cloud synchronization job', 'A certificate renewal process'], answerIndex: 1, hint: 'Recon starts by checking open doors.' },
+    { id: 'network-medium', category: 'network', difficulty: 'medium', points: 200, prompt: 'Mission Brief: One compromised lab machine is trying to pivot toward grade and attendance systems. Which defensive control most effectively limits the damage before River Phantom reaches the records server?', choices: ['Keep every system on one flat network', 'Leave file shares broadly open for convenience', 'Separate systems with network segmentation', 'Turn off logs so the attacker has less to read'], answerIndex: 2, hint: 'Isolate trust zones.' },
+    { id: 'network-hard', category: 'network', difficulty: 'hard', points: 300, prompt: 'Mission Brief: Endpoint logs show a device making tiny encrypted outbound connections to the same rare domain every five minutes. What behavior should your hunt team suspect first?', choices: ['A harmless patch-management cycle', 'Command-and-control beaconing', 'A routine DNS cache refresh', 'An automated printer status sync'], answerIndex: 1, hint: 'Periodic low-volume callbacks are beacon behavior.' }
   ],
   cipher: [
-    { id: 'cipher-easy', category: 'cipher', difficulty: 'easy', points: 100, prompt: 'ROT13 shifts letters by:', choices: ['7', '10', '13', '26'], answerIndex: 2, hint: 'Half the alphabet.' },
-    { id: 'cipher-medium', category: 'cipher', difficulty: 'medium', points: 200, prompt: 'In Caesar +3, plaintext S becomes:', choices: ['Q', 'R', 'V', 'W'], answerIndex: 2, hint: 'Count forward three.' },
-    { id: 'cipher-hard', category: 'cipher', difficulty: 'hard', points: 300, prompt: 'Why can one-time pad be theoretically unbreakable?', choices: ['Easy to memorize', 'Random one-use key same length as message', 'Uses base64', 'Changes hourly'], answerIndex: 1, hint: 'Perfect secrecy needs truly random non-reused key material.' }
+    { id: 'cipher-easy', category: 'cipher', difficulty: 'easy', points: 100, prompt: 'Mission Brief: A quick-rotation cipher is hiding the next recovery keyword in plain sight. To decode it under pressure, how many positions does ROT13 move each letter?', choices: ['Shift each character by 7 positions', 'Shift each character by 10 positions', 'Shift each character by 13 positions', 'Shift each character through the full alphabet'], answerIndex: 2, hint: 'Half the alphabet.' },
+    { id: 'cipher-medium', category: 'cipher', difficulty: 'medium', points: 200, prompt: 'Mission Brief: A Caesar-shifted clue must be decoded before the attacker wipes another batch of student records. If the shift is +3, what letter does plaintext S become?', choices: ['Q after reversing the alphabet', 'R after moving one step', 'V after advancing three steps', 'W after overshooting the shift'], answerIndex: 2, hint: 'Count forward three.' },
+    { id: 'cipher-hard', category: 'cipher', difficulty: 'hard', points: 300, prompt: 'Mission Brief: The final cryptography note in the evidence locker asks which scheme remains theoretically unbreakable only when strict key rules are followed. Why does that scheme work?', choices: ['Because the operator can memorize it quickly', 'Because it uses a truly random one-use key equal to the message length', 'Because the message is hidden with base64 encoding', 'Because the key rotates every hour'], answerIndex: 1, hint: 'Perfect secrecy needs truly random non-reused key material.' }
   ],
   final: [
-    { id: 'final-easy', category: 'final', difficulty: 'easy', points: 100, prompt: 'Defense-in-depth means:', choices: ['One perfect firewall', 'Overlapping security controls', 'Antivirus only', 'No updates ever'], answerIndex: 1, hint: 'If one layer fails, others still protect.' },
-    { id: 'final-medium', category: 'final', difficulty: 'medium', points: 200, prompt: 'First action after active compromise is detected?', choices: ['Delete logs', 'Public post first', 'Contain affected systems/accounts', 'Reboot everything'], answerIndex: 2, hint: 'Contain first to reduce blast radius.' },
-    { id: 'final-hard', category: 'final', difficulty: 'hard', points: 300, prompt: 'Zero Trust assumes:', choices: ['Internal users are trusted', 'Trust must be continuously verified', 'VPN means full trust', 'Known devices bypass checks'], answerIndex: 1, hint: 'Never trust by default.' }
+    { id: 'final-easy', category: 'final', difficulty: 'easy', points: 100, prompt: 'Mission Brief: Your team cannot rely on one perfect tool to protect passing records, transcripts, and graduation approvals. What best describes the defensive approach you should be using instead?', choices: ['Bet everything on one perfect firewall', 'Use overlapping layers of security controls', 'Rely on antivirus as the only shield', 'Stop updating systems to reduce change risk'], answerIndex: 1, hint: 'If one layer fails, others still protect.' },
+    { id: 'final-medium', category: 'final', difficulty: 'medium', points: 200, prompt: 'Mission Brief: Active compromise has been confirmed and River Phantom is already inside school systems. What is the first response action your team should take to stop the damage from spreading?', choices: ['Delete evidence logs immediately', 'Post publicly before stabilizing the incident', 'Contain the affected systems and accounts first', 'Reboot every machine without a plan'], answerIndex: 2, hint: 'Contain first to reduce blast radius.' },
+    { id: 'final-hard', category: 'final', difficulty: 'hard', points: 300, prompt: 'Mission Brief: The attacker is abusing assumed trust inside the network. Which security mindset correctly describes the rule your team should apply before granting access to any sensitive school system?', choices: ['Anyone on the inside is trusted by default', 'Access must be continuously verified before trust is granted', 'A VPN connection automatically means full trust', 'Recognized devices should bypass further checks'], answerIndex: 1, hint: 'Never trust by default.' }
   ]
 };
 
 const QUESTION_SUPPORT: Record<string, QuestionSupport> = {
   'phishing-easy': {
-    realisticExample: 'Your friend shares a "free skin" login link in a group chat before a Friday night match.',
+    realisticExample: 'Mission context: Someone in your squad chat is trying to harvest logins while the graduation database is under pressure. One bad click could give the attacker a valid foothold.',
     howToSolve: ['Check the domain spelling carefully.', 'Never log in from chat links. Open the official site directly.', 'Report suspicious links to your coach/teacher.'],
     resources: [
       { label: 'CISA: Avoid Social Engineering and Phishing', href: 'https://www.cisa.gov/news-events/news/avoiding-social-engineering-and-phishing-attacks' },
@@ -118,7 +118,7 @@ const QUESTION_SUPPORT: Record<string, QuestionSupport> = {
     ]
   },
   'phishing-medium': {
-    realisticExample: 'A panic DM says your gaming account will be banned in 10 minutes unless you verify now.',
+    realisticExample: 'Mission context: Panic is part of the trap. The attacker wants you rushing through a fake verification flow while they keep erasing records in the background.',
     howToSolve: ['Ignore urgent pressure tactics.', 'Log in through the official app/site only.', 'Enable MFA on the account immediately.'],
     resources: [
       { label: 'FTC: How to recognize and report spam texts', href: 'https://consumer.ftc.gov/articles/how-recognize-and-report-spam-text-messages' },
@@ -127,7 +127,7 @@ const QUESTION_SUPPORT: Record<string, QuestionSupport> = {
     ]
   },
   'phishing-hard': {
-    realisticExample: 'A school notice looks real but sender authentication details do not line up.',
+    realisticExample: 'Mission context: This message is dressed up like a real district alert, but header-level evidence suggests someone is impersonating school staff during the records attack.',
     howToSolve: ['Compare sender, reply-to, and auth results together.', 'Treat mixed SPF/DKIM signals as suspicious.', 'Verify by contacting school staff through known channels.'],
     resources: [
       { label: 'Google: Authenticate email with SPF/DKIM/DMARC', href: 'https://support.google.com/a/answer/2466563' },
@@ -136,7 +136,7 @@ const QUESTION_SUPPORT: Record<string, QuestionSupport> = {
     ]
   },
   'osint-easy': {
-    realisticExample: 'Someone guesses your password style from public TikTok and Instagram posts.',
+    realisticExample: 'Mission context: River Phantom is not guessing blindly. They are mining public posts for patterns students reuse in passwords and recovery answers.',
     howToSolve: ['Audit what personal details are public.', 'Avoid password clues in bios/posts.', 'Use unique passphrases for each account.'],
     resources: [
       { label: 'OSINT Framework', href: 'https://osintframework.com/' },
@@ -145,7 +145,7 @@ const QUESTION_SUPPORT: Record<string, QuestionSupport> = {
     ]
   },
   'osint-medium': {
-    realisticExample: 'An attacker combines pet names and graduation years to build targeted password guesses.',
+    realisticExample: 'Mission context: Public milestones and personal details can turn into a custom password list fast, especially when the attacker already knows who is about to graduate.',
     howToSolve: ['Never use personal details in passwords.', 'Use a password manager and random generation.', 'Turn on MFA for school/social/gaming accounts.'],
     resources: [
       { label: 'OSINT Framework', href: 'https://osintframework.com/' },
@@ -154,7 +154,7 @@ const QUESTION_SUPPORT: Record<string, QuestionSupport> = {
     ]
   },
   'osint-hard': {
-    realisticExample: 'You are given an image clue and must geolocate it using reverse-image and landmark analysis.',
+    realisticExample: 'Mission context: The suspect scrubbed most of their profile, leaving only one image behind. Geolocating it is your best shot at tying the attack to a real place before the wipe completes.',
     howToSolve: ['Inspect visible landmarks and architecture.', 'Run a reverse-image lookup to find similar images/pages.', 'Correlate clues to city or campus name before submitting.'],
     resources: [
       { label: 'OSINT Framework', href: 'https://osintframework.com/' },
@@ -163,7 +163,7 @@ const QUESTION_SUPPORT: Record<string, QuestionSupport> = {
     ]
   },
   'network-easy': {
-    realisticExample: 'During a school event stream, one external IP probes many ports in sequence.',
+    realisticExample: 'Mission context: Telemetry from the school network shows a single outside host checking service after service, looking for a way into the records environment.',
     howToSolve: ['Identify repeated source IP patterns.', 'Check for sequential/high-volume port attempts.', 'Block and monitor that source at perimeter controls.'],
     resources: [
       { label: 'Cloudflare: What is a port scan?', href: 'https://www.cloudflare.com/learning/security/glossary/what-is-a-port-scan/' },
@@ -172,7 +172,7 @@ const QUESTION_SUPPORT: Record<string, QuestionSupport> = {
     ]
   },
   'network-medium': {
-    realisticExample: 'One compromised lab PC tries to spread toward grade and attendance systems.',
+    realisticExample: 'Mission context: The attacker already owns one machine. Your job is to stop them from crossing from student systems into the gradebook and attendance network.',
     howToSolve: ['Use segmentation between student and admin networks.', 'Limit lateral movement with ACLs/firewalls.', 'Apply least privilege for service accounts and shares.'],
     resources: [
       { label: 'NIST: Zero Trust architecture', href: 'https://www.nist.gov/publications/zero-trust-architecture' },
@@ -181,7 +181,7 @@ const QUESTION_SUPPORT: Record<string, QuestionSupport> = {
     ]
   },
   'network-hard': {
-    realisticExample: 'A host sends periodic low-volume callbacks to a rare domain every 5 minutes.',
+    realisticExample: 'Mission context: The infected device is still checking in on a clean schedule, which means the operator may still be issuing commands while you race to protect passing records.',
     howToSolve: ['Look for periodic beacon timing patterns.', 'Correlate DNS + endpoint process telemetry.', 'Isolate host, then investigate persistence and C2.'],
     resources: [
       { label: 'MITRE ATT&CK: C2 techniques', href: 'https://attack.mitre.org/tactics/TA0011/' },
@@ -190,7 +190,7 @@ const QUESTION_SUPPORT: Record<string, QuestionSupport> = {
     ]
   },
   'cipher-easy': {
-    realisticExample: 'A club challenge uses ROT13 to hide a simple keyword in plain sight.',
+    realisticExample: 'Mission context: One intercepted note uses a beginner-friendly rotation trick to hide a keyword needed for the recovery workflow.',
     howToSolve: ['Remember ROT13 shifts by 13.', 'Decode quickly using a ROT13 tool table.', 'Confirm output still makes contextual sense.'],
     resources: [
       { label: 'CyberChef ROT13', href: 'https://gchq.github.io/CyberChef/#recipe=ROT13(true,true,false,13)' },
@@ -199,7 +199,7 @@ const QUESTION_SUPPORT: Record<string, QuestionSupport> = {
     ]
   },
   'cipher-medium': {
-    realisticExample: 'You need to decode a Caesar-shifted hint before rival team steals points.',
+    realisticExample: 'Mission context: A shifted clue is sitting in the case file, and decoding it fast could reveal the next step before another student record disappears.',
     howToSolve: ['Test likely small shifts first.', 'Check letter frequency and known words.', 'Validate by reversing shift against original context.'],
     resources: [
       { label: 'Cryptii Caesar cipher', href: 'https://cryptii.com/pipes/caesar-cipher' },
@@ -208,7 +208,7 @@ const QUESTION_SUPPORT: Record<string, QuestionSupport> = {
     ]
   },
   'cipher-hard': {
-    realisticExample: 'Advanced challenge asks why one-time pads are special compared to simple ciphers.',
+    realisticExample: 'Mission context: The final cryptography note explains that one scheme can be perfect in theory, but only if the operator follows impossible-to-ignore key rules exactly.',
     howToSolve: ['Focus on key properties: random, equal length, never reused.', 'Distinguish theoretical security from practical key management.', 'Explain why reuse breaks secrecy.'],
     resources: [
       { label: 'Khan Academy: One-time pad', href: 'https://www.khanacademy.org/computing/computer-science/cryptography' },
@@ -217,7 +217,7 @@ const QUESTION_SUPPORT: Record<string, QuestionSupport> = {
     ]
   },
   'final-easy': {
-    realisticExample: 'Your team wants one tool to solve everything, but incidents keep bypassing single defenses.',
+    realisticExample: 'Mission context: The attacker keeps slipping around single-point defenses. The only way to keep students from repeating the same grade all summer is to build protection in layers.',
     howToSolve: ['Apply layered controls (MFA, filtering, segmentation, backups).', 'Assume one control can fail.', 'Build overlap and monitoring between layers.'],
     resources: [
       { label: 'CISA: Defense in depth', href: 'https://www.cisa.gov/resources-tools/resources/defense-depth' },
@@ -226,7 +226,7 @@ const QUESTION_SUPPORT: Record<string, QuestionSupport> = {
     ]
   },
   'final-medium': {
-    realisticExample: 'A class account is hijacked right before grade lock-in and panic spreads.',
+    realisticExample: 'Mission context: An account takeover is active and every minute matters. If your team reacts in the wrong order, River Phantom gets more time inside the systems that decide who passes.',
     howToSolve: ['Contain affected accounts/systems first.', 'Preserve evidence and logs.', 'Then eradicate and recover with communications plan.'],
     resources: [
       { label: 'CISA Incident Response', href: 'https://www.cisa.gov/incident-response' },
@@ -235,7 +235,7 @@ const QUESTION_SUPPORT: Record<string, QuestionSupport> = {
     ]
   },
   'final-hard': {
-    realisticExample: 'Shared Wi-Fi and known devices are trusted by default, leading to quiet misuse.',
+    realisticExample: 'Mission context: The attacker is hiding behind assumptions like familiar devices and internal access. Your final call decides whether the school keeps trusting by default or verifies every risky action.' ,
     howToSolve: ['Continuously verify identity/device context.', 'Use least privilege and short-lived trust.', 'Require re-authentication for sensitive actions.'],
     resources: [
       { label: 'NIST CSF 2.0', href: 'https://www.nist.gov/cyberframework' },
@@ -1316,9 +1316,13 @@ const QuestionStage = ({
       <span className="text-[10px] py-0.5 px-2 bg-[#22c55e] text-black font-black rounded uppercase tracking-tighter">{question.points} Points</span>
     </div>
 
-    <div className="flex-1 p-8 flex flex-col justify-center gap-6">
+    <div className="flex-1 p-8 flex flex-col justify-start gap-6 overflow-y-auto">
       <div className="bg-black/50 border border-[#22c55e]/30 rounded-lg p-6">
+        <p className="text-[10px] uppercase tracking-widest text-[#22c55e]/70 font-black mb-2">Mission Brief</p>
         <p className="text-sm text-white leading-relaxed">{question.prompt}</p>
+        <p className="mt-3 text-[11px] text-[#e5e7eb]/65 leading-relaxed">
+          Review the evidence, make the safest call for your team, and stop River Phantom from wiping the records for grades 9 through 12 before the whole school gets trapped repeating the year all summer.
+        </p>
         {support && (
           <div className="mt-4 border-t border-[#22c55e]/20 pt-3">
             <p className="text-[10px] uppercase tracking-widest text-[#22c55e]/70 font-black mb-1">Evidence</p>
@@ -1425,7 +1429,7 @@ const QuestionResourcesPanel = ({ question }: { question: QuestionItem }) => {
 
 const IntroStage = ({ onStart, onViewLeaderboard }: { onStart: (name: string) => void, onViewLeaderboard: () => void }) => {
   const [name, setName] = useState("");
-  const warGamesPrompt = "RIVER PHANTOM IS ERASING SENIOR PASSING RECORDS.";
+  const warGamesPrompt = "RIVER PHANTOM IS WIPING GRADES 9-12 SO THE WHOLE SCHOOL REPEATS THE YEAR.";
   const namePrompt = "ENTER YOUR CODENAME:";
   const [typedPrompt, setTypedPrompt] = useState("");
   const [typedNamePrompt, setTypedNamePrompt] = useState("");
@@ -1487,7 +1491,7 @@ const IntroStage = ({ onStart, onViewLeaderboard }: { onStart: (name: string) =>
             BLACKOUT RANKED
           </motion.h1>
           <div className="h-1 shadow-glow bg-[#22c55e]/50 w-64 mx-auto" />
-          <p className="text-xs text-[#22c55e]/60 font-black tracking-[0.8em] uppercase terminal-text">South Gallia Cyber Season Finals</p>
+          <p className="text-xs text-[#22c55e]/60 font-black tracking-[0.8em] uppercase terminal-text">South Gallia Lockdown Simulation</p>
         </div>
         
         <motion.div 
@@ -1498,6 +1502,9 @@ const IntroStage = ({ onStart, onViewLeaderboard }: { onStart: (name: string) =>
           {typedPrompt}
           <span className="animate-pulse">{typedPrompt.length < warGamesPrompt.length ? '█' : ''}</span>
         </motion.div>
+        <p className="max-w-2xl mx-auto text-[11px] leading-relaxed text-[#e5e7eb]/75 uppercase tracking-[0.18em]">
+          Stop the wipe before South Gallia traps every student in grades 9 through 12 in the same school year all summer. Every mission you clear protects schedules, transcripts, and proof the school can move forward.
+        </p>
       </div>
 
       <div className="space-y-8 max-w-sm mx-auto w-full pt-4">
@@ -2474,7 +2481,7 @@ export default function App() {
       setTimeout(() => addMessage("Tracing malicious IP hops...", 'warning'), 1000);
       setTimeout(() => {
         if (stage === 'network' && puzzleData) {
-          addMessage(`ANOMALY DETECTED: Source ${puzzleData.network.suspiciousIp} showing high-frequency probe bursts.`, 'error');
+          addMessage("ANOMALY DETECTED: Repeated probe bursts observed from an external source.", 'error');
           triggerGlitch();
         } else {
           addMessage("No active threats detected in current segment.", 'success');
@@ -2508,7 +2515,7 @@ export default function App() {
           if (puzzleData && target === puzzleData.network.suspiciousIp) {
             addMessage("ORG: Eastern Digital Assets [UNVERIFIED]", 'warning');
             addMessage("LOC: Unknown / Proxy Node", 'warning');
-            addMessage("STATUS: Known malicious beacon", 'error');
+            addMessage("STATUS: Registration data appears suspicious; continue investigation.", 'warning');
             triggerGlitch();
           } else {
             addMessage("ORG: Generic ISP Cluster", 'info');

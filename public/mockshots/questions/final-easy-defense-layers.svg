@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Security operations dashboard illustrating defense in depth layers">
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Security operations dashboard illustrating layered controls protecting core systems">
   <rect width="1280" height="720" fill="#052e16"/>
   <rect x="42" y="34" width="1196" height="652" rx="14" fill="#14532d" stroke="#22c55e"/>
-  <text x="80" y="78" font-family="Segoe UI, Arial" font-size="30" fill="#dcfce7" font-weight="700">Security Posture Dashboard - Defense in Depth</text>
+  <text x="80" y="78" font-family="Segoe UI, Arial" font-size="30" fill="#dcfce7" font-weight="700">Security Posture Dashboard - Layered Controls</text>
 
   <rect x="90" y="114" width="1100" height="110" rx="10" fill="#166534"/>
   <text x="124" y="164" font-family="Segoe UI, Arial" font-size="24" fill="#bbf7d0" font-weight="700">No single control is sufficient.</text>

@@ -2,10 +2,10 @@
   <rect width="1280" height="720" fill="#0f172a"/>
   <rect x="36" y="32" width="1208" height="656" rx="14" fill="#111827" stroke="#60a5fa"/>
   <rect x="36" y="32" width="1208" height="58" rx="14" fill="#1e3a8a"/>
-  <text x="68" y="70" font-family="Segoe UI, Arial" font-size="24" fill="#dbeafe" font-weight="700">Identity Policy Center - Zero Trust</text>
+  <text x="68" y="70" font-family="Segoe UI, Arial" font-size="24" fill="#dbeafe" font-weight="700">Identity Policy Center - Session Controls</text>
 
   <rect x="70" y="114" width="1140" height="120" rx="10" fill="#1f2937"/>
-  <text x="98" y="164" font-family="Segoe UI, Arial" font-size="23" fill="#d1fae5">Policy: verify user, device, location, and risk at every sensitive action.</text>
+  <text x="98" y="164" font-family="Segoe UI, Arial" font-size="23" fill="#d1fae5">Policy: verify user, device, location, and risk before sensitive actions.</text>
 
   <rect x="70" y="260" width="550" height="390" rx="10" fill="#1f2937"/>
   <text x="98" y="308" font-family="Segoe UI, Arial" font-size="24" fill="#93c5fd" font-weight="700">Legacy Trust</text>
@@ -14,8 +14,8 @@
   <text x="98" y="420" font-family="Segoe UI, Arial" font-size="20" fill="#e5e7eb">- Little context validation</text>
 
   <rect x="660" y="260" width="550" height="390" rx="10" fill="#0b1220" stroke="#22c55e"/>
-  <text x="688" y="308" font-family="Segoe UI, Arial" font-size="24" fill="#86efac" font-weight="700">Zero Trust</text>
-  <text x="688" y="352" font-family="Segoe UI, Arial" font-size="20" fill="#d1fae5">- Continuous re-verification</text>
+  <text x="688" y="308" font-family="Segoe UI, Arial" font-size="24" fill="#86efac" font-weight="700">Continuous Verification</text>
+  <text x="688" y="352" font-family="Segoe UI, Arial" font-size="20" fill="#d1fae5">- Re-check access during sensitive actions</text>
   <text x="688" y="386" font-family="Segoe UI, Arial" font-size="20" fill="#d1fae5">- Least privilege per action</text>
   <text x="688" y="420" font-family="Segoe UI, Arial" font-size="20" fill="#d1fae5">- Conditional access by risk</text>
 </svg>

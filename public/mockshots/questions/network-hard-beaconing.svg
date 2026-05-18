@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="EDR timeline screenshot showing periodic outbound C2 beaconing pattern">
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="EDR timeline screenshot showing periodic outbound callback pattern">
   <rect width="1280" height="720" fill="#020617"/>
   <rect x="42" y="34" width="1196" height="652" rx="14" fill="#0b1220" stroke="#38bdf8"/>
   <text x="76" y="76" font-family="Segoe UI, Arial" font-size="24" fill="#bae6fd" font-weight="700">EDR Network Timeline - Host: LAB-07</text>
@@ -14,5 +14,5 @@
 
   <rect x="76" y="568" width="1128" height="92" rx="10" fill="#111827"/>
   <text x="100" y="606" font-family="Consolas, monospace" font-size="20" fill="#e2e8f0">Every 5 min -> rare-domain.schoolcdn.cc -> encrypted POST (2.1 KB)</text>
-  <text x="100" y="638" font-family="Segoe UI, Arial" font-size="20" fill="#93c5fd">Periodic low-volume callbacks indicate likely C2 beaconing.</text>
+  <text x="100" y="638" font-family="Segoe UI, Arial" font-size="20" fill="#93c5fd">Review the timing pattern and infer the most likely behavior.</text>
 </svg>

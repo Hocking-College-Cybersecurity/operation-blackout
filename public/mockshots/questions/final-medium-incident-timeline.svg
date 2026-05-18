@@ -9,10 +9,10 @@
   <text x="110" y="220" font-family="Segoe UI, Arial" font-size="18" fill="#fee2e2">SIEM alert</text>
 
   <rect x="366" y="108" width="270" height="542" rx="10" fill="#1f2937" stroke="#f97316" stroke-width="2"/>
-  <text x="390" y="146" font-family="Segoe UI, Arial" font-size="20" fill="#fed7aa" font-weight="700">Contain (Now)</text>
+  <text x="390" y="146" font-family="Segoe UI, Arial" font-size="20" fill="#fed7aa" font-weight="700">Respond</text>
   <rect x="386" y="168" width="230" height="180" rx="8" fill="#9a3412"/>
-  <text x="402" y="220" font-family="Segoe UI, Arial" font-size="18" fill="#ffedd5">Disable compromised</text>
-  <text x="402" y="250" font-family="Segoe UI, Arial" font-size="18" fill="#ffedd5">accounts and isolate host</text>
+  <text x="402" y="220" font-family="Segoe UI, Arial" font-size="18" fill="#ffedd5">Pending action queue</text>
+  <text x="402" y="250" font-family="Segoe UI, Arial" font-size="18" fill="#ffedd5">Review next defensive step</text>
 
   <rect x="658" y="108" width="270" height="542" rx="10" fill="#1f2937"/>
   <text x="682" y="146" font-family="Segoe UI, Arial" font-size="20" fill="#fde68a" font-weight="700">Eradicate</text>
