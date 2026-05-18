@@ -1,6 +1,6 @@
 {
-  "name": "Cyber Guard: The Graduation Day Hack",
-  "description": "A cybersecurity escape room challenge for students to stop a hacker attack on their school network.",
+  "name": "REBEL COMMAND: DEFCON CTF",
+  "description": "A high-stakes retro-style Capture The Flag challenge for South Gallia High School. Breach the sectors, secure the flags, and discover your career path in cyber defense.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
