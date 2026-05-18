@@ -304,6 +304,20 @@ const STAGE_HINTS: Record<string, string[]> = {
   ]
 };
 
+const STAGE_CONFIG: Record<string, { difficulty: 'EASY' | 'MEDIUM' | 'HARD'; points: number }> = {
+  phishing: { difficulty: 'MEDIUM', points: 200 },
+  osint:    { difficulty: 'HARD',   points: 300 },
+  network:  { difficulty: 'MEDIUM', points: 200 },
+  cipher:   { difficulty: 'EASY',   points: 100 },
+  final:    { difficulty: 'HARD',   points: 400 },
+};
+
+const DIFFICULTY_BADGE: Record<string, string> = {
+  EASY:   'border-emerald-400/50 text-emerald-400',
+  MEDIUM: 'border-amber-400/50 text-amber-400',
+  HARD:   'border-red-400/50 text-red-400',
+};
+
 const STAGE_SOLVER_LINKS: Partial<Record<GameStage, { title: string; links: { label: string; href: string }[] }>> = {
   phishing: {
     title: 'How to Solve: Phishing',
@@ -1108,7 +1122,10 @@ const PhishingStage = ({ data, onSuccess, onFail, onHint, hintsUsed, onEduToggle
           <HintButton onHint={onHint} hintsUsed={hintsUsed} />
           <CyberIntelButton onClick={onEduToggle} />
         </div>
-        <span className="text-[10px] py-0.5 px-2 bg-[#22c55e] text-black font-black rounded uppercase tracking-tighter">FLAG: PHS01</span>
+        <div className="flex items-center gap-2">
+          <span className={cn("text-[9px] py-0.5 px-2 font-black rounded uppercase tracking-tighter border", DIFFICULTY_BADGE['MEDIUM'])}>MEDIUM · 200 PTS</span>
+          <span className="text-[10px] py-0.5 px-2 bg-[#22c55e] text-black font-black rounded uppercase tracking-tighter">FLAG: PHS01</span>
+        </div>
       </div>
       
       <div className="flex-1 p-6 overflow-y-auto space-y-4 font-sans scrollbar-hide">
@@ -1215,7 +1232,10 @@ const OSINTStage = ({ data, onSuccess, onFail, onHint, hintsUsed, onEduToggle }:
           <HintButton onHint={onHint} hintsUsed={hintsUsed} />
           <CyberIntelButton onClick={onEduToggle} />
         </div>
-        <span className="text-[10px] py-0.5 px-2 bg-[#22c55e] text-black font-black rounded uppercase tracking-tighter">FLAG: OSN02</span>
+        <div className="flex items-center gap-2">
+          <span className={cn("text-[9px] py-0.5 px-2 font-black rounded uppercase tracking-tighter border", DIFFICULTY_BADGE['HARD'])}>HARD · 300 PTS</span>
+          <span className="text-[10px] py-0.5 px-2 bg-[#22c55e] text-black font-black rounded uppercase tracking-tighter">FLAG: OSN02</span>
+        </div>
       </div>
 
       <AnimatePresence mode="wait">
@@ -1424,7 +1444,10 @@ const CipherStage = ({ data, onSuccess, onFail, onHint, hintsUsed, onEduToggle }
           <HintButton onHint={onHint} hintsUsed={hintsUsed} />
           <CyberIntelButton onClick={onEduToggle} />
         </div>
-        <span className="text-[10px] py-0.5 px-2 bg-[#22c55e] text-black font-black rounded uppercase tracking-tighter">FLAG: CRY04</span>
+        <div className="flex items-center gap-2">
+          <span className={cn("text-[9px] py-0.5 px-2 font-black rounded uppercase tracking-tighter border", DIFFICULTY_BADGE['EASY'])}>EASY · 100 PTS</span>
+          <span className="text-[10px] py-0.5 px-2 bg-[#22c55e] text-black font-black rounded uppercase tracking-tighter">FLAG: CRY04</span>
+        </div>
       </div>
 
       <div className="flex-1 p-8 flex flex-col items-center justify-center space-y-8 overflow-hidden">
@@ -1537,7 +1560,10 @@ const NetworkStage = ({ data, onSuccess, onFail, onHint, hintsUsed, onEduToggle 
           <HintButton onHint={onHint} hintsUsed={hintsUsed} />
           <CyberIntelButton onClick={onEduToggle} />
         </div>
-        <span className="text-[10px] py-0.5 px-2 bg-[#22c55e] text-black font-black rounded uppercase tracking-tighter">FLAG: NET03</span>
+        <div className="flex items-center gap-2">
+          <span className={cn("text-[9px] py-0.5 px-2 font-black rounded uppercase tracking-tighter border", DIFFICULTY_BADGE['MEDIUM'])}>MEDIUM · 200 PTS</span>
+          <span className="text-[10px] py-0.5 px-2 bg-[#22c55e] text-black font-black rounded uppercase tracking-tighter">FLAG: NET03</span>
+        </div>
       </div>
 
       <div className="flex-1 p-6 overflow-hidden flex flex-col">
@@ -1590,7 +1616,10 @@ const FinalStage = ({ data, onSuccess, onFail, onHint, hintsUsed, hints, onEduTo
           <HintButton onHint={onHint} hintsUsed={hintsUsed} />
           <CyberIntelButton onClick={onEduToggle} />
         </div>
-        <span className="text-[10px] py-0.5 px-2 bg-[#22c55e] text-black font-black rounded uppercase tracking-tighter">FINAL STAGE</span>
+        <div className="flex items-center gap-2">
+          <span className={cn("text-[9px] py-0.5 px-2 font-black rounded uppercase tracking-tighter border", DIFFICULTY_BADGE['HARD'])}>HARD · 400 PTS</span>
+          <span className="text-[10px] py-0.5 px-2 bg-[#22c55e] text-black font-black rounded uppercase tracking-tighter">FINAL STAGE</span>
+        </div>
       </div>
 
       <div className="flex-1 p-8 flex flex-col items-center justify-center space-y-12">
@@ -1665,7 +1694,7 @@ const Leaderboard = ({ entries }: { entries: LeaderboardEntry[] }) => (
   </div>
 );
 
-const VictoryScreen = ({ onRestart, timeRemaining, dbIntegrity, operativeName, onSaveLeaderboard }: { onRestart: () => void, timeRemaining: number, dbIntegrity: number, operativeName: string, onSaveLeaderboard: (entry: LeaderboardEntry) => void }) => {
+const VictoryScreen = ({ onRestart, timeRemaining, dbIntegrity, operativeName, onSaveLeaderboard, stagePoints }: { onRestart: () => void, timeRemaining: number, dbIntegrity: number, operativeName: string, onSaveLeaderboard: (entry: LeaderboardEntry) => void, stagePoints: number }) => {
   const [submitted, setSubmitted] = useState(false);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [reelSourceIndex, setReelSourceIndex] = useState(0);
@@ -1691,7 +1720,7 @@ const VictoryScreen = ({ onRestart, timeRemaining, dbIntegrity, operativeName, o
     }
   }, []);
 
-  const totalScore = Math.floor((timeRemaining * 10) + (dbIntegrity * 50));
+  const totalScore = Math.floor(stagePoints + (timeRemaining * 10) + (dbIntegrity * 50));
 
   const handleSave = () => {
     const newEntry: LeaderboardEntry = {
@@ -1736,16 +1765,21 @@ const VictoryScreen = ({ onRestart, timeRemaining, dbIntegrity, operativeName, o
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-8 py-8 border-y border-[#00FF41]/20 max-w-lg mx-auto">
+      <div className="grid grid-cols-3 gap-6 py-8 border-y border-[#00FF41]/20 max-w-xl mx-auto">
         <div className="space-y-1">
-          <div className="text-[10px] uppercase text-[#00FF41]/40 tracking-[0.3em] font-black">Temporal Surplus</div>
-          <div className="text-3xl font-black text-[#00FF41]">
+          <div className="text-[9px] uppercase text-[#00FF41]/40 tracking-[0.3em] font-black">Stage Points</div>
+          <div className="text-2xl font-black text-[#00FF41]">{stagePoints}</div>
+          <div className="text-[8px] text-[#00FF41]/30 font-mono">/ 1200 max</div>
+        </div>
+        <div className="space-y-1">
+          <div className="text-[9px] uppercase text-[#00FF41]/40 tracking-[0.3em] font-black">Time Surplus</div>
+          <div className="text-2xl font-black text-[#00FF41]">
             {Math.floor(timeRemaining / 60)}:{(timeRemaining % 60).toString().padStart(2, '0')}
           </div>
         </div>
         <div className="space-y-1">
-          <div className="text-[10px] uppercase text-[#00FF41]/40 tracking-[0.3em] font-black">Combat Efficiency</div>
-          <div className="text-3xl font-black text-[#00FF41]">{totalScore}</div>
+          <div className="text-[9px] uppercase text-[#00FF41]/40 tracking-[0.3em] font-black">Final Score</div>
+          <div className="text-2xl font-black text-[#00FF41]">{totalScore}</div>
         </div>
       </div>
 
@@ -1876,6 +1910,7 @@ export default function App() {
   const [isGlitching, setIsGlitching] = useState(false);
   const [showEdu, setShowEdu] = useState(false);
   const [puzzleData, setPuzzleData] = useState<PuzzleData | null>(null);
+  const [stagePoints, setStagePoints] = useState(0);
   const gameTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const triggerGlitch = () => {
@@ -2055,6 +2090,7 @@ export default function App() {
     setHints([]);
     setHintsUsedCount(0);
     setMessages([]);
+    setStagePoints(0);
     if (gameTimerRef.current) clearInterval(gameTimerRef.current);
     playSound('click');
   };
@@ -2083,6 +2119,10 @@ export default function App() {
   }, [stage]);
 
   const handleStageSuccess = (nextStage: GameStage, message: string, hint: string | null = null) => {
+    const completedStage = stage as string;
+    if (STAGE_CONFIG[completedStage]) {
+      setStagePoints(prev => prev + STAGE_CONFIG[completedStage].points);
+    }
     if (hint) setHints(prev => [...prev, hint]);
     addMessage(message, 'success');
     playSound('correct');
@@ -2112,10 +2152,7 @@ export default function App() {
       <div className="flex-1 flex flex-col p-6 min-h-0">
       <MatrixBackground />
 
-      {/* Retro Overlay */}
-      <div className="absolute inset-0 pointer-events-none z-50 overflow-hidden" 
-           style={{ background: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02))', backgroundSize: '100% 4px, 3px 100%' }}>
-      </div>
+
 
       {isMainUIActive ? (
         <div className="relative z-10 flex flex-col h-full gap-4 max-w-7xl mx-auto w-full flex-1 min-h-0">
@@ -2211,7 +2248,7 @@ export default function App() {
                       <FinalStage 
                         data={puzzleData.finalCode}
                         hints={hints}
-                        onSuccess={() => setStage('victory')} 
+                        onSuccess={() => handleStageSuccess('victory', "Master override accepted. PHANTOM destroyed.", null)}
                         onFail={(msg, penalty) => handleStageFail(msg, penalty)} 
                         onHint={provideHint}
                         hintsUsed={hintsUsedCount}
@@ -2296,7 +2333,7 @@ export default function App() {
             )}
             {stage === 'victory' && (
               <motion.div key="victory" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full flex justify-center">
-                <VictoryScreen onRestart={restartGame} timeRemaining={timeLeft} dbIntegrity={dbIntegrity} operativeName={operativeName} onSaveLeaderboard={saveLeaderboardEntry} />
+                <VictoryScreen onRestart={restartGame} timeRemaining={timeLeft} dbIntegrity={dbIntegrity} operativeName={operativeName} onSaveLeaderboard={saveLeaderboardEntry} stagePoints={stagePoints} />
               </motion.div>
             )}
             {stage === 'game-over' && (
