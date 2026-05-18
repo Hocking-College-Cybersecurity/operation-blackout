@@ -1505,7 +1505,13 @@ const VictoryScreen = ({ onRestart, timeRemaining, dbIntegrity, operativeName, o
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [reelSourceIndex, setReelSourceIndex] = useState(0);
   const hockingProgramUrl = 'https://www.hocking.edu/cybersecurity';
-  const reelSources = ['/media/hocking-cyber-reel.mp4', '/public/media/hocking-cyber-reel.mp4'];
+  const baseUrl = import.meta.env.BASE_URL;
+  const reelSources = [
+    `${baseUrl}media/hocking-cyber-reel.mp4`,
+    `${baseUrl}public/media/hocking-cyber-reel.mp4`,
+    '/media/hocking-cyber-reel.mp4',
+    '/public/media/hocking-cyber-reel.mp4'
+  ];
   const hockingReelVideoUrl = reelSources[reelSourceIndex];
   const hockingReelDirectUrl = 'https://www.facebook.com/reel/965681956111870/';
 
