@@ -159,9 +159,7 @@ const QUESTION_SUPPORT: Record<string, QuestionSupport> = {
     resources: [
       { label: 'OSINT Framework', href: 'https://osintframework.com/' },
       { label: 'Bellingcat Toolkit', href: 'https://www.bellingcat.com/resources/how-tos/' },
-      { label: 'Google Lens', href: 'https://lens.google.com/' },
-      { label: 'Bing Visual Search', href: 'https://www.bing.com/visualsearch' },
-      { label: 'Yandex Images', href: 'https://yandex.com/images/' }
+      { label: 'Google Lens', href: 'https://lens.google.com/' }
     ]
   },
   'network-easy': {
