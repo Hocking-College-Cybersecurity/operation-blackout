@@ -1,14 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="SOC log screenshot showing single source scanning sequential ports">
-  <rect width="1280" height="720" fill="#020617"/>
-  <rect x="48" y="44" width="1184" height="632" rx="14" fill="#0b1220" stroke="#22d3ee"/>
-  <text x="84" y="92" font-family="Consolas, monospace" font-size="24" fill="#67e8f9" font-weight="700">SOC EVENT STREAM</text>
-  <rect x="84" y="120" width="1110" height="44" fill="#0f172a"/>
-  <text x="100" y="148" font-family="Consolas, monospace" font-size="18" fill="#22d3ee">TIME      SRC              DEST      PORT   EVENT</text>
-  <text x="100" y="196" font-family="Consolas, monospace" font-size="20" fill="#bae6fd">20:51:01  45.132.8.44      MAIN-SW   21     PROBE</text>
-  <text x="100" y="232" font-family="Consolas, monospace" font-size="20" fill="#bae6fd">20:51:02  45.132.8.44      MAIN-SW   22     PROBE</text>
-  <text x="100" y="268" font-family="Consolas, monospace" font-size="20" fill="#bae6fd">20:51:03  45.132.8.44      MAIN-SW   23     PROBE</text>
-  <text x="100" y="304" font-family="Consolas, monospace" font-size="20" fill="#bae6fd">20:51:04  45.132.8.44      MAIN-SW   25     PROBE</text>
-  <rect x="84" y="350" width="1110" height="220" rx="10" fill="#082f49"/>
-  <text x="112" y="412" font-family="Segoe UI, Arial" font-size="26" fill="#cffafe" font-weight="700">Classification: Port Scan</text>
-  <text x="112" y="454" font-family="Segoe UI, Arial" font-size="22" fill="#cffafe">One source, many sequential ports in short time.</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="SIEM dashboard screenshot showing sequential port scan events">
+  <rect width="1280" height="720" fill="#030712"/>
+  <rect x="40" y="36" width="1200" height="648" rx="14" fill="#0b1220" stroke="#22d3ee"/>
+  <rect x="40" y="36" width="1200" height="56" rx="14" fill="#020617"/>
+  <text x="70" y="72" font-family="Segoe UI, Arial" font-size="22" fill="#67e8f9" font-weight="700">SIEM // Event Explorer</text>
+
+  <rect x="70" y="112" width="1140" height="42" fill="#0f172a"/>
+  <text x="92" y="140" font-family="Consolas, monospace" font-size="18" fill="#22d3ee">TIME      SRC IP         DEST      PORT   SIGNATURE</text>
+  <text x="92" y="188" font-family="Consolas, monospace" font-size="20" fill="#bae6fd">20:51:01  45.132.8.44    MAIN-SW   21     Recon.Probe</text>
+  <text x="92" y="224" font-family="Consolas, monospace" font-size="20" fill="#bae6fd">20:51:02  45.132.8.44    MAIN-SW   22     Recon.Probe</text>
+  <text x="92" y="260" font-family="Consolas, monospace" font-size="20" fill="#bae6fd">20:51:03  45.132.8.44    MAIN-SW   23     Recon.Probe</text>
+  <text x="92" y="296" font-family="Consolas, monospace" font-size="20" fill="#bae6fd">20:51:04  45.132.8.44    MAIN-SW   25     Recon.Probe</text>
+
+  <rect x="70" y="342" width="1140" height="298" rx="10" fill="#082f49"/>
+  <text x="102" y="404" font-family="Segoe UI, Arial" font-size="28" fill="#cffafe" font-weight="700">Detection Outcome: Port Scan</text>
+  <text x="102" y="448" font-family="Segoe UI, Arial" font-size="22" fill="#cffafe">One host probing many sequential ports in seconds.</text>
+  <text x="102" y="486" font-family="Segoe UI, Arial" font-size="22" fill="#cffafe">Action: block source and investigate adjacent hosts.</text>
 </svg>
