@@ -2660,6 +2660,12 @@ export default function App() {
     setLeaderboardData(updated);
   };
 
+  const clearLeaderboard = () => {
+    localStorage.removeItem('cyber-guard-leaderboard');
+    setLeaderboardData([]);
+    addMessage("Historical leaderboard records cleared.", 'warning');
+  };
+
   const addMessage = (text: string, type: 'info' | 'error' | 'success' | 'warning' = 'info') => {
     const timestamp = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
     setMessages(prev => [...prev, { text, type, timestamp }]);
@@ -2670,11 +2676,12 @@ export default function App() {
     addMessage(`> ${command}`, 'info');
 
     if (command === 'help') {
-      addMessage("Available commands: HELP, SCAN, STATUS, HINT, DECODE, LEADERBOARD, WHOIS, TRACE", 'info');
+      addMessage("Available commands: HELP, SCAN, STATUS, HINT, DECODE, LEADERBOARD, RESETLB, WHOIS, TRACE", 'info');
       addMessage("HELP: List all available system commands.", 'info');
       addMessage("SCAN: Run deep network packet analysis.", 'info');
       addMessage("STATUS: Retrieve current mission telemetry.", 'info');
       addMessage("HINT: Request tactical intelligence for current stage.", 'info');
+      addMessage("RESETLB: Clear archived leaderboard records from this browser.", 'info');
       addMessage("WHOIS [IP]: Perform lookup on suspicious source.", 'info');
       addMessage("TRACE [IP]: Attempt to track packet origin.", 'info');
     } else if (command === 'scan') {
@@ -2706,6 +2713,8 @@ export default function App() {
             addMessage(`#${i+1} [${entry.name}] - SCORE: ${entry.score}`, 'info');
           });
       }
+    } else if (command === 'resetlb' || command === 'clearleaderboard') {
+      clearLeaderboard();
     } else if (command.startsWith('whois')) {
       const target = command.split(' ')[1];
       if (!target) {
@@ -3157,6 +3166,13 @@ export default function App() {
                     </div>
 
                     <Leaderboard entries={leaderboardData} />
+
+                    <button 
+                      onClick={clearLeaderboard}
+                      className="px-10 py-4 bg-[#ef4444]/10 border border-[#ef4444] text-[#ef4444] font-black uppercase text-xs tracking-widest hover:bg-[#ef4444] hover:text-white transition-all"
+                    >
+                      Reset Leaderboard
+                    </button>
 
                     <button 
                       onClick={() => {
