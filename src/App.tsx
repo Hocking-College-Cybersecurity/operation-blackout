@@ -1546,7 +1546,7 @@ const QuestionResourcesPanel = ({ question }: { question: QuestionItem }) => {
 
 const IntroStage = ({ onStart, onViewLeaderboard }: { onStart: (name: string) => void, onViewLeaderboard: () => void }) => {
   const [name, setName] = useState("");
-  const warGamesPrompt = "RIVER PHANTOM IS WIPING GRADES 9-12 SO THE WHOLE SCHOOL REPEATS THE YEAR.";
+  const warGamesPrompt = "RIVER PHANTOM IS WIPING GRADES 9-12 TO TRAP THE WHOLE SCHOOL INSIDE FOR THE SUMMER.";
   const namePrompt = "ENTER YOUR CODENAME:";
   const [typedPrompt, setTypedPrompt] = useState("");
   const [typedNamePrompt, setTypedNamePrompt] = useState("");
@@ -1620,7 +1620,7 @@ const IntroStage = ({ onStart, onViewLeaderboard }: { onStart: (name: string) =>
           <span className="animate-pulse">{typedPrompt.length < warGamesPrompt.length ? '█' : ''}</span>
         </motion.div>
         <p className="max-w-2xl mx-auto text-[11px] leading-relaxed text-[#e5e7eb]/75 uppercase tracking-[0.18em]">
-          Stop the wipe before South Gallia traps every student in grades 9 through 12 in the same school year all summer. Every mission you clear protects schedules, transcripts, and proof the school can move forward.
+          Stop the wipe before South Gallia traps every student in grades 9 through 12 inside the school for the summer. Every mission you clear protects schedules, transcripts, and proof the school can move forward.
         </p>
       </div>
 
