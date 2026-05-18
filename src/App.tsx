@@ -2103,12 +2103,9 @@ const VictoryScreen = ({ onRestart, timeRemaining, dbIntegrity, operativeName, o
   const baseUrl = import.meta.env.BASE_URL;
   const reelSources = [
     `${baseUrl}media/hocking-cyber-reel.mp4`,
-    `${baseUrl}public/media/hocking-cyber-reel.mp4`,
-    '/media/hocking-cyber-reel.mp4',
-    '/public/media/hocking-cyber-reel.mp4'
+    '/media/hocking-cyber-reel.mp4'
   ];
   const hockingReelVideoUrl = reelSources[reelSourceIndex];
-  const hockingReelDirectUrl = 'https://www.facebook.com/reel/965681956111870/';
 
   useEffect(() => {
     const saved = localStorage.getItem('cyber-guard-leaderboard');
@@ -2220,21 +2217,11 @@ const VictoryScreen = ({ onRestart, timeRemaining, dbIntegrity, operativeName, o
                   </video>
                 </div>
                 <p className="text-[10px] text-[#e5e7eb]/70 leading-relaxed">
-                  If video playback is blocked, use the direct Facebook reel below.
+                  The embedded reel loads from the local project video asset.
                 </p>
                 <p className="text-[11px] text-[#e5e7eb]/85 leading-relaxed">
                   Hocking College Cybersecurity Program students train through real-world scenarios to build skills they can apply in internships and entry-level roles.
                 </p>
-                <div className="flex flex-wrap gap-2">
-                  <a
-                    href={hockingReelDirectUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block px-4 py-2 border border-[#00FF41]/60 text-[#00FF41] text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#00FF41] hover:text-black transition-all"
-                  >
-                    Open Reel on Facebook
-                  </a>
-                </div>
               </div>
 
               <div className="text-left p-5 bg-[#00FF41]/10 border border-[#00FF41]/30 rounded space-y-3">
@@ -2324,7 +2311,8 @@ const TopNav = ({
 
 export default function App() {
   const hockingProgramUrl = 'https://www.hocking.edu/cybersecurity';
-  const hockingReelDirectUrl = 'https://www.facebook.com/reel/965681956111870/';
+  const baseUrl = import.meta.env.BASE_URL;
+  const hockingReelVideoUrl = `${baseUrl}media/hocking-cyber-reel.mp4`;
   const [stage, setStage] = useState<GameStage>('intro');
   const [timeLeft, setTimeLeft] = useState(900); // 15 minutes
   const [messages, setMessages] = useState<TerminalMessage[]>([]);
@@ -2675,7 +2663,7 @@ export default function App() {
       <CRTEffects />
       <EducationalPanel stage={stage} isOpen={showEdu} onClose={() => setShowEdu(false)} />
       <LeaderboardTicker entries={leaderboardData} />
-      <TopNav onHome={navigateHome} onLeaderboard={navigateLeaderboard} hockingProgramUrl={hockingProgramUrl} hockingVideoUrl={hockingReelDirectUrl} />
+      <TopNav onHome={navigateHome} onLeaderboard={navigateLeaderboard} hockingProgramUrl={hockingProgramUrl} hockingVideoUrl={hockingReelVideoUrl} />
       <div className="flex-1 flex flex-col p-6 min-h-0">
       <MatrixBackground />
 
