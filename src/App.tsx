@@ -2176,6 +2176,90 @@ const Leaderboard = ({ entries }: { entries: LeaderboardEntry[] }) => (
   </div>
 );
 
+const AboutPanel = ({
+  hockingProgramUrl,
+  hockingVideoUrl
+}: {
+  hockingProgramUrl: string;
+  hockingVideoUrl: string;
+}) => {
+  const [videoSource, setVideoSource] = useState(hockingVideoUrl);
+
+  useEffect(() => {
+    setVideoSource(hockingVideoUrl);
+  }, [hockingVideoUrl]);
+
+  return (
+    <motion.div
+      key="about-view"
+      initial={{ opacity: 0, scale: 0.96 }}
+      animate={{ opacity: 1, scale: 1 }}
+      className="max-w-5xl w-full text-left space-y-8 p-10 bg-[#151515]/95 backdrop-blur-3xl border-2 border-[#22c55e] rounded-3xl shadow-[0_0_100px_rgba(34,197,94,0.15)]"
+    >
+      <div className="space-y-3 text-center">
+        <h2 className="text-4xl font-black text-[#22c55e] uppercase italic tracking-tighter flex items-center justify-center gap-4">
+          <GraduationCap size={32} /> About Operation Blackout
+        </h2>
+        <p className="text-[10px] text-[#22c55e]/50 font-mono tracking-[0.35em] uppercase">
+          Hocking College Cyber Program // Mission Context
+        </p>
+      </div>
+
+      <div className="grid lg:grid-cols-2 gap-6 items-start">
+        <div className="text-left p-5 bg-[#22c55e]/10 border border-[#22c55e]/30 rounded space-y-3">
+          <h3 className="text-xs text-[#22c55e] font-black tracking-[0.2em] uppercase">Cybersecurity Reel</h3>
+          <div className="border border-[#22c55e]/40 rounded overflow-hidden p-2 bg-black/40">
+            <video
+              src={videoSource}
+              controls
+              preload="metadata"
+              playsInline
+              onError={() => {
+                if (videoSource !== '/media/hocking-cyber-reel.mp4') {
+                  setVideoSource('/media/hocking-cyber-reel.mp4');
+                }
+              }}
+              className="w-full max-w-[420px] mx-auto rounded"
+            >
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          <p className="text-[11px] text-[#e5e7eb]/85 leading-relaxed">
+            Operation Blackout was built to feel like a live school-defense mission. The video and program details below connect that scenario work to the real training pathway available through Hocking College Cybersecurity.
+          </p>
+          <p className="text-[10px] text-[#e5e7eb]/70 leading-relaxed">
+            The embedded reel loads from the bundled project video so students can watch it without leaving the experience.
+          </p>
+        </div>
+
+        <div className="text-left p-5 bg-[#22c55e]/10 border border-[#22c55e]/30 rounded space-y-3">
+          <h3 className="text-xs text-[#22c55e] font-black tracking-[0.2em] uppercase">Hocking Cybersecurity Program</h3>
+          <p className="text-[11px] text-[#e5e7eb]/85 leading-relaxed">
+            Hocking College Cybersecurity students build hands-on skills through real-world scenarios in security operations, network defense, incident response, cloud technologies, and AI-enabled workflows.
+          </p>
+          <ul className="space-y-2 text-[11px] text-[#e5e7eb]/85 leading-relaxed">
+            <li>AI and cloud technologies are integrated throughout the program alongside core cybersecurity and network defense training.</li>
+            <li>Hocking students compete in the National Cyber League and have ranked in the <span className="text-white font-bold">top 10% nationally</span> in autumn and <span className="text-white font-bold">top 8% nationally</span> in spring.</li>
+            <li>Hocking is a <span className="text-white font-bold">Cisco Networking Academy</span>, <span className="text-white font-bold">EC-Council institution</span>, <span className="text-white font-bold">AWS member institution</span>, and <span className="text-white font-bold">CompTIA Academic Partner</span>.</li>
+            <li>Students can earn microcredentials while building portfolio-ready evidence of technical competency.</li>
+            <li>Coursework supports preparation for credentials and certifications from <span className="text-white font-bold">CompTIA</span>, <span className="text-white font-bold">Cisco</span>, <span className="text-white font-bold">AWS</span>, <span className="text-white font-bold">IBM</span>, <span className="text-white font-bold">NVIDIA</span>, and <span className="text-white font-bold">Microsoft</span>.</li>
+          </ul>
+          <div className="pt-2">
+            <a
+              href={hockingProgramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block px-4 py-2 border border-[#22c55e]/60 text-[#22c55e] text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#22c55e] hover:text-black transition-all"
+            >
+              Visit Hocking Cyber Program
+            </a>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 const VictoryScreen = ({ onRestart, timeRemaining, dbIntegrity, operativeName, onSaveLeaderboard, stagePoints }: { onRestart: () => void, timeRemaining: number, dbIntegrity: number, operativeName: string, onSaveLeaderboard: (entry: LeaderboardEntry) => void, stagePoints: number }) => {
   const [submitted, setSubmitted] = useState(false);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
@@ -2368,23 +2452,20 @@ const GameOverScreen = ({ onRestart, reason }: { onRestart: () => void, reason: 
 
 const TopNav = ({
   onHome,
+  onAbout,
   onLeaderboard,
-  hockingProgramUrl,
-  hockingVideoUrl
 }: {
   onHome: () => void;
+  onAbout: () => void;
   onLeaderboard: () => void;
-  hockingProgramUrl: string;
-  hockingVideoUrl: string;
 }) => (
   <div className="relative z-20 max-w-7xl mx-auto w-full px-6 pt-4">
     <nav className="flex flex-wrap items-center justify-between gap-3 bg-black/90 border border-[#22c55e]/30 rounded-lg px-4 py-3 shadow-[0_0_30px_rgba(34,197,94,0.08)]">
       <div className="text-[10px] uppercase tracking-[0.3em] font-black text-[#22c55e]">BLACKOUT RANKED INDEX</div>
       <div className="flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.2em] font-black">
         <button onClick={onHome} className="px-3 py-2 border border-[#22c55e]/30 text-[#22c55e] hover:bg-[#22c55e] hover:text-black transition-all">Home</button>
+        <button onClick={onAbout} className="px-3 py-2 border border-[#22c55e]/30 text-[#22c55e] hover:bg-[#22c55e] hover:text-black transition-all">About</button>
         <button onClick={onLeaderboard} className="px-3 py-2 border border-[#22c55e]/30 text-[#22c55e] hover:bg-[#22c55e] hover:text-black transition-all">Leaderboard</button>
-        <a href={hockingVideoUrl} target="_blank" rel="noopener noreferrer" className="px-3 py-2 border border-[#22c55e]/30 text-[#22c55e] hover:bg-[#22c55e] hover:text-black transition-all">Video</a>
-        <a href={hockingProgramUrl} target="_blank" rel="noopener noreferrer" className="px-3 py-2 border border-[#22c55e]/30 text-[#22c55e] hover:bg-[#22c55e] hover:text-black transition-all">Hocking Cyber Program</a>
       </div>
     </nav>
   </div>
@@ -2402,6 +2483,7 @@ export default function App() {
   const [gameOverReason, setGameOverReason] = useState("");
   const [dbIntegrity, setDbIntegrity] = useState(100);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>([]);
   const [operativeName, setOperativeName] = useState("");
   const [isGlitching, setIsGlitching] = useState(false);
@@ -2618,12 +2700,21 @@ export default function App() {
   };
 
   const navigateHome = () => {
+    setShowAbout(false);
+    setShowLeaderboard(false);
+    setStage('intro');
+    playSound('click');
+  };
+
+  const navigateAbout = () => {
+    setShowAbout(true);
     setShowLeaderboard(false);
     setStage('intro');
     playSound('click');
   };
 
   const navigateLeaderboard = () => {
+    setShowAbout(false);
     setShowLeaderboard(true);
     setStage('intro');
     playSound('click');
@@ -2749,7 +2840,7 @@ export default function App() {
       <CRTEffects />
       <EducationalPanel stage={stage} isOpen={showEdu} onClose={() => setShowEdu(false)} />
       <LeaderboardTicker entries={leaderboardData} />
-      <TopNav onHome={navigateHome} onLeaderboard={navigateLeaderboard} hockingProgramUrl={hockingProgramUrl} hockingVideoUrl={hockingReelVideoUrl} />
+      <TopNav onHome={navigateHome} onAbout={navigateAbout} onLeaderboard={navigateLeaderboard} />
       <div className="flex-1 flex flex-col p-6 min-h-0">
       <MatrixBackground />
 
@@ -2873,16 +2964,19 @@ export default function App() {
           <AnimatePresence mode="wait">
             {stage === 'intro' && (
               <div className="relative z-10 flex flex-col items-center justify-center p-6 text-center w-full max-w-7xl mx-auto h-full">
-                {!showLeaderboard ? (
+                {!showLeaderboard && !showAbout ? (
                   <motion.div key="intro" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full flex justify-center">
                     <IntroStage 
                       onStart={startGame} 
                       onViewLeaderboard={() => {
+                        setShowAbout(false);
                         setShowLeaderboard(true);
                         playSound('click');
                       }}
                     />
                   </motion.div>
+                ) : showAbout ? (
+                  <AboutPanel hockingProgramUrl={hockingProgramUrl} hockingVideoUrl={hockingReelVideoUrl} />
                 ) : (
                   <motion.div 
                     key="leaderboard-view"
@@ -2901,7 +2995,10 @@ export default function App() {
                     <Leaderboard entries={leaderboardData} />
 
                     <button 
-                      onClick={() => setShowLeaderboard(false)}
+                      onClick={() => {
+                        setShowLeaderboard(false);
+                        setShowAbout(false);
+                      }}
                       className="px-10 py-4 bg-[#22c55e]/10 border border-[#22c55e] text-[#22c55e] font-black uppercase text-xs tracking-widest hover:bg-[#22c55e] hover:text-black transition-all"
                     >
                       Return to Terminal
