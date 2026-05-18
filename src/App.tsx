@@ -51,6 +51,14 @@ interface QuestionItem {
   hint: string;
 }
 
+interface QuestionSupport {
+  realisticExample: string;
+  howToSolve: string[];
+  resources: { label: string; href: string }[];
+}
+
+const PRACTICE_MODE = true;
+
 const DIFFICULTY_POINTS: Record<Difficulty, number> = {
   easy: 100,
   medium: 200,
@@ -97,6 +105,84 @@ const QUESTION_BANK: Record<Category, QuestionItem[]> = {
     { id: 'final-medium', category: 'final', difficulty: 'medium', points: 200, prompt: 'First action after active compromise is detected?', choices: ['Delete logs', 'Public post first', 'Contain affected systems/accounts', 'Reboot everything'], answerIndex: 2, hint: 'Contain first to reduce blast radius.' },
     { id: 'final-hard', category: 'final', difficulty: 'hard', points: 300, prompt: 'Zero Trust assumes:', choices: ['Internal users are trusted', 'Trust must be continuously verified', 'VPN means full trust', 'Known devices bypass checks'], answerIndex: 1, hint: 'Never trust by default.' }
   ]
+};
+
+const QUESTION_SUPPORT: Record<string, QuestionSupport> = {
+  'phishing-easy': {
+    realisticExample: 'Your friend shares a "free skin" login link in a group chat before a Friday night match.',
+    howToSolve: ['Check the domain spelling carefully.', 'Never log in from chat links. Open the official site directly.', 'Report suspicious links to your coach/teacher.'],
+    resources: [{ label: 'CISA: Avoid Social Engineering and Phishing', href: 'https://www.cisa.gov/news-events/news/avoiding-social-engineering-and-phishing-attacks' }]
+  },
+  'phishing-medium': {
+    realisticExample: 'A panic DM says your gaming account will be banned in 10 minutes unless you verify now.',
+    howToSolve: ['Ignore urgent pressure tactics.', 'Log in through the official app/site only.', 'Enable MFA on the account immediately.'],
+    resources: [{ label: 'FTC: How to recognize and report spam texts', href: 'https://consumer.ftc.gov/articles/how-recognize-and-report-spam-text-messages' }]
+  },
+  'phishing-hard': {
+    realisticExample: 'A school notice looks real but sender authentication details do not line up.',
+    howToSolve: ['Compare sender, reply-to, and auth results together.', 'Treat mixed SPF/DKIM signals as suspicious.', 'Verify by contacting school staff through known channels.'],
+    resources: [{ label: 'Google: Authenticate email with SPF/DKIM/DMARC', href: 'https://support.google.com/a/answer/2466563' }]
+  },
+  'osint-easy': {
+    realisticExample: 'Someone guesses your password style from public TikTok and Instagram posts.',
+    howToSolve: ['Audit what personal details are public.', 'Avoid password clues in bios/posts.', 'Use unique passphrases for each account.'],
+    resources: [{ label: 'NCSC: People and passwords', href: 'https://www.ncsc.gov.uk/collection/top-tips-for-staying-secure-online/password-managers' }]
+  },
+  'osint-medium': {
+    realisticExample: 'An attacker combines pet names and graduation years to build targeted password guesses.',
+    howToSolve: ['Never use personal details in passwords.', 'Use a password manager and random generation.', 'Turn on MFA for school/social/gaming accounts.'],
+    resources: [{ label: 'CISA: Creating a password tip sheet', href: 'https://www.cisa.gov/news-events/news/creating-password-tip-sheet' }]
+  },
+  'osint-hard': {
+    realisticExample: 'A team LAN photo leaks badge names and metadata with location/time information.',
+    howToSolve: ['Strip metadata before posting images.', 'Check backgrounds for IDs, schedules, whiteboards.', 'Post delayed, lower-detail versions publicly.'],
+    resources: [{ label: 'ExifTool documentation', href: 'https://exiftool.org/' }]
+  },
+  'network-easy': {
+    realisticExample: 'During a school event stream, one external IP probes many ports in sequence.',
+    howToSolve: ['Identify repeated source IP patterns.', 'Check for sequential/high-volume port attempts.', 'Block and monitor that source at perimeter controls.'],
+    resources: [{ label: 'Cloudflare: What is a port scan?', href: 'https://www.cloudflare.com/learning/security/glossary/what-is-a-port-scan/' }]
+  },
+  'network-medium': {
+    realisticExample: 'One compromised lab PC tries to spread toward grade and attendance systems.',
+    howToSolve: ['Use segmentation between student and admin networks.', 'Limit lateral movement with ACLs/firewalls.', 'Apply least privilege for service accounts and shares.'],
+    resources: [{ label: 'NIST: Zero Trust architecture', href: 'https://www.nist.gov/publications/zero-trust-architecture' }]
+  },
+  'network-hard': {
+    realisticExample: 'A host sends periodic low-volume callbacks to a rare domain every 5 minutes.',
+    howToSolve: ['Look for periodic beacon timing patterns.', 'Correlate DNS + endpoint process telemetry.', 'Isolate host, then investigate persistence and C2.'],
+    resources: [{ label: 'MITRE ATT&CK: C2 techniques', href: 'https://attack.mitre.org/tactics/TA0011/' }]
+  },
+  'cipher-easy': {
+    realisticExample: 'A club challenge uses ROT13 to hide a simple keyword in plain sight.',
+    howToSolve: ['Remember ROT13 shifts by 13.', 'Decode quickly using a ROT13 tool table.', 'Confirm output still makes contextual sense.'],
+    resources: [{ label: 'dCode ROT Cipher', href: 'https://www.dcode.fr/rot-cipher' }]
+  },
+  'cipher-medium': {
+    realisticExample: 'You need to decode a Caesar-shifted hint before rival team steals points.',
+    howToSolve: ['Test likely small shifts first.', 'Check letter frequency and known words.', 'Validate by reversing shift against original context.'],
+    resources: [{ label: 'Cryptii Caesar cipher', href: 'https://cryptii.com/pipes/caesar-cipher' }]
+  },
+  'cipher-hard': {
+    realisticExample: 'Advanced challenge asks why one-time pads are special compared to simple ciphers.',
+    howToSolve: ['Focus on key properties: random, equal length, never reused.', 'Distinguish theoretical security from practical key management.', 'Explain why reuse breaks secrecy.'],
+    resources: [{ label: 'Khan Academy: One-time pad', href: 'https://www.khanacademy.org/computing/computer-science/cryptography' }]
+  },
+  'final-easy': {
+    realisticExample: 'Your team wants one tool to solve everything, but incidents keep bypassing single defenses.',
+    howToSolve: ['Apply layered controls (MFA, filtering, segmentation, backups).', 'Assume one control can fail.', 'Build overlap and monitoring between layers.'],
+    resources: [{ label: 'CISA: Defense in depth', href: 'https://www.cisa.gov/resources-tools/resources/defense-depth' }]
+  },
+  'final-medium': {
+    realisticExample: 'A class account is hijacked right before grade lock-in and panic spreads.',
+    howToSolve: ['Contain affected accounts/systems first.', 'Preserve evidence and logs.', 'Then eradicate and recover with communications plan.'],
+    resources: [{ label: 'CISA Incident Response', href: 'https://www.cisa.gov/incident-response' }]
+  },
+  'final-hard': {
+    realisticExample: 'Shared Wi-Fi and known devices are trusted by default, leading to quiet misuse.',
+    howToSolve: ['Continuously verify identity/device context.', 'Use least privilege and short-lived trust.', 'Require re-authentication for sensitive actions.'],
+    resources: [{ label: 'NIST CSF 2.0', href: 'https://www.nist.gov/cyberframework' }]
+  }
 };
 
 interface PuzzleData {
@@ -717,7 +803,16 @@ const CyberIntelButton = ({ onClick }: { onClick: () => void }) => (
   </button>
 );
 
-const TimerDisplay = ({ timeLeft }: { timeLeft: number }) => {
+const TimerDisplay = ({ timeLeft, practiceMode = false }: { timeLeft: number, practiceMode?: boolean }) => {
+  if (practiceMode) {
+    return (
+      <div className="flex flex-col items-end">
+        <div className="text-2xl font-black text-emerald-400">PRACTICE</div>
+        <div className="text-[10px] uppercase tracking-widest text-emerald-400/80">NO COUNTDOWN</div>
+      </div>
+    );
+  }
+
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
   
@@ -1084,7 +1179,10 @@ const QuestionStage = ({
   onHint: () => void;
   hintsUsed: number;
   onEduToggle: () => void;
-}) => (
+}) => {
+  const support = QUESTION_SUPPORT[question.id];
+
+  return (
   <div className="w-full h-full flex flex-col">
     <div className="bg-[#22c55e]/10 border-b border-[#22c55e]/40 px-4 py-2 flex justify-between items-center bg-black/20">
       <div className="flex items-center gap-4">
@@ -1098,6 +1196,12 @@ const QuestionStage = ({
     <div className="flex-1 p-8 flex flex-col justify-center gap-6">
       <div className="bg-black/50 border border-[#22c55e]/30 rounded-lg p-6">
         <p className="text-sm text-white leading-relaxed">{question.prompt}</p>
+        {support && (
+          <div className="mt-4 border-t border-[#22c55e]/20 pt-3">
+            <p className="text-[10px] uppercase tracking-widest text-[#22c55e]/70 font-black mb-1">Realistic Example</p>
+            <p className="text-xs text-[#e5e7eb]/80 leading-relaxed">{support.realisticExample}</p>
+          </div>
+        )}
       </div>
 
       <div className="grid gap-3">
@@ -1136,7 +1240,42 @@ const QuestionStage = ({
       </div>
     </div>
   </div>
-);
+  );
+};
+
+const QuestionResourcesPanel = ({ question }: { question: QuestionItem }) => {
+  const support = QUESTION_SUPPORT[question.id];
+  if (!support) return null;
+
+  return (
+    <div className="bg-black border-4 border-[#22c55e]/30 rounded-lg p-4 shadow-[0_0_30px_rgba(34,197,94,0.08)]">
+      <div className="flex items-center justify-between mb-3 border-b border-[#22c55e]/20 pb-2">
+        <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#22c55e]">How to Solve</h3>
+        <BookOpen size={14} className="text-[#22c55e]/70" />
+      </div>
+      <div className="space-y-3">
+        {support.howToSolve.map((step, i) => (
+          <div key={i} className="text-[10px] text-[#e5e7eb]/85 leading-relaxed border border-[#22c55e]/15 bg-[#22c55e]/5 p-2">
+            <span className="text-[#22c55e] font-black mr-2">{i + 1}.</span>{step}
+          </div>
+        ))}
+      </div>
+      <div className="mt-3 space-y-2">
+        {support.resources.map((resource) => (
+          <a
+            key={resource.href}
+            href={resource.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block p-2 border border-[#22c55e]/20 text-[10px] text-[#e5e7eb]/85 hover:text-black hover:bg-[#22c55e] transition-all font-mono"
+          >
+            {resource.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 const IntroStage = ({ onStart, onViewLeaderboard }: { onStart: (name: string) => void, onViewLeaderboard: () => void }) => {
   const [name, setName] = useState("");
@@ -1910,7 +2049,7 @@ const VictoryScreen = ({ onRestart, timeRemaining, dbIntegrity, operativeName, o
     }
   }, []);
 
-  const totalScore = Math.floor(stagePoints + (timeRemaining * 10) + (dbIntegrity * 50));
+  const totalScore = Math.floor(stagePoints + (PRACTICE_MODE ? 0 : (timeRemaining * 10)) + (dbIntegrity * 50));
 
   const handleSave = () => {
     const newEntry: LeaderboardEntry = {
@@ -1965,10 +2104,8 @@ const VictoryScreen = ({ onRestart, timeRemaining, dbIntegrity, operativeName, o
           <div className="text-[8px] text-[#00FF41]/30 font-mono">/ 1200 max</div>
         </div>
         <div className="space-y-1">
-          <div className="text-[9px] uppercase text-[#00FF41]/40 tracking-[0.3em] font-black">Time Surplus</div>
-          <div className="text-2xl font-black text-[#00FF41]">
-            {Math.floor(timeRemaining / 60)}:{(timeRemaining % 60).toString().padStart(2, '0')}
-          </div>
+          <div className="text-[9px] uppercase text-[#00FF41]/40 tracking-[0.3em] font-black">Mode</div>
+          <div className="text-2xl font-black text-[#00FF41]">{PRACTICE_MODE ? 'Practice' : `${Math.floor(timeRemaining / 60)}:${(timeRemaining % 60).toString().padStart(2, '0')}`}</div>
         </div>
         <div className="space-y-1">
           <div className="text-[9px] uppercase text-[#00FF41]/40 tracking-[0.3em] font-black">Final Score</div>
@@ -2344,6 +2481,11 @@ export default function App() {
   };
 
   useEffect(() => {
+    if (PRACTICE_MODE) {
+      if (gameTimerRef.current) clearInterval(gameTimerRef.current);
+      return;
+    }
+
     if (stage !== 'intro' && stage !== 'victory' && stage !== 'game-over') {
       gameTimerRef.current = setInterval(() => {
         setTimeLeft(prev => {
@@ -2383,9 +2525,13 @@ export default function App() {
     addMessage(message, 'error');
     playSound('error');
     triggerGlitch();
-    setTimeLeft(prev => Math.max(0, prev - penalty));
+    if (!PRACTICE_MODE) {
+      setTimeLeft(prev => Math.max(0, prev - penalty));
+      addMessage(`Time penalty: -${penalty}s applied.`, 'error');
+    } else {
+      addMessage('Practice mode active: no time penalty applied.', 'warning');
+    }
     setDbIntegrity(prev => Math.max(0, prev - 15));
-    addMessage(`Time penalty: -${penalty}s applied.`, 'error');
     addMessage(`Database integrity compromised.`, 'warning');
   };
 
@@ -2420,7 +2566,7 @@ export default function App() {
                 <p className="text-[8px] text-[#22c55e]/40 uppercase tracking-widest mb-1">SYSTEM_UPTIME</p>
                 <p className="text-xs font-mono font-bold">45:12:09:02</p>
               </div>
-              <TimerDisplay timeLeft={timeLeft} />
+              <TimerDisplay timeLeft={timeLeft} practiceMode={PRACTICE_MODE} />
             </div>
           </header>
           <GlobalProgressTracker currentStage={stage} />
@@ -2479,7 +2625,7 @@ export default function App() {
             {/* Right Sidebar */}
             <aside className="col-span-3 flex flex-col gap-4 overflow-hidden">
               <NetworkVitals integrity={dbIntegrity} />
-              <SolveLinksPanel stage={stage} />
+              {activeQuestion ? <QuestionResourcesPanel question={activeQuestion} /> : <SolveLinksPanel stage={stage} />}
               <DecryptionRig hintsCount={hints.length} stage={stage} />
             </aside>
           </div>
