@@ -2592,6 +2592,7 @@ export default function App() {
   const hockingProgramUrl = 'https://www.hocking.edu/cybersecurity';
   const baseUrl = import.meta.env.BASE_URL;
   const hockingReelVideoUrl = `${baseUrl}media/hocking-cyber-reel.mp4`;
+  const isAdminMode = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('admin') === '1';
   const [stage, setStage] = useState<GameStage>('intro');
   const [timeLeft, setTimeLeft] = useState(900); // 15 minutes
   const [messages, setMessages] = useState<TerminalMessage[]>([]);
@@ -2676,12 +2677,14 @@ export default function App() {
     addMessage(`> ${command}`, 'info');
 
     if (command === 'help') {
-      addMessage("Available commands: HELP, SCAN, STATUS, HINT, DECODE, LEADERBOARD, RESETLB, WHOIS, TRACE", 'info');
+      addMessage(`Available commands: HELP, SCAN, STATUS, HINT, DECODE, LEADERBOARD${isAdminMode ? ', RESETLB' : ''}, WHOIS, TRACE`, 'info');
       addMessage("HELP: List all available system commands.", 'info');
       addMessage("SCAN: Run deep network packet analysis.", 'info');
       addMessage("STATUS: Retrieve current mission telemetry.", 'info');
       addMessage("HINT: Request tactical intelligence for current stage.", 'info');
-      addMessage("RESETLB: Clear archived leaderboard records from this browser.", 'info');
+      if (isAdminMode) {
+        addMessage("RESETLB: Clear archived leaderboard records from this browser.", 'info');
+      }
       addMessage("WHOIS [IP]: Perform lookup on suspicious source.", 'info');
       addMessage("TRACE [IP]: Attempt to track packet origin.", 'info');
     } else if (command === 'scan') {
@@ -2714,7 +2717,11 @@ export default function App() {
           });
       }
     } else if (command === 'resetlb' || command === 'clearleaderboard') {
-      clearLeaderboard();
+      if (isAdminMode) {
+        clearLeaderboard();
+      } else {
+        addMessage("Access denied. Administrative privileges required.", 'error');
+      }
     } else if (command.startsWith('whois')) {
       const target = command.split(' ')[1];
       if (!target) {
@@ -3167,12 +3174,14 @@ export default function App() {
 
                     <Leaderboard entries={leaderboardData} />
 
-                    <button 
-                      onClick={clearLeaderboard}
-                      className="px-10 py-4 bg-[#ef4444]/10 border border-[#ef4444] text-[#ef4444] font-black uppercase text-xs tracking-widest hover:bg-[#ef4444] hover:text-white transition-all"
-                    >
-                      Reset Leaderboard
-                    </button>
+                    {isAdminMode && (
+                      <button 
+                        onClick={clearLeaderboard}
+                        className="px-10 py-4 bg-[#ef4444]/10 border border-[#ef4444] text-[#ef4444] font-black uppercase text-xs tracking-widest hover:bg-[#ef4444] hover:text-white transition-all"
+                      >
+                        Reset Leaderboard
+                      </button>
+                    )}
 
                     <button 
                       onClick={() => {
