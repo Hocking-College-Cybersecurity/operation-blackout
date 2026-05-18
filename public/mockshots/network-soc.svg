@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Simulated SOC log screenshot for network challenge">
+  <rect width="1280" height="720" fill="#020617"/>
+  <rect x="40" y="40" width="1200" height="640" rx="14" fill="#0b1220" stroke="#155e75" stroke-width="2"/>
+  <text x="70" y="84" font-family="Consolas, monospace" font-size="26" fill="#67e8f9" font-weight="700">SOUTH GALLIA SOC // LIVE EVENT MONITOR</text>
+
+  <rect x="70" y="110" width="1140" height="42" fill="#0f172a"/>
+  <text x="90" y="138" font-family="Consolas, monospace" font-size="18" fill="#22d3ee">TIME</text>
+  <text x="220" y="138" font-family="Consolas, monospace" font-size="18" fill="#22d3ee">SOURCE</text>
+  <text x="520" y="138" font-family="Consolas, monospace" font-size="18" fill="#22d3ee">DEST</text>
+  <text x="740" y="138" font-family="Consolas, monospace" font-size="18" fill="#22d3ee">PORT</text>
+  <text x="860" y="138" font-family="Consolas, monospace" font-size="18" fill="#22d3ee">DETAIL</text>
+
+  <g font-family="Consolas, monospace" font-size="18" fill="#bae6fd">
+    <text x="90" y="188">20:51:01</text><text x="220" y="188">45.132.8.44</text><text x="520" y="188">MAIN-SW</text><text x="740" y="188">21</text><text x="860" y="188">PROBE ATTEMPT</text>
+    <text x="90" y="226">20:51:02</text><text x="220" y="226">45.132.8.44</text><text x="520" y="226">MAIN-SW</text><text x="740" y="226">22</text><text x="860" y="226">SERVICE SCAN</text>
+    <text x="90" y="264">20:51:03</text><text x="220" y="264">45.132.8.44</text><text x="520" y="264">MAIN-SW</text><text x="740" y="264">23</text><text x="860" y="264">ANOMALOUS SEQUENCE</text>
+  </g>
+
+  <rect x="70" y="318" width="1140" height="220" rx="10" fill="#082f49" stroke="#22d3ee" stroke-width="2"/>
+  <text x="100" y="364" font-family="Consolas, monospace" font-size="24" fill="#67e8f9" font-weight="700">Pattern Match: Sequential Port Scan</text>
+  <text x="100" y="404" font-family="Consolas, monospace" font-size="20" fill="#cffafe">Recommended Action: Block source IP and inspect adjacent hosts.</text>
+  <text x="100" y="444" font-family="Consolas, monospace" font-size="20" fill="#cffafe">Risk: Potential foothold attempt before gradebook target pivot.</text>
+</svg>

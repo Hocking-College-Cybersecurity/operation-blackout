@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Simulated social media screenshot for OSINT challenge">
+  <rect width="1280" height="720" fill="#0f0f12"/>
+  <rect x="120" y="40" width="1040" height="640" rx="18" fill="#18181b" stroke="#27272a"/>
+  <text x="170" y="92" font-family="Segoe UI, Arial" font-size="24" fill="#fafafa" font-weight="700">@southvalley_player</text>
+  <text x="430" y="92" font-family="Segoe UI, Arial" font-size="16" fill="#a1a1aa">public profile</text>
+
+  <rect x="170" y="130" width="940" height="150" rx="12" fill="#27272a"/>
+  <text x="200" y="182" font-family="Segoe UI, Arial" font-size="26" fill="#f4f4f5">"Bella turns 5 today 🎉"</text>
+  <text x="200" y="222" font-family="Segoe UI, Arial" font-size="20" fill="#a1a1aa">#birthday #cat #bestfriend</text>
+
+  <rect x="170" y="310" width="940" height="150" rx="12" fill="#27272a"/>
+  <text x="200" y="362" font-family="Segoe UI, Arial" font-size="26" fill="#f4f4f5">"Class of 2027 still undefeated"</text>
+  <text x="200" y="402" font-family="Segoe UI, Arial" font-size="20" fill="#a1a1aa">#southgallia #class2027</text>
+
+  <rect x="170" y="490" width="940" height="140" rx="12" fill="#111827" stroke="#ec4899" stroke-width="2"/>
+  <text x="200" y="540" font-family="Segoe UI, Arial" font-size="22" fill="#f9a8d4" font-weight="700">OSINT Risk Note</text>
+  <text x="200" y="574" font-family="Segoe UI, Arial" font-size="20" fill="#e4e4e7">Public posts can leak password clues (pet names + graduation year).</text>
+</svg>

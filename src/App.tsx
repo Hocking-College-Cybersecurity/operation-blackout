@@ -1162,79 +1162,26 @@ const MissionBoard = ({
 };
 
 const QuestionMockScreenshot = ({ question }: { question: QuestionItem }) => {
-  if (question.category === 'phishing') {
-    return (
-      <div className="border border-[#5865F2]/50 bg-[#313338] rounded-md overflow-hidden mb-3">
-        <div className="px-3 py-1.5 bg-[#1e1f22] text-[9px] text-[#b5bac1] uppercase tracking-widest font-black">Simulated Discord Screenshot</div>
-        <div className="p-3 space-y-2 text-[10px] leading-relaxed">
-          <div className="flex items-start gap-2">
-            <div className="w-6 h-6 rounded-full bg-[#5865F2]" />
-            <div>
-              <div className="text-[#f2f3f5] font-bold">ghostline_17 <span className="text-[#949ba4] font-normal">Today at 8:41 PM</span></div>
-              <div className="text-[#dbdee1]">yo this works 100% free drops tonight</div>
-              <div className="text-[#00a8fc] underline">https://disc0rd-boost-rewards.net/login</div>
-            </div>
-          </div>
-          <div className="flex items-start gap-2">
-            <div className="w-6 h-6 rounded-full bg-[#22c55e]" />
-            <div>
-              <div className="text-[#f2f3f5] font-bold">you <span className="text-[#949ba4] font-normal">Today at 8:42 PM</span></div>
-              <div className="text-[#dbdee1]">why is the domain misspelled...</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const baseUrl = import.meta.env.BASE_URL;
+  const screenshotByCategory: Record<Category, { src: string; label: string }> = {
+    phishing: { src: `${baseUrl}mockshots/phishing-discord.svg`, label: 'Discord Chat Evidence' },
+    osint: { src: `${baseUrl}mockshots/osint-social.svg`, label: 'Social Post Evidence' },
+    network: { src: `${baseUrl}mockshots/network-soc.svg`, label: 'SOC Log Evidence' },
+    cipher: { src: `${baseUrl}mockshots/cipher-terminal.svg`, label: 'Cipher Terminal Evidence' },
+    final: { src: `${baseUrl}mockshots/final-incident.svg`, label: 'Incident Channel Evidence' }
+  };
 
-  if (question.category === 'osint') {
-    return (
-      <div className="border border-pink-400/40 bg-zinc-900 rounded-md overflow-hidden mb-3">
-        <div className="px-3 py-1.5 bg-zinc-950 text-[9px] text-zinc-300 uppercase tracking-widest font-black">Simulated Social Post Screenshot</div>
-        <div className="p-3 text-[10px] text-zinc-200 space-y-1">
-          <div>@southvalley_player: "Bella turns 5 today 🎉"</div>
-          <div>@southvalley_player: "Class of 2027 still undefeated"</div>
-          <div className="text-zinc-400">Public posts can become password clues.</div>
-        </div>
-      </div>
-    );
-  }
-
-  if (question.category === 'network') {
-    return (
-      <div className="border border-cyan-400/40 bg-zinc-950 rounded-md overflow-hidden mb-3">
-        <div className="px-3 py-1.5 bg-black text-[9px] text-cyan-300 uppercase tracking-widest font-black">Simulated SOC Log Screenshot</div>
-        <div className="p-3 font-mono text-[10px] text-cyan-200 space-y-1">
-          <div>20:51:01 SRC 45.132.8.44 → PORT 21 PROBE</div>
-          <div>20:51:02 SRC 45.132.8.44 → PORT 22 PROBE</div>
-          <div>20:51:03 SRC 45.132.8.44 → PORT 23 PROBE</div>
-          <div className="text-cyan-400">Pattern: Sequential scan behavior detected.</div>
-        </div>
-      </div>
-    );
-  }
-
-  if (question.category === 'cipher') {
-    return (
-      <div className="border border-amber-400/40 bg-zinc-950 rounded-md overflow-hidden mb-3">
-        <div className="px-3 py-1.5 bg-black text-[9px] text-amber-300 uppercase tracking-widest font-black">Simulated Puzzle Terminal Screenshot</div>
-        <div className="p-3 font-mono text-[10px] text-amber-100 space-y-1">
-          <div>ENCRYPTED_BUFFER: FJRYYB</div>
-          <div>HINT: ROT13 / SHIFT CYCLE</div>
-          <div className="text-amber-300">Decode before rival team scores first.</div>
-        </div>
-      </div>
-    );
-  }
+  const shot = screenshotByCategory[question.category];
 
   return (
-    <div className="border border-emerald-400/40 bg-zinc-950 rounded-md overflow-hidden mb-3">
-      <div className="px-3 py-1.5 bg-black text-[9px] text-emerald-300 uppercase tracking-widest font-black">Simulated Incident Channel Screenshot</div>
-      <div className="p-3 text-[10px] text-emerald-100 space-y-1">
-        <div>[ALERT] Gradebook account takeover detected.</div>
-        <div>[ACTION] Contain impacted accounts immediately.</div>
-        <div className="text-emerald-300">Goal: restore graduation clearance pipeline.</div>
-      </div>
+    <div className="border border-[#22c55e]/30 bg-black/40 rounded-md overflow-hidden mb-3">
+      <div className="px-3 py-1.5 bg-black text-[9px] text-[#22c55e]/80 uppercase tracking-widest font-black">Realistic Example Screenshot // {shot.label}</div>
+      <img
+        src={shot.src}
+        alt={`${shot.label} for ${question.category} challenge`}
+        className="w-full h-auto"
+        loading="lazy"
+      />
     </div>
   );
 };

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Simulated Discord chat screenshot for phishing challenge">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#313338"/>
+      <stop offset="100%" stop-color="#2b2d31"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1280" height="54" fill="#1e1f22"/>
+  <text x="28" y="34" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#f2f3f5" font-weight="700"># general-chat</text>
+  <text x="220" y="34" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#949ba4">South Gallia Esports</text>
+
+  <circle cx="72" cy="126" r="26" fill="#5865f2"/>
+  <text x="118" y="112" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#f2f3f5" font-weight="700">ghostline_17</text>
+  <text x="285" y="112" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#949ba4">Today at 8:41 PM</text>
+  <text x="118" y="144" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#dbdee1">yo this works 100% free skin drops tonight</text>
+  <rect x="118" y="162" width="760" height="42" rx="8" fill="#202225" stroke="#00a8fc" stroke-width="2"/>
+  <text x="136" y="190" font-family="Consolas, monospace" font-size="18" fill="#00a8fc">https://disc0rd-boost-rewards.net/login</text>
+
+  <circle cx="72" cy="262" r="26" fill="#22c55e"/>
+  <text x="118" y="248" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#f2f3f5" font-weight="700">you</text>
+  <text x="164" y="248" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#949ba4">Today at 8:42 PM</text>
+  <text x="118" y="280" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#dbdee1">why is the domain misspelled and asking for login?</text>
+
+  <rect x="34" y="618" width="1212" height="68" rx="12" fill="#1e1f22"/>
+  <text x="60" y="660" font-family="Segoe UI, Arial, sans-serif" font-size="22" fill="#72767d">Message #general-chat</text>
+</svg>

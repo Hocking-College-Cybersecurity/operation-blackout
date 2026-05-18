@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Simulated puzzle terminal screenshot for cipher challenge">
+  <rect width="1280" height="720" fill="#0a0a0a"/>
+  <rect x="70" y="50" width="1140" height="620" rx="14" fill="#111111" stroke="#f59e0b" stroke-width="2"/>
+  <text x="110" y="98" font-family="Consolas, monospace" font-size="24" fill="#fcd34d" font-weight="700">BLACKOUT RANKED // CIPHER TERMINAL</text>
+  <text x="110" y="150" font-family="Consolas, monospace" font-size="22" fill="#fde68a">ENCRYPTED_BUFFER: FJRYYB</text>
+  <text x="110" y="190" font-family="Consolas, monospace" font-size="22" fill="#fde68a">HINT: ROT13 / SHIFT CYCLE</text>
+
+  <rect x="110" y="240" width="1060" height="180" rx="10" fill="#1f2937"/>
+  <text x="150" y="300" font-family="Consolas, monospace" font-size="26" fill="#fef3c7">A -> N   B -> O   C -> P   ...</text>
+  <text x="150" y="350" font-family="Consolas, monospace" font-size="26" fill="#fef3c7">N -> A   O -> B   P -> C   ...</text>
+
+  <rect x="110" y="454" width="1060" height="160" rx="10" fill="#0c0a09" stroke="#f59e0b"/>
+  <text x="150" y="512" font-family="Consolas, monospace" font-size="24" fill="#fcd34d">Objective:</text>
+  <text x="150" y="548" font-family="Consolas, monospace" font-size="20" fill="#fde68a">Decode before rival team scores first and locks the board.</text>
+</svg>

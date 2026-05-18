@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Simulated incident response screenshot for final challenge">
+  <rect width="1280" height="720" fill="#03120f"/>
+  <rect x="50" y="40" width="1180" height="640" rx="14" fill="#052e2b" stroke="#22c55e" stroke-width="2"/>
+  <text x="90" y="88" font-family="Segoe UI, Arial" font-size="26" fill="#86efac" font-weight="700">INCIDENT CHANNEL // YEAR-END CLEARANCE</text>
+
+  <rect x="90" y="120" width="1100" height="130" rx="10" fill="#064e3b"/>
+  <text x="120" y="172" font-family="Segoe UI, Arial" font-size="24" fill="#d1fae5">[ALERT] Gradebook account takeover detected.</text>
+  <text x="120" y="210" font-family="Segoe UI, Arial" font-size="20" fill="#a7f3d0">RIVER PHANTOM attempting passing-record purge.</text>
+
+  <rect x="90" y="280" width="1100" height="150" rx="10" fill="#14532d"/>
+  <text x="120" y="332" font-family="Segoe UI, Arial" font-size="24" fill="#dcfce7">[ACTION] Contain impacted accounts immediately.</text>
+  <text x="120" y="370" font-family="Segoe UI, Arial" font-size="20" fill="#bbf7d0">Preserve logs, then eradicate and recover.</text>
+
+  <rect x="90" y="462" width="1100" height="180" rx="10" fill="#022c22" stroke="#22c55e"/>
+  <text x="120" y="518" font-family="Segoe UI, Arial" font-size="24" fill="#86efac">Objective:</text>
+  <text x="120" y="556" font-family="Segoe UI, Arial" font-size="20" fill="#d1fae5">Restore attendance, grades, and graduation clearance pipeline before lockout.</text>
+</svg>
