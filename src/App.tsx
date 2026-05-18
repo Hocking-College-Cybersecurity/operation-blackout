@@ -1728,7 +1728,7 @@ const VictoryScreen = ({ onRestart, timeRemaining, dbIntegrity, operativeName, o
                   If video playback is blocked, use the direct Facebook reel below.
                 </p>
                 <p className="text-[11px] text-[#e5e7eb]/85 leading-relaxed">
-                  Hocking College cybersecurity students compete in the National Cyber League and have earned strong national placements.
+                  Hocking College Cybersecurity Program students train through real-world scenarios to build skills they can apply in internships and entry-level roles.
                 </p>
                 <div className="flex flex-wrap gap-2">
                   <a
@@ -1743,15 +1743,15 @@ const VictoryScreen = ({ onRestart, timeRemaining, dbIntegrity, operativeName, o
               </div>
 
               <div className="text-left p-5 bg-[#00FF41]/10 border border-[#00FF41]/30 rounded space-y-3">
-                <h3 className="text-xs text-[#00FF41] font-black tracking-[0.2em] uppercase">Hocking + NCL Facts</h3>
+                <h3 className="text-xs text-[#00FF41] font-black tracking-[0.2em] uppercase">Hocking Cybersecurity Program Outcomes</h3>
                 <ul className="space-y-2 text-[11px] text-[#e5e7eb]/85 leading-relaxed">
-                  <li>Hocking College's Cybersecurity and Network Systems program emphasizes hands-on labs in network defense, traffic analysis, and secure system operations.</li>
-                  <li>Hocking students placed in the <span className="text-white font-bold">top 10% nationally</span> in Autumn 2025 and <span className="text-white font-bold">top 8% nationally</span> in Spring 2026 in National Cyber League competition.</li>
-                  <li>Students are equipped to contribute in industry after their first semester while continuing to deepen skills through advanced labs and competitions.</li>
-                  <li>Learners can prepare for <span className="text-white font-bold">A+</span>, <span className="text-white font-bold">Net+</span>, <span className="text-white font-bold">Sec+</span>, <span className="text-white font-bold">PCEP</span>, and emerging <span className="text-white font-bold">AI credentials</span>.</li>
-                  <li>From the beginning, students build a professional skills profile and project evidence they can present to employers when they are workforce-ready.</li>
-                  <li>Typical cybersecurity salaries in Ohio often range from <span className="text-white font-bold">$70,000 to $110,000+</span>, depending on role, certifications, and experience.</li>
-                  <li>The National Cyber League (NCL) is a major U.S. collegiate cybersecurity competition where students build practical skills in forensics, OSINT, web app security, and incident response.</li>
+                  <li>AI and cloud technologies are integrated throughout the program alongside core cybersecurity and network defense training.</li>
+                  <li>Hocking students compete in the National Cyber League (NCL) hacking competition and ranked in the <span className="text-white font-bold">top 10% nationally</span> in autumn and <span className="text-white font-bold">top 8% nationally</span> in spring.</li>
+                  <li>Hocking is a <span className="text-white font-bold">Cisco Networking Academy</span>, <span className="text-white font-bold">EC-Council institution</span>, <span className="text-white font-bold">AWS member institution</span>, and <span className="text-white font-bold">CompTIA Academic Partner</span>.</li>
+                  <li>Students have opportunities to earn microcredentials during classes while building hands-on skills in security operations, infrastructure, and incident response.</li>
+                  <li>Coursework supports preparation for credentials, microcredentials, and certifications from <span className="text-white font-bold">CompTIA</span>, <span className="text-white font-bold">Cisco</span>, <span className="text-white font-bold">AWS</span>, <span className="text-white font-bold">IBM</span>, <span className="text-white font-bold">NVIDIA</span>, and <span className="text-white font-bold">Microsoft</span>.</li>
+                  <li>Students create a portfolio of technical projects and evidence of competency they can present to employers.</li>
+                  <li>Graduates are prepared for entry-level roles in SOC operations, network security, and cyber support pathways.</li>
                 </ul>
                 <div className="flex flex-wrap gap-2 pt-1">
                   <a
