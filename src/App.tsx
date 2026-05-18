@@ -387,6 +387,27 @@ interface LeaderboardEntry {
   date: string;
 }
 
+interface QuestionMetrics {
+  id: string;
+  category: Category;
+  difficulty: Difficulty;
+  points: number;
+  prompt: string;
+  views: number;
+  attempts: number;
+  correct: number;
+  incorrect: number;
+  completions: number;
+  hintsUsed: number;
+  timePenaltySeconds: number;
+  lastPlayedAt: string | null;
+}
+
+type QuestionMetricsStore = Record<string, QuestionMetrics>;
+
+const LEADERBOARD_STORAGE_KEY = 'cyber-guard-leaderboard';
+const METRICS_STORAGE_KEY = 'cyber-guard-metrics';
+
 // --- Components ---
 
 const CRTEffects = () => (
@@ -2293,6 +2314,141 @@ const Leaderboard = ({ entries }: { entries: LeaderboardEntry[] }) => (
   </div>
 );
 
+const AdminMetricsPanel = ({ metrics }: { metrics: QuestionMetricsStore }) => {
+  const allQuestions = Object.values(QUESTION_BANK).flat();
+  const metricList = allQuestions.map((question) => metrics[question.id] ?? {
+    id: question.id,
+    category: question.category,
+    difficulty: question.difficulty,
+    points: question.points,
+    prompt: question.prompt,
+    views: 0,
+    attempts: 0,
+    correct: 0,
+    incorrect: 0,
+    completions: 0,
+    hintsUsed: 0,
+    timePenaltySeconds: 0,
+    lastPlayedAt: null,
+  });
+
+  const totals = metricList.reduce((summary, item) => ({
+    views: summary.views + item.views,
+    attempts: summary.attempts + item.attempts,
+    correct: summary.correct + item.correct,
+    hintsUsed: summary.hintsUsed + item.hintsUsed,
+    timePenaltySeconds: summary.timePenaltySeconds + item.timePenaltySeconds,
+  }), {
+    views: 0,
+    attempts: 0,
+    correct: 0,
+    hintsUsed: 0,
+    timePenaltySeconds: 0,
+  });
+
+  const categoryMetrics = (Object.keys(QUESTION_BANK) as Category[]).map((category) => {
+    const items = metricList.filter((item) => item.category === category);
+    const attempts = items.reduce((sum, item) => sum + item.attempts, 0);
+    const correct = items.reduce((sum, item) => sum + item.correct, 0);
+    const hintsUsed = items.reduce((sum, item) => sum + item.hintsUsed, 0);
+    const views = items.reduce((sum, item) => sum + item.views, 0);
+
+    return {
+      category,
+      views,
+      attempts,
+      correct,
+      hintsUsed,
+      accuracy: attempts > 0 ? Math.round((correct / attempts) * 100) : 0,
+    };
+  });
+
+  return (
+    <motion.div
+      key="admin-view"
+      initial={{ opacity: 0, scale: 0.96 }}
+      animate={{ opacity: 1, scale: 1 }}
+      className="max-w-6xl w-full text-left space-y-8 p-10 bg-[#151515]/95 backdrop-blur-3xl border-2 border-[#22c55e] rounded-3xl shadow-[0_0_100px_rgba(34,197,94,0.15)]"
+    >
+      <div className="space-y-3 text-center">
+        <h2 className="text-4xl font-black text-[#22c55e] uppercase italic tracking-tighter flex items-center justify-center gap-4">
+          <Activity size={32} /> Admin Metrics
+        </h2>
+        <p className="text-[10px] text-[#22c55e]/50 font-mono tracking-[0.35em] uppercase">
+          Operator View // Local Browser Analytics
+        </p>
+      </div>
+
+      <div className="grid md:grid-cols-4 gap-4">
+        <div className="p-4 bg-[#22c55e]/10 border border-[#22c55e]/30 rounded space-y-1">
+          <p className="text-[9px] uppercase tracking-[0.2em] text-[#22c55e]/60 font-black">Question Opens</p>
+          <p className="text-3xl font-black text-white">{totals.views}</p>
+        </div>
+        <div className="p-4 bg-[#22c55e]/10 border border-[#22c55e]/30 rounded space-y-1">
+          <p className="text-[9px] uppercase tracking-[0.2em] text-[#22c55e]/60 font-black">Answer Attempts</p>
+          <p className="text-3xl font-black text-white">{totals.attempts}</p>
+        </div>
+        <div className="p-4 bg-[#22c55e]/10 border border-[#22c55e]/30 rounded space-y-1">
+          <p className="text-[9px] uppercase tracking-[0.2em] text-[#22c55e]/60 font-black">Accuracy</p>
+          <p className="text-3xl font-black text-white">{totals.attempts > 0 ? Math.round((totals.correct / totals.attempts) * 100) : 0}%</p>
+        </div>
+        <div className="p-4 bg-[#22c55e]/10 border border-[#22c55e]/30 rounded space-y-1">
+          <p className="text-[9px] uppercase tracking-[0.2em] text-[#22c55e]/60 font-black">Penalty Time</p>
+          <p className="text-3xl font-black text-white">{totals.timePenaltySeconds}s</p>
+        </div>
+      </div>
+
+      <div className="grid lg:grid-cols-5 gap-4">
+        {categoryMetrics.map((item) => (
+          <div key={item.category} className="p-4 bg-black/50 border border-[#22c55e]/20 rounded space-y-2">
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#22c55e]">{CATEGORY_LABELS[item.category]}</p>
+            <p className="text-[10px] text-white/70">Views: {item.views}</p>
+            <p className="text-[10px] text-white/70">Attempts: {item.attempts}</p>
+            <p className="text-[10px] text-white/70">Accuracy: {item.accuracy}%</p>
+            <p className="text-[10px] text-white/70">Hints: {item.hintsUsed}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="bg-black/50 border border-[#22c55e]/20 rounded overflow-hidden">
+        <div className="grid grid-cols-[1.3fr_0.7fr_0.55fr_0.55fr_0.55fr_0.55fr_0.55fr] gap-3 px-4 py-3 border-b border-[#22c55e]/20 text-[9px] uppercase tracking-[0.2em] font-black text-[#22c55e]/70">
+          <span>Question</span>
+          <span>Category</span>
+          <span>Views</span>
+          <span>Attempts</span>
+          <span>Correct</span>
+          <span>Hints</span>
+          <span>Accuracy</span>
+        </div>
+        <div className="max-h-[420px] overflow-y-auto">
+          {metricList.map((item) => {
+            const accuracy = item.attempts > 0 ? Math.round((item.correct / item.attempts) * 100) : 0;
+
+            return (
+              <div key={item.id} className="grid grid-cols-[1.3fr_0.7fr_0.55fr_0.55fr_0.55fr_0.55fr_0.55fr] gap-3 px-4 py-3 border-b border-white/5 text-[10px] text-white/80">
+                <div>
+                  <p className="font-black text-[#22c55e] uppercase">{item.difficulty} · {item.points} pts</p>
+                  <p className="leading-relaxed">{item.prompt}</p>
+                </div>
+                <span>{CATEGORY_LABELS[item.category]}</span>
+                <span>{item.views}</span>
+                <span>{item.attempts}</span>
+                <span>{item.correct}</span>
+                <span>{item.hintsUsed}</span>
+                <span>{accuracy}%</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <p className="text-[10px] text-[#e5e7eb]/60 leading-relaxed">
+        These metrics are stored in local browser storage. They reflect activity captured in this browser, not a shared server-wide dashboard.
+      </p>
+    </motion.div>
+  );
+};
+
 const AboutPanel = ({
   hockingProgramUrl,
   hockingVideoUrl
@@ -2571,10 +2727,14 @@ const TopNav = ({
   onHome,
   onAbout,
   onLeaderboard,
+  onAdmin,
+  showAdmin,
 }: {
   onHome: () => void;
   onAbout: () => void;
   onLeaderboard: () => void;
+  onAdmin?: () => void;
+  showAdmin: boolean;
 }) => (
   <div className="relative z-20 max-w-7xl mx-auto w-full px-6 pt-4">
     <nav className="flex flex-wrap items-center justify-between gap-3 bg-black/90 border border-[#22c55e]/30 rounded-lg px-4 py-3 shadow-[0_0_30px_rgba(34,197,94,0.08)]">
@@ -2583,6 +2743,7 @@ const TopNav = ({
         <button onClick={onHome} className="px-3 py-2 border border-[#22c55e]/30 text-[#22c55e] hover:bg-[#22c55e] hover:text-black transition-all">Home</button>
         <button onClick={onAbout} className="px-3 py-2 border border-[#22c55e]/30 text-[#22c55e] hover:bg-[#22c55e] hover:text-black transition-all">About</button>
         <button onClick={onLeaderboard} className="px-3 py-2 border border-[#22c55e]/30 text-[#22c55e] hover:bg-[#22c55e] hover:text-black transition-all">Leaderboard</button>
+        {showAdmin && onAdmin && <button onClick={onAdmin} className="px-3 py-2 border border-[#ef4444]/40 text-[#ef4444] hover:bg-[#ef4444] hover:text-white transition-all">Admin</button>}
       </div>
     </nav>
   </div>
@@ -2602,7 +2763,9 @@ export default function App() {
   const [dbIntegrity, setDbIntegrity] = useState(100);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
+  const [showAdmin, setShowAdmin] = useState(false);
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>([]);
+  const [metricsData, setMetricsData] = useState<QuestionMetricsStore>({});
   const [operativeName, setOperativeName] = useState("");
   const [isGlitching, setIsGlitching] = useState(false);
   const [showEdu, setShowEdu] = useState(false);
@@ -2645,7 +2808,7 @@ export default function App() {
   }, [isMainUIActive]);
 
   useEffect(() => {
-    const saved = localStorage.getItem('cyber-guard-leaderboard');
+    const saved = localStorage.getItem(LEADERBOARD_STORAGE_KEY);
     if (saved) {
       try {
         setLeaderboardData(JSON.parse(saved));
@@ -2653,16 +2816,66 @@ export default function App() {
         console.error("Failed to load leaderboard data", e);
       }
     }
+
+    const savedMetrics = localStorage.getItem(METRICS_STORAGE_KEY);
+    if (savedMetrics) {
+      try {
+        setMetricsData(JSON.parse(savedMetrics));
+      } catch (e) {
+        console.error("Failed to load question metrics", e);
+      }
+    }
   }, []);
 
   const saveLeaderboardEntry = (entry: LeaderboardEntry) => {
     const updated = [...leaderboardData, entry];
-    localStorage.setItem('cyber-guard-leaderboard', JSON.stringify(updated));
+    localStorage.setItem(LEADERBOARD_STORAGE_KEY, JSON.stringify(updated));
     setLeaderboardData(updated);
   };
 
+  const updateQuestionMetrics = (
+    question: QuestionItem,
+    deltas: Partial<Pick<QuestionMetrics, 'views' | 'attempts' | 'correct' | 'incorrect' | 'completions' | 'hintsUsed' | 'timePenaltySeconds'>>
+  ) => {
+    setMetricsData((prev) => {
+      const current = prev[question.id] ?? {
+        id: question.id,
+        category: question.category,
+        difficulty: question.difficulty,
+        points: question.points,
+        prompt: question.prompt,
+        views: 0,
+        attempts: 0,
+        correct: 0,
+        incorrect: 0,
+        completions: 0,
+        hintsUsed: 0,
+        timePenaltySeconds: 0,
+        lastPlayedAt: null,
+      };
+
+      const next = {
+        ...prev,
+        [question.id]: {
+          ...current,
+          views: current.views + (deltas.views ?? 0),
+          attempts: current.attempts + (deltas.attempts ?? 0),
+          correct: current.correct + (deltas.correct ?? 0),
+          incorrect: current.incorrect + (deltas.incorrect ?? 0),
+          completions: current.completions + (deltas.completions ?? 0),
+          hintsUsed: current.hintsUsed + (deltas.hintsUsed ?? 0),
+          timePenaltySeconds: current.timePenaltySeconds + (deltas.timePenaltySeconds ?? 0),
+          lastPlayedAt: new Date().toISOString(),
+        },
+      };
+
+      localStorage.setItem(METRICS_STORAGE_KEY, JSON.stringify(next));
+      return next;
+    });
+  };
+
   const clearLeaderboard = () => {
-    localStorage.removeItem('cyber-guard-leaderboard');
+    localStorage.removeItem(LEADERBOARD_STORAGE_KEY);
     setLeaderboardData([]);
     addMessage("Historical leaderboard records cleared.", 'warning');
   };
@@ -2677,13 +2890,14 @@ export default function App() {
     addMessage(`> ${command}`, 'info');
 
     if (command === 'help') {
-      addMessage(`Available commands: HELP, SCAN, STATUS, HINT, DECODE, LEADERBOARD${isAdminMode ? ', RESETLB' : ''}, WHOIS, TRACE`, 'info');
+      addMessage(`Available commands: HELP, SCAN, STATUS, HINT, DECODE, LEADERBOARD${isAdminMode ? ', RESETLB, METRICS' : ''}, WHOIS, TRACE`, 'info');
       addMessage("HELP: List all available system commands.", 'info');
       addMessage("SCAN: Run deep network packet analysis.", 'info');
       addMessage("STATUS: Retrieve current mission telemetry.", 'info');
       addMessage("HINT: Request tactical intelligence for current stage.", 'info');
       if (isAdminMode) {
         addMessage("RESETLB: Clear archived leaderboard records from this browser.", 'info');
+        addMessage("METRICS: Review category and question analytics.", 'info');
       }
       addMessage("WHOIS [IP]: Perform lookup on suspicious source.", 'info');
       addMessage("TRACE [IP]: Attempt to track packet origin.", 'info');
@@ -2715,6 +2929,12 @@ export default function App() {
           .forEach((entry, i) => {
             addMessage(`#${i+1} [${entry.name}] - SCORE: ${entry.score}`, 'info');
           });
+      }
+    } else if (command === 'metrics') {
+      if (isAdminMode) {
+        navigateAdmin();
+      } else {
+        addMessage("Access denied. Administrative privileges required.", 'error');
       }
     } else if (command === 'resetlb' || command === 'clearleaderboard') {
       if (isAdminMode) {
@@ -2772,6 +2992,7 @@ export default function App() {
 
   const provideHint = () => {
     if (activeQuestion && hintsUsedCount < 2) {
+      updateQuestionMetrics(activeQuestion, { hintsUsed: 1 });
       addMessage(`INTEL REQUESTED: ${activeQuestion.hint}`, 'warning');
       setHintsUsedCount(prev => prev + 1);
       playSound('click');
@@ -2839,6 +3060,7 @@ export default function App() {
   const navigateHome = () => {
     setShowAbout(false);
     setShowLeaderboard(false);
+    setShowAdmin(false);
     setStage('intro');
     playSound('click');
   };
@@ -2846,6 +3068,7 @@ export default function App() {
   const navigateAbout = () => {
     setShowAbout(true);
     setShowLeaderboard(false);
+    setShowAdmin(false);
     setStage('intro');
     playSound('click');
   };
@@ -2853,6 +3076,16 @@ export default function App() {
   const navigateLeaderboard = () => {
     setShowAbout(false);
     setShowLeaderboard(true);
+    setShowAdmin(false);
+    setStage('intro');
+    playSound('click');
+  };
+
+  const navigateAdmin = () => {
+    if (!isAdminMode) return;
+    setShowAbout(false);
+    setShowLeaderboard(false);
+    setShowAdmin(true);
     setStage('intro');
     playSound('click');
   };
@@ -2869,6 +3102,7 @@ export default function App() {
     setHintsUsedCount(0);
     setShowEdu(false);
     setStage(question.category);
+    updateQuestionMetrics(question, { views: 1 });
     addMessage(`QUESTION_SELECTED: ${CATEGORY_LABELS[question.category]} // ${question.difficulty.toUpperCase()} (${question.points} PTS)`, 'info');
   };
 
@@ -2877,6 +3111,7 @@ export default function App() {
       setStagePoints(prev => prev + question.points);
       setCompletedQuestions(prev => ({ ...prev, [question.id]: true }));
     }
+    updateQuestionMetrics(question, { correct: 1, completions: 1 });
     addMessage(`CORRECT: +${question.points} points awarded.`, 'success');
     playSound('correct');
     const solvedAfter = Object.keys(completedQuestions).length + (completedQuestions[question.id] ? 0 : 1);
@@ -2898,35 +3133,40 @@ export default function App() {
 
     if (activeQuestion.id === 'phishing-easy') {
       if (selectedChoice === null) return;
+      updateQuestionMetrics(activeQuestion, { attempts: 1 });
       if (selectedChoice === 0) {
         completeQuestion(activeQuestion);
       } else {
-        handleStageFail('The phish was allowed through. River Phantom gained a foothold.', 20);
+        handleStageFail('The phish was allowed through. River Phantom gained a foothold.', 20, activeQuestion);
       }
       return;
     }
 
     if (activeQuestion.id === 'network-easy') {
       if (!selectedNetworkIp || !puzzleData) return;
+      updateQuestionMetrics(activeQuestion, { attempts: 1 });
       if (selectedNetworkIp === puzzleData.network.suspiciousIp) {
         completeQuestion(activeQuestion);
       } else {
-        handleStageFail('Wrong source selected. The hostile probe is still active on the wire.', 25);
+        handleStageFail('Wrong source selected. The hostile probe is still active on the wire.', 25, activeQuestion);
       }
       return;
     }
 
     if (activeQuestion.id === 'cipher-easy') {
       if (!puzzleData || freeResponse.trim().length === 0) return;
+      updateQuestionMetrics(activeQuestion, { attempts: 1 });
       if (freeResponse.trim().toUpperCase() === puzzleData.cipher.word) {
         completeQuestion(activeQuestion);
       } else {
-        handleStageFail('Decoded text mismatch. The recovery keyword is still unreadable.', 20);
+        handleStageFail('Decoded text mismatch. The recovery keyword is still unreadable.', 20, activeQuestion);
       }
       return;
     }
 
     if (selectedChoice === null) return;
+
+    updateQuestionMetrics(activeQuestion, { attempts: 1 });
 
     if (selectedChoice === activeQuestion.answerIndex) {
       completeQuestion(activeQuestion);
@@ -2934,7 +3174,7 @@ export default function App() {
     }
 
     const penalty = activeQuestion.difficulty === 'easy' ? 10 : activeQuestion.difficulty === 'medium' ? 25 : 40;
-    handleStageFail('Incorrect answer. Defensive posture weakened.', penalty);
+    handleStageFail('Incorrect answer. Defensive posture weakened.', penalty, activeQuestion);
   };
 
   const submitOsintHardAnswer = () => {
@@ -2942,12 +3182,13 @@ export default function App() {
 
     const guess = osintHardGuess.trim().toLowerCase();
     const expected = puzzleData?.osint.locationAnswer?.toLowerCase() || 'nelsonville';
+    updateQuestionMetrics(activeQuestion, { attempts: 1 });
     if (guess.includes(expected) || guess.includes('hocking')) {
       completeQuestion(activeQuestion);
       return;
     }
 
-    handleStageFail('Reverse image geolocation mismatch. Re-check landmarks and search results.', 30);
+    handleStageFail('Reverse image geolocation mismatch. Re-check landmarks and search results.', 30, activeQuestion);
   };
 
   useEffect(() => {
@@ -2991,10 +3232,16 @@ export default function App() {
     if (nextStage === 'victory') playSound('victory');
   };
 
-  const handleStageFail = (message: string, penalty: number = 30) => {
+  const handleStageFail = (message: string, penalty: number = 30, question?: QuestionItem) => {
     addMessage(message, 'error');
     playSound('error');
     triggerGlitch();
+    if (question) {
+      updateQuestionMetrics(question, {
+        incorrect: 1,
+        timePenaltySeconds: PRACTICE_MODE ? 0 : penalty,
+      });
+    }
     if (!PRACTICE_MODE) {
       setTimeLeft(prev => Math.max(0, prev - penalty));
       addMessage(`Time penalty: -${penalty}s applied.`, 'error');
@@ -3013,7 +3260,7 @@ export default function App() {
       <CRTEffects />
       <EducationalPanel stage={stage} isOpen={showEdu} onClose={() => setShowEdu(false)} />
       <LeaderboardTicker entries={leaderboardData} />
-      <TopNav onHome={navigateHome} onAbout={navigateAbout} onLeaderboard={navigateLeaderboard} />
+      <TopNav onHome={navigateHome} onAbout={navigateAbout} onLeaderboard={navigateLeaderboard} onAdmin={navigateAdmin} showAdmin={isAdminMode} />
       <div className="flex-1 flex flex-col p-6 min-h-0">
       <MatrixBackground />
 
@@ -3144,19 +3391,22 @@ export default function App() {
           <AnimatePresence mode="wait">
             {stage === 'intro' && (
               <div className="relative z-10 flex flex-col items-center justify-center p-6 text-center w-full max-w-7xl mx-auto h-full">
-                {!showLeaderboard && !showAbout ? (
+                {!showLeaderboard && !showAbout && !showAdmin ? (
                   <motion.div key="intro" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full flex justify-center">
                     <IntroStage 
                       onStart={startGame} 
                       onViewLeaderboard={() => {
                         setShowAbout(false);
                         setShowLeaderboard(true);
+                        setShowAdmin(false);
                         playSound('click');
                       }}
                     />
                   </motion.div>
                 ) : showAbout ? (
                   <AboutPanel hockingProgramUrl={hockingProgramUrl} hockingVideoUrl={hockingReelVideoUrl} />
+                ) : showAdmin ? (
+                  <AdminMetricsPanel metrics={metricsData} />
                 ) : (
                   <motion.div 
                     key="leaderboard-view"
