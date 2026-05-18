@@ -185,7 +185,6 @@ interface LeaderboardEntry {
 const CRTEffects = () => (
   <>
     <div className="crt-overlay" />
-    <div className="crt-scanline" />
   </>
 );
 
@@ -1009,7 +1008,7 @@ const IntroStage = ({ onStart, onViewLeaderboard }: { onStart: (name: string) =>
             animate={{ opacity: 1, scale: 1 }}
             className="text-7xl font-black text-[#22c55e] tracking-tighter uppercase italic terminal-text"
           >
-            WAR-REBEL
+            BLACKOUT RANKED
           </motion.h1>
           <div className="h-1 shadow-glow bg-[#22c55e]/50 w-64 mx-auto" />
           <p className="text-xs text-[#22c55e]/60 font-black tracking-[0.8em] uppercase terminal-text">Global Defense Simulation</p>
