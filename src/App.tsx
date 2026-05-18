@@ -1213,6 +1213,8 @@ const QuestionStage = ({
   osintHardGuess,
   onOsintHardGuessChange,
   onSubmitOsintHard,
+  showResources,
+  onToggleResources,
   onBack,
   onHint,
   hintsUsed,
@@ -1226,6 +1228,8 @@ const QuestionStage = ({
   osintHardGuess: string;
   onOsintHardGuessChange: (value: string) => void;
   onSubmitOsintHard: () => void;
+  showResources: boolean;
+  onToggleResources: () => void;
   onBack: () => void;
   onHint: () => void;
   hintsUsed: number;
@@ -1240,6 +1244,13 @@ const QuestionStage = ({
       <div className="flex items-center gap-4">
         <span className="text-sm font-bold uppercase tracking-widest text-[#22c55e]">{CATEGORY_LABELS[question.category]} // {question.difficulty}</span>
         <HintButton onHint={onHint} hintsUsed={hintsUsed} />
+        <button
+          onClick={onToggleResources}
+          className="px-3 py-1 border border-[#22c55e]/30 text-[#22c55e] bg-[#22c55e]/5 text-[9px] font-black uppercase tracking-widest hover:bg-[#22c55e]/20 transition-all flex items-center gap-2"
+        >
+          <BookOpen size={10} />
+          {showResources ? 'Hide How to Solve' : 'How to Solve'}
+        </button>
         <CyberIntelButton onClick={onEduToggle} />
       </div>
       <span className="text-[10px] py-0.5 px-2 bg-[#22c55e] text-black font-black rounded uppercase tracking-tighter">{question.points} Points</span>
@@ -1333,6 +1344,9 @@ const QuestionResourcesPanel = ({ question }: { question: QuestionItem }) => {
         ))}
       </div>
       <div className="mt-3 space-y-2">
+        <p className="text-[10px] text-[#e5e7eb]/70 leading-relaxed border-t border-[#22c55e]/10 pt-3">
+          To learn more, check out the following resources.
+        </p>
         {support.resources.map((resource) => (
           <a
             key={resource.href}
@@ -2331,6 +2345,7 @@ export default function App() {
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
   const [completedQuestions, setCompletedQuestions] = useState<Record<string, boolean>>({});
   const [osintHardGuess, setOsintHardGuess] = useState('');
+  const [showQuestionResources, setShowQuestionResources] = useState(false);
   const gameTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const triggerGlitch = () => {
@@ -2506,6 +2521,7 @@ export default function App() {
     setSelectedChoice(null);
     setCompletedQuestions({});
     setOsintHardGuess('');
+    setShowQuestionResources(false);
     setMessages([{ text: "BLACKOUT RANKED boot sequence engaged...", type: 'info', timestamp: 'SYSTEM' }]);
     addMessage(`OPERATIVE IDENTIFIED: ${name.toUpperCase()}`, 'success');
     addMessage("ALERT: Rival faction RIVER PHANTOM breached South Gallia systems.", 'error');
@@ -2529,6 +2545,7 @@ export default function App() {
     setSelectedChoice(null);
     setCompletedQuestions({});
     setOsintHardGuess('');
+    setShowQuestionResources(false);
     if (gameTimerRef.current) clearInterval(gameTimerRef.current);
     playSound('click');
   };
@@ -2551,6 +2568,7 @@ export default function App() {
     setActiveQuestion(question);
     setSelectedChoice(null);
     setOsintHardGuess('');
+    setShowQuestionResources(false);
     setHintsUsedCount(0);
     setShowEdu(false);
     setStage(question.category);
@@ -2568,6 +2586,7 @@ export default function App() {
     setActiveQuestion(null);
     setSelectedChoice(null);
     setOsintHardGuess('');
+    setShowQuestionResources(false);
     setStage('board');
     if (solvedAfter >= totalQuestions) {
       setStage('victory');
@@ -2723,10 +2742,13 @@ export default function App() {
                         osintHardGuess={osintHardGuess}
                         onOsintHardGuessChange={setOsintHardGuess}
                         onSubmitOsintHard={submitOsintHardAnswer}
+                        showResources={showQuestionResources}
+                        onToggleResources={() => setShowQuestionResources(prev => !prev)}
                         onBack={() => {
                           setActiveQuestion(null);
                           setSelectedChoice(null);
                           setOsintHardGuess('');
+                          setShowQuestionResources(false);
                           setStage('board');
                         }}
                         onHint={provideHint}
@@ -2751,7 +2773,21 @@ export default function App() {
             {/* Right Sidebar */}
             <aside className="col-span-3 flex flex-col gap-4 overflow-hidden">
               <NetworkVitals integrity={dbIntegrity} />
-              {activeQuestion ? <QuestionResourcesPanel question={activeQuestion} /> : <SolveLinksPanel stage={stage} />}
+              {activeQuestion ? (
+                showQuestionResources ? (
+                  <QuestionResourcesPanel question={activeQuestion} />
+                ) : (
+                  <div className="bg-black border-4 border-[#22c55e]/20 rounded-lg p-4 shadow-[0_0_30px_rgba(34,197,94,0.05)]">
+                    <div className="flex items-center justify-between mb-3 border-b border-[#22c55e]/20 pb-2">
+                      <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#22c55e]">How to Solve</h3>
+                      <BookOpen size={14} className="text-[#22c55e]/50" />
+                    </div>
+                    <p className="text-[10px] text-[#e5e7eb]/70 leading-relaxed">
+                      Click the <span className="text-[#22c55e] font-black">How to Solve</span> button in the question header to reveal guidance and learning resources.
+                    </p>
+                  </div>
+                )
+              ) : <SolveLinksPanel stage={stage} />}
               <DecryptionRig hintsCount={hints.length} stage={stage} />
             </aside>
           </div>
