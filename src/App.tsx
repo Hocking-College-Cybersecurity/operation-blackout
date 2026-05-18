@@ -961,22 +961,27 @@ const IntroStage = ({ onStart, onViewLeaderboard }: { onStart: (name: string) =>
 };
 
 const PhishingStage = ({ data, onSuccess, onFail, onHint, hintsUsed, onEduToggle }: { data: PuzzleData['phishing'], onSuccess: () => void, onFail: (msg: string, penalty?: number) => void, onHint: () => void, hintsUsed: number, onEduToggle: () => void }) => {
-  const [analyzedCount, setAnalyzedCount] = useState(0);
+  const [correctlyAnalyzed, setCorrectlyAnalyzed] = useState<Set<number>>(new Set());
   const [activeHeader, setActiveHeader] = useState<number | null>(null);
 
   const emails = data.emails;
+  const analyzedCount = correctlyAnalyzed.size;
 
   const handleAction = (emailId: number, markedAsPhish: boolean) => {
     const email = emails.find(e => e.id === emailId);
-    if (!email) return;
+    if (!email || correctlyAnalyzed.has(emailId)) return;
 
     if (email.isPhish === markedAsPhish) {
-      if (analyzedCount + 1 >= 5) {
-        onSuccess();
-      } else {
-        setAnalyzedCount(prev => prev + 1);
-        playSound('correct');
-      }
+      setCorrectlyAnalyzed(prev => {
+        const next = new Set(prev);
+        next.add(emailId);
+        if (next.size >= 5) {
+          onSuccess();
+        } else {
+          playSound('correct');
+        }
+        return next;
+      });
     } else {
       onFail(markedAsPhish ? "Analyzing legitimate traffic. Latency increased!" : "Malicious packet bypassed perimeter defense!", 30);
     }
@@ -995,7 +1000,10 @@ const PhishingStage = ({ data, onSuccess, onFail, onHint, hintsUsed, onEduToggle
       
       <div className="flex-1 p-6 overflow-y-auto space-y-4 font-sans scrollbar-hide">
         {emails.map((email) => (
-          <div key={email.id} className="bg-white/5 border border-white/10 rounded-lg p-5 group hover:border-[#22c55e]/30 transition-all relative overflow-hidden">
+          <div key={email.id} className={cn(
+            "bg-white/5 border border-white/10 rounded-lg p-5 group hover:border-[#22c55e]/30 transition-all relative overflow-hidden",
+            correctlyAnalyzed.has(email.id) && "border-[#22c55e]/50 bg-[#22c55e]/10"
+          )}>
             <div className="border-b border-white/10 pb-2 mb-3 flex justify-between items-start">
               <div>
                 <p className="text-[9px] uppercase opacity-40 font-mono">From:</p>
@@ -1029,13 +1037,15 @@ const PhishingStage = ({ data, onSuccess, onFail, onHint, hintsUsed, onEduToggle
             <div className="flex gap-4">
               <button 
                 onClick={() => handleAction(email.id, true)}
-                className="flex-1 py-2 border border-[#22c55e]/50 bg-[#22c55e]/5 text-[#22c55e] text-[9px] font-black uppercase tracking-[0.2em] hover:bg-[#22c55e] hover:text-black transition-all"
+                disabled={correctlyAnalyzed.has(email.id)}
+                className="flex-1 py-2 border border-[#22c55e]/50 bg-[#22c55e]/5 text-[#22c55e] text-[9px] font-black uppercase tracking-[0.2em] hover:bg-[#22c55e] hover:text-black transition-all disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 Quarantine
               </button>
               <button 
                 onClick={() => handleAction(email.id, false)}
-                className="flex-1 py-2 border border-white/10 bg-white/5 text-white/30 text-[9px] font-black uppercase tracking-[0.2em] hover:bg-white/10 hover:text-white transition-all font-mono"
+                disabled={correctlyAnalyzed.has(email.id)}
+                className="flex-1 py-2 border border-white/10 bg-white/5 text-white/30 text-[9px] font-black uppercase tracking-[0.2em] hover:bg-white/10 hover:text-white transition-all font-mono disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 Safe Passage
               </button>
