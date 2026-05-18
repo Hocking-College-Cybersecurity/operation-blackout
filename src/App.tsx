@@ -1161,7 +1161,7 @@ const MissionBoard = ({
   );
 };
 
-const QuestionMockScreenshot = ({ question }: { question: QuestionItem }) => {
+const QuestionMockScreenshot = ({ question, overrideSrc, overrideLabel }: { question: QuestionItem; overrideSrc?: string; overrideLabel?: string }) => {
   const baseUrl = import.meta.env.BASE_URL;
   const screenshotByQuestionId: Record<string, { src: string; label: string }> = {
     'phishing-easy': { src: `${baseUrl}mockshots/questions/phishing-easy-discord.svg`, label: 'Discord Link Drop Evidence' },
@@ -1170,7 +1170,7 @@ const QuestionMockScreenshot = ({ question }: { question: QuestionItem }) => {
 
     'osint-easy': { src: `${baseUrl}mockshots/questions/osint-easy-social-feed.svg`, label: 'Public Social Feed Evidence' },
     'osint-medium': { src: `${baseUrl}mockshots/questions/osint-medium-password-hints.svg`, label: 'Password Clue Correlation Evidence' },
-    'osint-hard': { src: `${baseUrl}mockshots/questions/osint-hard-photo-metadata.svg`, label: 'Photo Metadata Leak Evidence' },
+    'osint-hard': { src: `${baseUrl}mockshots/questions/osint-hard-photo-metadata.svg`, label: 'Reverse Image Evidence' },
 
     'network-easy': { src: `${baseUrl}mockshots/questions/network-easy-portscan.svg`, label: 'Sequential Port Scan Evidence' },
     'network-medium': { src: `${baseUrl}mockshots/questions/network-medium-segmentation.svg`, label: 'Segmentation Control Evidence' },
@@ -1186,15 +1186,17 @@ const QuestionMockScreenshot = ({ question }: { question: QuestionItem }) => {
   };
 
   const shot = screenshotByQuestionId[question.id];
+  const resolvedSrc = overrideSrc || shot?.src;
+  const resolvedLabel = overrideLabel || shot?.label;
 
-  if (!shot) return null;
+  if (!resolvedSrc || !resolvedLabel) return null;
 
   return (
     <div className="border border-[#22c55e]/30 bg-black/40 rounded-md overflow-hidden mb-3">
-      <div className="px-3 py-1.5 bg-black text-[9px] text-[#22c55e]/80 uppercase tracking-widest font-black">Realistic Example Screenshot // {shot.label}</div>
+      <div className="px-3 py-1.5 bg-black text-[9px] text-[#22c55e]/80 uppercase tracking-widest font-black">Evidence // {resolvedLabel}</div>
       <img
-        src={shot.src}
-        alt={`${shot.label} for ${question.category} challenge`}
+        src={resolvedSrc}
+        alt={`${resolvedLabel} for ${question.category} challenge`}
         className="w-full h-auto"
         loading="lazy"
       />
@@ -1207,6 +1209,7 @@ const QuestionStage = ({
   selectedChoice,
   onChoice,
   onSubmit,
+  osintHardImageSrc,
   osintHardGuess,
   onOsintHardGuessChange,
   onSubmitOsintHard,
@@ -1219,6 +1222,7 @@ const QuestionStage = ({
   selectedChoice: number | null;
   onChoice: (index: number) => void;
   onSubmit: () => void;
+  osintHardImageSrc?: string;
   osintHardGuess: string;
   onOsintHardGuessChange: (value: string) => void;
   onSubmitOsintHard: () => void;
@@ -1246,8 +1250,12 @@ const QuestionStage = ({
         <p className="text-sm text-white leading-relaxed">{question.prompt}</p>
         {support && (
           <div className="mt-4 border-t border-[#22c55e]/20 pt-3">
-            <p className="text-[10px] uppercase tracking-widest text-[#22c55e]/70 font-black mb-1">Realistic Example</p>
-            <QuestionMockScreenshot question={question} />
+            <p className="text-[10px] uppercase tracking-widest text-[#22c55e]/70 font-black mb-1">Evidence</p>
+            <QuestionMockScreenshot
+              question={question}
+              overrideSrc={isOsintReverseImage ? osintHardImageSrc : undefined}
+              overrideLabel={isOsintReverseImage ? 'Reverse Image Target' : undefined}
+            />
             <p className="text-xs text-[#e5e7eb]/80 leading-relaxed">{support.realisticExample}</p>
           </div>
         )}
@@ -2290,7 +2298,33 @@ const GameOverScreen = ({ onRestart, reason }: { onRestart: () => void, reason: 
   </motion.div>
 );
 
+const TopNav = ({
+  onHome,
+  onLeaderboard,
+  hockingProgramUrl,
+  hockingVideoUrl
+}: {
+  onHome: () => void;
+  onLeaderboard: () => void;
+  hockingProgramUrl: string;
+  hockingVideoUrl: string;
+}) => (
+  <div className="relative z-20 max-w-7xl mx-auto w-full px-6 pt-4">
+    <nav className="flex flex-wrap items-center justify-between gap-3 bg-black/90 border border-[#22c55e]/30 rounded-lg px-4 py-3 shadow-[0_0_30px_rgba(34,197,94,0.08)]">
+      <div className="text-[10px] uppercase tracking-[0.3em] font-black text-[#22c55e]">BLACKOUT RANKED INDEX</div>
+      <div className="flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.2em] font-black">
+        <button onClick={onHome} className="px-3 py-2 border border-[#22c55e]/30 text-[#22c55e] hover:bg-[#22c55e] hover:text-black transition-all">Home</button>
+        <button onClick={onLeaderboard} className="px-3 py-2 border border-[#22c55e]/30 text-[#22c55e] hover:bg-[#22c55e] hover:text-black transition-all">Leaderboard</button>
+        <a href={hockingVideoUrl} target="_blank" rel="noopener noreferrer" className="px-3 py-2 border border-[#22c55e]/30 text-[#22c55e] hover:bg-[#22c55e] hover:text-black transition-all">Video</a>
+        <a href={hockingProgramUrl} target="_blank" rel="noopener noreferrer" className="px-3 py-2 border border-[#22c55e]/30 text-[#22c55e] hover:bg-[#22c55e] hover:text-black transition-all">Hocking Cyber Program</a>
+      </div>
+    </nav>
+  </div>
+);
+
 export default function App() {
+  const hockingProgramUrl = 'https://www.hocking.edu/cybersecurity';
+  const hockingReelDirectUrl = 'https://www.facebook.com/reel/965681956111870/';
   const [stage, setStage] = useState<GameStage>('intro');
   const [timeLeft, setTimeLeft] = useState(900); // 15 minutes
   const [messages, setMessages] = useState<TerminalMessage[]>([]);
@@ -2511,6 +2545,18 @@ export default function App() {
     playSound('click');
   };
 
+  const navigateHome = () => {
+    setShowLeaderboard(false);
+    setStage('intro');
+    playSound('click');
+  };
+
+  const navigateLeaderboard = () => {
+    setShowLeaderboard(true);
+    setStage('intro');
+    playSound('click');
+  };
+
   const totalQuestions = Object.values(QUESTION_BANK).reduce((acc, list) => acc + list.length, 0);
 
   const selectQuestion = (question: QuestionItem) => {
@@ -2629,6 +2675,7 @@ export default function App() {
       <CRTEffects />
       <EducationalPanel stage={stage} isOpen={showEdu} onClose={() => setShowEdu(false)} />
       <LeaderboardTicker entries={leaderboardData} />
+      <TopNav onHome={navigateHome} onLeaderboard={navigateLeaderboard} hockingProgramUrl={hockingProgramUrl} hockingVideoUrl={hockingReelDirectUrl} />
       <div className="flex-1 flex flex-col p-6 min-h-0">
       <MatrixBackground />
 
@@ -2684,6 +2731,7 @@ export default function App() {
                         selectedChoice={selectedChoice}
                         onChoice={setSelectedChoice}
                         onSubmit={submitQuestionAnswer}
+                        osintHardImageSrc={activeQuestion.id === 'osint-hard' ? puzzleData?.osint.locationImage : undefined}
                         osintHardGuess={osintHardGuess}
                         onOsintHardGuessChange={setOsintHardGuess}
                         onSubmitOsintHard={submitOsintHardAnswer}
