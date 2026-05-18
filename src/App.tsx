@@ -1503,6 +1503,11 @@ const Leaderboard = ({ entries }: { entries: LeaderboardEntry[] }) => (
 const VictoryScreen = ({ onRestart, timeRemaining, dbIntegrity, operativeName, onSaveLeaderboard }: { onRestart: () => void, timeRemaining: number, dbIntegrity: number, operativeName: string, onSaveLeaderboard: (entry: LeaderboardEntry) => void }) => {
   const [submitted, setSubmitted] = useState(false);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
+  const hockingProgramUrl = 'https://www.hocking.edu/cybersecurity';
+  const hockingReelVideoUrl = '/media/hocking-cyber-reel.mp4';
+  const hockingReelDirectUrl = 'https://www.facebook.com/reel/965681956111870/';
+  const hockingYouTubeChannelUrl = 'https://www.youtube.com/c/HockingCollege-Ohio';
+  const nclUrl = 'https://nationalcyberleague.org';
 
   useEffect(() => {
     const saved = localStorage.getItem('cyber-guard-leaderboard');
@@ -1573,7 +1578,7 @@ const VictoryScreen = ({ onRestart, timeRemaining, dbIntegrity, operativeName, o
         </div>
       </div>
 
-      <div className="max-w-md mx-auto space-y-6">
+      <div className={cn("mx-auto space-y-6", submitted ? "max-w-5xl w-full" : "max-w-md")}>
         {!submitted ? (
           <button 
             onClick={handleSave}
@@ -1582,11 +1587,80 @@ const VictoryScreen = ({ onRestart, timeRemaining, dbIntegrity, operativeName, o
             Archive to NORAD TAPE
           </button>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-6 w-full">
             <div className="p-4 bg-[#00FF41]/10 border border-[#00FF41]/30 rounded">
               <p className="text-[10px] text-[#00FF41] font-black tracking-widest uppercase">Record Synchronized</p>
             </div>
             <Leaderboard entries={leaderboard} />
+
+            <div className="grid lg:grid-cols-2 gap-4 items-start">
+              <div className="text-left p-5 bg-[#00FF41]/10 border border-[#00FF41]/30 rounded space-y-3">
+                <h3 className="text-xs text-[#00FF41] font-black tracking-[0.2em] uppercase">Cybersecurity Reel</h3>
+                <div className="border border-[#00FF41]/40 rounded overflow-hidden p-2 bg-black/40">
+                  <video
+                    src={hockingReelVideoUrl}
+                    controls
+                    preload="metadata"
+                    playsInline
+                    className="w-full max-w-[380px] mx-auto rounded"
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+                <p className="text-[10px] text-[#e5e7eb]/70 leading-relaxed">
+                  If video playback is blocked, use an external source below.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <a
+                    href={hockingReelDirectUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block px-4 py-2 border border-[#00FF41]/60 text-[#00FF41] text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#00FF41] hover:text-black transition-all"
+                  >
+                    Open Reel on Facebook
+                  </a>
+                  <a
+                    href={hockingYouTubeChannelUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block px-4 py-2 border border-[#00FF41]/60 text-[#00FF41] text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#00FF41] hover:text-black transition-all"
+                  >
+                    Open Hocking YouTube
+                  </a>
+                </div>
+              </div>
+
+              <div className="text-left p-5 bg-[#00FF41]/10 border border-[#00FF41]/30 rounded space-y-3">
+                <h3 className="text-xs text-[#00FF41] font-black tracking-[0.2em] uppercase">Hocking + NCL Facts</h3>
+                <ul className="space-y-2 text-[11px] text-[#e5e7eb]/85 leading-relaxed">
+                  <li>Hocking College's Cybersecurity and Network Systems program emphasizes hands-on labs in network defense, traffic analysis, and secure system operations.</li>
+                  <li>Hocking students placed in the <span className="text-white font-bold">top 10% nationally</span> in Autumn 2025 and <span className="text-white font-bold">top 8% nationally</span> in Spring 2026 in National Cyber League competition.</li>
+                  <li>Students are equipped to contribute in industry after their first semester while continuing to deepen skills through advanced labs and competitions.</li>
+                  <li>Learners can prepare for <span className="text-white font-bold">A+</span>, <span className="text-white font-bold">Net+</span>, <span className="text-white font-bold">Sec+</span>, <span className="text-white font-bold">PCEP</span>, and emerging <span className="text-white font-bold">AI credentials</span>.</li>
+                  <li>From the beginning, students build a professional skills profile and project evidence they can present to employers when they are workforce-ready.</li>
+                  <li>Typical cybersecurity salaries in Ohio often range from <span className="text-white font-bold">$70,000 to $110,000+</span>, depending on role, certifications, and experience.</li>
+                  <li>The National Cyber League (NCL) is a major U.S. collegiate cybersecurity competition where students build practical skills in forensics, OSINT, web app security, and incident response.</li>
+                </ul>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  <a
+                    href={hockingProgramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block px-4 py-2 border border-[#00FF41]/60 text-[#00FF41] text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#00FF41] hover:text-black transition-all"
+                  >
+                    View Hocking Program
+                  </a>
+                  <a
+                    href={nclUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block px-4 py-2 border border-[#00FF41]/60 text-[#00FF41] text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#00FF41] hover:text-black transition-all"
+                  >
+                    Explore NCL
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         )}
         
