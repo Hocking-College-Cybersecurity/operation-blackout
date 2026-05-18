@@ -1763,6 +1763,9 @@ const VictoryScreen = ({ onRestart, timeRemaining, dbIntegrity, operativeName, o
           The threat has been neutralized. Operational integrity stands at <span className="text-white font-bold">{dbIntegrity}%</span>.
           Congratulations, Operative <span className="text-white font-black">{operativeName}</span>.
         </p>
+        <p className="text-[#00FF41]/70 max-w-xl mx-auto text-xs leading-relaxed uppercase tracking-widest">
+          Senior passing records restored. Class advancement and graduation clearance are back online.
+        </p>
       </div>
 
       <div className="grid grid-cols-3 gap-6 py-8 border-y border-[#00FF41]/20 max-w-xl mx-auto">
