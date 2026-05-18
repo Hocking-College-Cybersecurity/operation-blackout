@@ -1615,6 +1615,9 @@ const VictoryScreen = ({ onRestart, timeRemaining, dbIntegrity, operativeName, o
                 <p className="text-[10px] text-[#e5e7eb]/70 leading-relaxed">
                   If video playback is blocked, use the direct Facebook reel below.
                 </p>
+                <p className="text-[11px] text-[#e5e7eb]/85 leading-relaxed">
+                  Hocking College cybersecurity students compete in the National Cyber League and have earned strong national placements.
+                </p>
                 <div className="flex flex-wrap gap-2">
                   <a
                     href={hockingReelDirectUrl}
