@@ -36,7 +36,68 @@ import {
 import { cn } from './lib/utils';
 
 // --- Types ---
-type GameStage = 'intro' | 'phishing' | 'osint' | 'network' | 'cipher' | 'final' | 'victory' | 'game-over';
+type GameStage = 'intro' | 'board' | 'phishing' | 'osint' | 'network' | 'cipher' | 'final' | 'victory' | 'game-over';
+type Category = 'phishing' | 'osint' | 'network' | 'cipher' | 'final';
+type Difficulty = 'easy' | 'medium' | 'hard';
+
+interface QuestionItem {
+  id: string;
+  category: Category;
+  difficulty: Difficulty;
+  points: number;
+  prompt: string;
+  choices: string[];
+  answerIndex: number;
+  hint: string;
+}
+
+const DIFFICULTY_POINTS: Record<Difficulty, number> = {
+  easy: 100,
+  medium: 200,
+  hard: 300
+};
+
+const BOARD_DIFFICULTY_BADGE: Record<Difficulty, string> = {
+  easy: 'border-emerald-400/50 text-emerald-400',
+  medium: 'border-amber-400/50 text-amber-400',
+  hard: 'border-red-400/50 text-red-400'
+};
+
+const CATEGORY_LABELS: Record<Category, string> = {
+  phishing: 'Phishing Defense',
+  osint: 'OSINT Recon',
+  network: 'Network Hunting',
+  cipher: 'Cipher Analysis',
+  final: 'Incident Command'
+};
+
+const QUESTION_BANK: Record<Category, QuestionItem[]> = {
+  phishing: [
+    { id: 'phishing-easy', category: 'phishing', difficulty: 'easy', points: 100, prompt: 'A teammate posts a free-skins link in Discord. Biggest red flag?', choices: ['All caps text', 'Misspelled URL requesting login', 'Meme image attached', 'Uses countdown timer'], answerIndex: 1, hint: 'Spoofed domains are the fastest way to spot phishing.' },
+    { id: 'phishing-medium', category: 'phishing', difficulty: 'medium', points: 200, prompt: 'DM says your game account is banned and asks to verify now. Best move?', choices: ['Use DM link fast', 'Send password to support', 'Open official app/site and verify there', 'Ignore forever'], answerIndex: 2, hint: 'Never verify through panic links.' },
+    { id: 'phishing-hard', category: 'phishing', difficulty: 'hard', points: 300, prompt: 'School alert email passes SPF but fails DKIM and has mismatched reply-to. Conclusion?', choices: ['Safe enough', 'Likely spoofed/tampered', 'Just formatting issue', 'Only attachment is risky'], answerIndex: 1, hint: 'Mixed auth signals plus identity mismatch = suspicious.' }
+  ],
+  osint: [
+    { id: 'osint-easy', category: 'osint', difficulty: 'easy', points: 100, prompt: 'Someone guessed your password theme from social posts. This is:', choices: ['Brute force only', 'OSINT from public info', 'Inside job required', 'Wi-Fi sniffing'], answerIndex: 1, hint: 'OSINT uses open/public data.' },
+    { id: 'osint-medium', category: 'osint', difficulty: 'medium', points: 200, prompt: 'Most dangerous combo from social media for password guessing?', choices: ['Favorite snack + shoe size', 'Pet name + graduation year', 'Backpack color + meme', 'Controller brand + weather'], answerIndex: 1, hint: 'People reuse pet names and milestone years.' },
+    { id: 'osint-hard', category: 'osint', difficulty: 'hard', points: 300, prompt: 'Before posting LAN photos, strongest privacy-first move?', choices: ['Add location hashtag', 'Strip metadata + review background details', 'Only blur faces', 'Delete after an hour'], answerIndex: 1, hint: 'EXIF and visible IDs leak intel.' }
+  ],
+  network: [
+    { id: 'network-easy', category: 'network', difficulty: 'easy', points: 100, prompt: 'One IP probes many ports in sequence. This is:', choices: ['Patch check', 'Port scan', 'Cloud sync', 'Certificate refresh'], answerIndex: 1, hint: 'Recon starts by checking open doors.' },
+    { id: 'network-medium', category: 'network', difficulty: 'medium', points: 200, prompt: 'Best control to limit spread after one PC compromise?', choices: ['Flat network', 'Open file shares', 'Network segmentation', 'Disable logs'], answerIndex: 2, hint: 'Isolate trust zones.' },
+    { id: 'network-hard', category: 'network', difficulty: 'hard', points: 300, prompt: 'Every-5-minute outbound callbacks to rare domain usually indicate:', choices: ['Normal patching', 'C2 beaconing', 'DNS cache update', 'Printer sync'], answerIndex: 1, hint: 'Periodic low-volume callbacks are beacon behavior.' }
+  ],
+  cipher: [
+    { id: 'cipher-easy', category: 'cipher', difficulty: 'easy', points: 100, prompt: 'ROT13 shifts letters by:', choices: ['7', '10', '13', '26'], answerIndex: 2, hint: 'Half the alphabet.' },
+    { id: 'cipher-medium', category: 'cipher', difficulty: 'medium', points: 200, prompt: 'In Caesar +3, plaintext S becomes:', choices: ['Q', 'R', 'V', 'W'], answerIndex: 2, hint: 'Count forward three.' },
+    { id: 'cipher-hard', category: 'cipher', difficulty: 'hard', points: 300, prompt: 'Why can one-time pad be theoretically unbreakable?', choices: ['Easy to memorize', 'Random one-use key same length as message', 'Uses base64', 'Changes hourly'], answerIndex: 1, hint: 'Perfect secrecy needs truly random non-reused key material.' }
+  ],
+  final: [
+    { id: 'final-easy', category: 'final', difficulty: 'easy', points: 100, prompt: 'Defense-in-depth means:', choices: ['One perfect firewall', 'Overlapping security controls', 'Antivirus only', 'No updates ever'], answerIndex: 1, hint: 'If one layer fails, others still protect.' },
+    { id: 'final-medium', category: 'final', difficulty: 'medium', points: 200, prompt: 'First action after active compromise is detected?', choices: ['Delete logs', 'Public post first', 'Contain affected systems/accounts', 'Reboot everything'], answerIndex: 2, hint: 'Contain first to reduce blast radius.' },
+    { id: 'final-hard', category: 'final', difficulty: 'hard', points: 300, prompt: 'Zero Trust assumes:', choices: ['Internal users are trusted', 'Trust must be continuously verified', 'VPN means full trust', 'Known devices bypass checks'], answerIndex: 1, hint: 'Never trust by default.' }
+  ]
+};
 
 interface PuzzleData {
   phishing: {
@@ -943,6 +1004,136 @@ const LeaderboardTicker = ({ entries }: { entries: LeaderboardEntry[] }) => (
           {entries.length === 0 && <span className="text-white/20 italic">DATABASE EMPTY - NO RECORDS FOUND</span>}
         </div>
       ))}
+    </div>
+  </div>
+);
+
+const MissionBoard = ({
+  completed,
+  onSelect,
+  stagePoints
+}: {
+  completed: Record<string, boolean>;
+  onSelect: (q: QuestionItem) => void;
+  stagePoints: number;
+}) => {
+  const solved = Object.keys(completed).length;
+  const totalQuestions = Object.values(QUESTION_BANK).reduce((acc, list) => acc + list.length, 0);
+
+  return (
+    <div className="w-full h-full flex flex-col">
+      <div className="bg-[#22c55e]/10 border-b border-[#22c55e]/40 px-4 py-2 flex justify-between items-center bg-black/20">
+        <span className="text-sm font-bold uppercase tracking-widest text-[#22c55e]">Mission Board: Pick Any Category + Difficulty</span>
+        <div className="flex items-center gap-4">
+          <span className="text-[10px] uppercase text-white/60 tracking-widest">Solved {solved}/{totalQuestions}</span>
+          <span className="text-[10px] py-0.5 px-2 bg-[#22c55e] text-black font-black rounded uppercase tracking-tighter">Points: {stagePoints}</span>
+        </div>
+      </div>
+
+      <div className="flex-1 p-6 overflow-y-auto grid grid-cols-1 lg:grid-cols-2 gap-4 scrollbar-hide">
+        {(Object.keys(QUESTION_BANK) as Category[]).map((category) => (
+          <div key={category} className="bg-white/5 border border-white/10 rounded-lg p-4 space-y-3">
+            <h3 className="text-xs text-[#22c55e] font-black uppercase tracking-[0.2em]">{CATEGORY_LABELS[category]}</h3>
+            <div className="space-y-2">
+              {QUESTION_BANK[category].map((question) => {
+                const done = !!completed[question.id];
+                return (
+                  <button
+                    key={question.id}
+                    onClick={() => !done && onSelect(question)}
+                    disabled={done}
+                    className={cn(
+                      'w-full text-left p-3 border rounded transition-all',
+                      done
+                        ? 'border-[#22c55e]/40 bg-[#22c55e]/10 text-[#22c55e]/40 cursor-not-allowed'
+                        : 'border-white/10 bg-black/30 hover:border-[#22c55e]/40 hover:bg-[#22c55e]/10 text-white'
+                    )}
+                  >
+                    <div className="flex justify-between items-center gap-2">
+                      <span className="text-[10px] font-black uppercase tracking-widest">{question.difficulty} // {question.points} pts</span>
+                      <span className={cn('text-[9px] px-2 py-0.5 border rounded uppercase font-black', BOARD_DIFFICULTY_BADGE[question.difficulty])}>
+                        {done ? 'Completed' : 'Available'}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const QuestionStage = ({
+  question,
+  selectedChoice,
+  onChoice,
+  onSubmit,
+  onBack,
+  onHint,
+  hintsUsed,
+  onEduToggle
+}: {
+  question: QuestionItem;
+  selectedChoice: number | null;
+  onChoice: (index: number) => void;
+  onSubmit: () => void;
+  onBack: () => void;
+  onHint: () => void;
+  hintsUsed: number;
+  onEduToggle: () => void;
+}) => (
+  <div className="w-full h-full flex flex-col">
+    <div className="bg-[#22c55e]/10 border-b border-[#22c55e]/40 px-4 py-2 flex justify-between items-center bg-black/20">
+      <div className="flex items-center gap-4">
+        <span className="text-sm font-bold uppercase tracking-widest text-[#22c55e]">{CATEGORY_LABELS[question.category]} // {question.difficulty}</span>
+        <HintButton onHint={onHint} hintsUsed={hintsUsed} />
+        <CyberIntelButton onClick={onEduToggle} />
+      </div>
+      <span className="text-[10px] py-0.5 px-2 bg-[#22c55e] text-black font-black rounded uppercase tracking-tighter">{question.points} Points</span>
+    </div>
+
+    <div className="flex-1 p-8 flex flex-col justify-center gap-6">
+      <div className="bg-black/50 border border-[#22c55e]/30 rounded-lg p-6">
+        <p className="text-sm text-white leading-relaxed">{question.prompt}</p>
+      </div>
+
+      <div className="grid gap-3">
+        {question.choices.map((choice, idx) => (
+          <button
+            key={idx}
+            onClick={() => onChoice(idx)}
+            className={cn(
+              'text-left p-4 border rounded font-mono text-xs transition-all',
+              selectedChoice === idx
+                ? 'border-[#22c55e] bg-[#22c55e]/10 text-[#22c55e]'
+                : 'border-white/10 bg-white/5 text-white/80 hover:border-[#22c55e]/30'
+            )}
+          >
+            {String.fromCharCode(65 + idx)}. {choice}
+          </button>
+        ))}
+      </div>
+
+      <div className="flex gap-3">
+        <button onClick={onBack} className="px-5 py-3 border border-white/20 text-white/70 text-[10px] uppercase tracking-widest font-black hover:bg-white/10 transition-all">
+          Back to Board
+        </button>
+        <button
+          onClick={onSubmit}
+          disabled={selectedChoice === null}
+          className={cn(
+            'px-6 py-3 text-[10px] uppercase tracking-widest font-black transition-all',
+            selectedChoice === null
+              ? 'border border-[#22c55e]/20 text-[#22c55e]/20 cursor-not-allowed'
+              : 'bg-[#22c55e] text-black hover:bg-white'
+          )}
+        >
+          Submit Answer
+        </button>
+      </div>
     </div>
   </div>
 );
@@ -1913,6 +2104,9 @@ export default function App() {
   const [showEdu, setShowEdu] = useState(false);
   const [puzzleData, setPuzzleData] = useState<PuzzleData | null>(null);
   const [stagePoints, setStagePoints] = useState(0);
+  const [activeQuestion, setActiveQuestion] = useState<QuestionItem | null>(null);
+  const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
+  const [completedQuestions, setCompletedQuestions] = useState<Record<string, boolean>>({});
   const gameTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const triggerGlitch = () => {
@@ -2054,6 +2248,13 @@ export default function App() {
   };
 
   const provideHint = () => {
+    if (activeQuestion && hintsUsedCount < 2) {
+      addMessage(`INTEL REQUESTED: ${activeQuestion.hint}`, 'warning');
+      setHintsUsedCount(prev => prev + 1);
+      playSound('click');
+      return;
+    }
+
     const currentHints = STAGE_HINTS[stage];
     if (currentHints && hintsUsedCount < 2) {
       addMessage(`INTEL REQUESTED: ${currentHints[hintsUsedCount]}`, 'warning');
@@ -2071,15 +2272,19 @@ export default function App() {
     const data = generatePuzzleData();
     setPuzzleData(data);
     setOperativeName(name.toUpperCase());
-    setStage('phishing');
+    setStage('board');
     setTimeLeft(900); // 15 minutes
     setDbIntegrity(100);
     setHints([]);
     setHintsUsedCount(0);
+    setStagePoints(0);
+    setActiveQuestion(null);
+    setSelectedChoice(null);
+    setCompletedQuestions({});
     setMessages([{ text: "Initializing defensive protocols...", type: 'info', timestamp: 'SYSTEM' }]);
     addMessage(`OPERATIVE IDENTIFIED: ${name.toUpperCase()}`, 'success');
-    addMessage("Analyzing network traffic...", 'warning');
-    addMessage("Alert: Massive Phishing attack detected.", 'error');
+    addMessage("Mission board online. Choose any category and any difficulty.", 'warning');
+    addMessage("Complete all 15 challenge boxes to secure class records.", 'info');
     addMessage("Type 'HELP' in the system console for available sub-routines.", 'info');
     playSound('intro');
   };
@@ -2093,8 +2298,47 @@ export default function App() {
     setHintsUsedCount(0);
     setMessages([]);
     setStagePoints(0);
+    setActiveQuestion(null);
+    setSelectedChoice(null);
+    setCompletedQuestions({});
     if (gameTimerRef.current) clearInterval(gameTimerRef.current);
     playSound('click');
+  };
+
+  const totalQuestions = Object.values(QUESTION_BANK).reduce((acc, list) => acc + list.length, 0);
+
+  const selectQuestion = (question: QuestionItem) => {
+    setActiveQuestion(question);
+    setSelectedChoice(null);
+    setHintsUsedCount(0);
+    setShowEdu(false);
+    setStage(question.category);
+    addMessage(`QUESTION_SELECTED: ${CATEGORY_LABELS[question.category]} // ${question.difficulty.toUpperCase()} (${question.points} PTS)`, 'info');
+  };
+
+  const submitQuestionAnswer = () => {
+    if (!activeQuestion || selectedChoice === null) return;
+
+    if (selectedChoice === activeQuestion.answerIndex) {
+      if (!completedQuestions[activeQuestion.id]) {
+        setStagePoints(prev => prev + activeQuestion.points);
+        setCompletedQuestions(prev => ({ ...prev, [activeQuestion.id]: true }));
+      }
+      addMessage(`CORRECT: +${activeQuestion.points} points awarded.`, 'success');
+      playSound('correct');
+      const solvedAfter = Object.keys(completedQuestions).length + (completedQuestions[activeQuestion.id] ? 0 : 1);
+      setActiveQuestion(null);
+      setSelectedChoice(null);
+      setStage('board');
+      if (solvedAfter >= totalQuestions) {
+        setStage('victory');
+        playSound('victory');
+      }
+      return;
+    }
+
+    const penalty = activeQuestion.difficulty === 'easy' ? 10 : activeQuestion.difficulty === 'medium' ? 25 : 40;
+    handleStageFail('Incorrect answer. Defensive posture weakened.', penalty);
   };
 
   useEffect(() => {
@@ -2193,65 +2437,24 @@ export default function App() {
             <main className="col-span-6 bg-black border-4 border-[#22c55e]/40 rounded-lg relative overflow-hidden flex flex-col shadow-[0_0_50px_rgba(34,197,94,0.1)] crt-flicker">
               <div className="flex-1 overflow-hidden">
                 <AnimatePresence mode="wait">
-                  {stage === 'phishing' && puzzleData && (
-                    <motion.div key="phishing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="h-full">
-                      <PhishingStage 
-                        data={puzzleData.phishing}
-                        onSuccess={() => handleStageSuccess('osint', "Traffic filter applied. Origin identified.", "PHS01")} 
-                        onFail={(msg, penalty) => handleStageFail(msg, penalty)} 
-                        onHint={provideHint}
-                        hintsUsed={hintsUsedCount}
-                        onEduToggle={() => setShowEdu(true)}
-                      />
+                  {stage === 'board' && (
+                    <motion.div key="board" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="h-full">
+                      <MissionBoard completed={completedQuestions} onSelect={selectQuestion} stagePoints={stagePoints} />
                     </motion.div>
                   )}
 
-                  {stage === 'osint' && puzzleData && (
-                    <motion.div key="osint" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="h-full">
-                      <OSINTStage 
-                        data={puzzleData.osint}
-                        onSuccess={() => handleStageSuccess('network', "Attacker profile compromised. Local data recovered.", "OSN02")} 
-                        onFail={(msg) => handleStageFail(msg)} 
-                        onHint={provideHint}
-                        hintsUsed={hintsUsedCount}
-                        onEduToggle={() => setShowEdu(true)}
-                      />
-                    </motion.div>
-                  )}
-
-                  {stage === 'network' && puzzleData && (
-                    <motion.div key="network" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="h-full">
-                      <NetworkStage 
-                        data={puzzleData.network}
-                        onSuccess={() => handleStageSuccess('cipher', "Command hub isolated. Intercepting encrypted streams...", "NET03")} 
-                        onFail={(msg) => handleStageFail(msg)} 
-                        onHint={provideHint}
-                        hintsUsed={hintsUsedCount}
-                        onEduToggle={() => setShowEdu(true)}
-                      />
-                    </motion.div>
-                  )}
-
-                  {stage === 'cipher' && puzzleData && (
-                    <motion.div key="cipher" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="h-full">
-                      <CipherStage 
-                        data={puzzleData.cipher}
-                        onSuccess={() => handleStageSuccess('final', "Encrypted protocols bypassed. Override window open.", "CRY04")} 
-                        onFail={(msg) => handleStageFail(msg)} 
-                        onHint={provideHint}
-                        hintsUsed={hintsUsedCount}
-                        onEduToggle={() => setShowEdu(true)}
-                      />
-                    </motion.div>
-                  )}
-
-                  {stage === 'final' && puzzleData && (
-                    <motion.div key="final" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="h-full">
-                      <FinalStage 
-                        data={puzzleData.finalCode}
-                        hints={hints}
-                        onSuccess={() => handleStageSuccess('victory', "Master override accepted. PHANTOM destroyed.", null)}
-                        onFail={(msg, penalty) => handleStageFail(msg, penalty)} 
+                  {activeQuestion && ['phishing', 'osint', 'network', 'cipher', 'final'].includes(stage) && (
+                    <motion.div key={activeQuestion.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="h-full">
+                      <QuestionStage
+                        question={activeQuestion}
+                        selectedChoice={selectedChoice}
+                        onChoice={setSelectedChoice}
+                        onSubmit={submitQuestionAnswer}
+                        onBack={() => {
+                          setActiveQuestion(null);
+                          setSelectedChoice(null);
+                          setStage('board');
+                        }}
                         onHint={provideHint}
                         hintsUsed={hintsUsedCount}
                         onEduToggle={() => setShowEdu(true)}
@@ -2265,11 +2468,8 @@ export default function App() {
               <div className="p-5 border-t border-[#22c55e]/20 bg-black/40 backdrop-blur-md">
                 <p className="text-[10px] text-white/50 leading-relaxed font-mono">
                   <span className="text-[#22c55e] mr-2 font-black tracking-widest uppercase">Intel Brief:</span> 
-                  {stage === 'phishing' && "Review the 'From' domain suffix. Open 'CYBER INTEL' for packet analysis basics."}
-                  {stage === 'osint' && "Cross-reference target profile posts. Open 'CYBER INTEL' to learn about OSINT profiling."}
-                  {stage === 'network' && "Identify the external WAN source. Open 'CYBER INTEL' for network defense training."}
-                  {stage === 'cipher' && "Analyze the intercepted block. Open 'CYBER INTEL' to understand ROT13 rotation."}
-                  {stage === 'final' && "Concatenate fragments. Open 'CYBER INTEL' to review 'Defense in Depth' principles."}
+                  {stage === 'board' && "Category boxes are unlocked. Choose any category and difficulty in any order."}
+                  {activeQuestion && `Question active: ${activeQuestion.prompt}`}
                 </p>
               </div>
             </main>
