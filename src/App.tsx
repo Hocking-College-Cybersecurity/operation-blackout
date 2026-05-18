@@ -88,7 +88,7 @@ const QUESTION_BANK: Record<Category, QuestionItem[]> = {
   osint: [
     { id: 'osint-easy', category: 'osint', difficulty: 'easy', points: 100, prompt: 'Someone guessed your password theme from social posts. This is:', choices: ['Brute force only', 'OSINT from public info', 'Inside job required', 'Wi-Fi sniffing'], answerIndex: 1, hint: 'OSINT uses open/public data.' },
     { id: 'osint-medium', category: 'osint', difficulty: 'medium', points: 200, prompt: 'Most dangerous combo from social media for password guessing?', choices: ['Favorite snack + shoe size', 'Pet name + graduation year', 'Backpack color + meme', 'Controller brand + weather'], answerIndex: 1, hint: 'People reuse pet names and milestone years.' },
-    { id: 'osint-hard', category: 'osint', difficulty: 'hard', points: 300, prompt: 'Before posting LAN photos, strongest privacy-first move?', choices: ['Add location hashtag', 'Strip metadata + review background details', 'Only blur faces', 'Delete after an hour'], answerIndex: 1, hint: 'EXIF and visible IDs leak intel.' }
+    { id: 'osint-hard', category: 'osint', difficulty: 'hard', points: 300, prompt: 'Reverse image challenge: identify the city or college shown in the location evidence.', choices: ['Run reverse-image lookup and infer location', 'Only check profile bio text', 'Ignore visual landmarks', 'Guess randomly'], answerIndex: 0, hint: 'Use visible landmarks plus reverse-image tooling to identify the location.' }
   ],
   network: [
     { id: 'network-easy', category: 'network', difficulty: 'easy', points: 100, prompt: 'One IP probes many ports in sequence. This is:', choices: ['Patch check', 'Port scan', 'Cloud sync', 'Certificate refresh'], answerIndex: 1, hint: 'Recon starts by checking open doors.' },
@@ -134,9 +134,9 @@ const QUESTION_SUPPORT: Record<string, QuestionSupport> = {
     resources: [{ label: 'CISA: Creating a password tip sheet', href: 'https://www.cisa.gov/news-events/news/creating-password-tip-sheet' }]
   },
   'osint-hard': {
-    realisticExample: 'A team LAN photo leaks badge names and metadata with location/time information.',
-    howToSolve: ['Strip metadata before posting images.', 'Check backgrounds for IDs, schedules, whiteboards.', 'Post delayed, lower-detail versions publicly.'],
-    resources: [{ label: 'ExifTool documentation', href: 'https://exiftool.org/' }]
+    realisticExample: 'You are given an image clue and must geolocate it using reverse-image and landmark analysis.',
+    howToSolve: ['Inspect visible landmarks and architecture.', 'Run a reverse-image lookup to find similar images/pages.', 'Correlate clues to city or campus name before submitting.'],
+    resources: [{ label: 'Google Lens', href: 'https://lens.google.com/' }, { label: 'Bing Visual Search', href: 'https://www.bing.com/visualsearch' }, { label: 'Yandex Images', href: 'https://yandex.com/images/' }]
   },
   'network-easy': {
     realisticExample: 'During a school event stream, one external IP probes many ports in sequence.',
@@ -1207,6 +1207,9 @@ const QuestionStage = ({
   selectedChoice,
   onChoice,
   onSubmit,
+  osintHardGuess,
+  onOsintHardGuessChange,
+  onSubmitOsintHard,
   onBack,
   onHint,
   hintsUsed,
@@ -1216,12 +1219,16 @@ const QuestionStage = ({
   selectedChoice: number | null;
   onChoice: (index: number) => void;
   onSubmit: () => void;
+  osintHardGuess: string;
+  onOsintHardGuessChange: (value: string) => void;
+  onSubmitOsintHard: () => void;
   onBack: () => void;
   onHint: () => void;
   hintsUsed: number;
   onEduToggle: () => void;
 }) => {
   const support = QUESTION_SUPPORT[question.id];
+  const isOsintReverseImage = question.id === 'osint-hard';
 
   return (
   <div className="w-full h-full flex flex-col">
@@ -1246,38 +1253,53 @@ const QuestionStage = ({
         )}
       </div>
 
-      <div className="grid gap-3">
-        {question.choices.map((choice, idx) => (
-          <button
-            key={idx}
-            onClick={() => onChoice(idx)}
-            className={cn(
-              'text-left p-4 border rounded font-mono text-xs transition-all',
-              selectedChoice === idx
-                ? 'border-[#22c55e] bg-[#22c55e]/10 text-[#22c55e]'
-                : 'border-white/10 bg-white/5 text-white/80 hover:border-[#22c55e]/30'
-            )}
-          >
-            {String.fromCharCode(65 + idx)}. {choice}
-          </button>
-        ))}
-      </div>
+      {isOsintReverseImage ? (
+        <div className="bg-black/40 border border-[#22c55e]/20 rounded-lg p-4 space-y-3">
+          <p className="text-[10px] uppercase tracking-widest text-[#22c55e]/70 font-black">Reverse Image Submit</p>
+          <input
+            type="text"
+            value={osintHardGuess}
+            onChange={(e) => onOsintHardGuessChange(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && onSubmitOsintHard()}
+            placeholder="Enter city or college name..."
+            className="w-full bg-black/60 border border-[#22c55e]/30 px-4 py-3 font-mono text-[#22c55e] text-xs outline-none focus:border-[#22c55e] placeholder:text-[#22c55e]/20 uppercase tracking-wider"
+          />
+          <p className="text-[10px] text-white/50">Accepted examples: Nelsonville, Hocking College</p>
+        </div>
+      ) : (
+        <div className="grid gap-3">
+          {question.choices.map((choice, idx) => (
+            <button
+              key={idx}
+              onClick={() => onChoice(idx)}
+              className={cn(
+                'text-left p-4 border rounded font-mono text-xs transition-all',
+                selectedChoice === idx
+                  ? 'border-[#22c55e] bg-[#22c55e]/10 text-[#22c55e]'
+                  : 'border-white/10 bg-white/5 text-white/80 hover:border-[#22c55e]/30'
+              )}
+            >
+              {String.fromCharCode(65 + idx)}. {choice}
+            </button>
+          ))}
+        </div>
+      )}
 
       <div className="flex gap-3">
         <button onClick={onBack} className="px-5 py-3 border border-white/20 text-white/70 text-[10px] uppercase tracking-widest font-black hover:bg-white/10 transition-all">
           Back to Board
         </button>
         <button
-          onClick={onSubmit}
-          disabled={selectedChoice === null}
+          onClick={isOsintReverseImage ? onSubmitOsintHard : onSubmit}
+          disabled={isOsintReverseImage ? osintHardGuess.trim().length === 0 : selectedChoice === null}
           className={cn(
             'px-6 py-3 text-[10px] uppercase tracking-widest font-black transition-all',
-            selectedChoice === null
+            (isOsintReverseImage ? osintHardGuess.trim().length === 0 : selectedChoice === null)
               ? 'border border-[#22c55e]/20 text-[#22c55e]/20 cursor-not-allowed'
               : 'bg-[#22c55e] text-black hover:bg-white'
           )}
         >
-          Submit Answer
+          {isOsintReverseImage ? 'Submit Location' : 'Submit Answer'}
         </button>
       </div>
     </div>
@@ -2286,6 +2308,7 @@ export default function App() {
   const [activeQuestion, setActiveQuestion] = useState<QuestionItem | null>(null);
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
   const [completedQuestions, setCompletedQuestions] = useState<Record<string, boolean>>({});
+  const [osintHardGuess, setOsintHardGuess] = useState('');
   const gameTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const triggerGlitch = () => {
@@ -2460,6 +2483,7 @@ export default function App() {
     setActiveQuestion(null);
     setSelectedChoice(null);
     setCompletedQuestions({});
+    setOsintHardGuess('');
     setMessages([{ text: "BLACKOUT RANKED boot sequence engaged...", type: 'info', timestamp: 'SYSTEM' }]);
     addMessage(`OPERATIVE IDENTIFIED: ${name.toUpperCase()}`, 'success');
     addMessage("ALERT: Rival faction RIVER PHANTOM breached South Gallia systems.", 'error');
@@ -2482,6 +2506,7 @@ export default function App() {
     setActiveQuestion(null);
     setSelectedChoice(null);
     setCompletedQuestions({});
+    setOsintHardGuess('');
     if (gameTimerRef.current) clearInterval(gameTimerRef.current);
     playSound('click');
   };
@@ -2491,35 +2516,54 @@ export default function App() {
   const selectQuestion = (question: QuestionItem) => {
     setActiveQuestion(question);
     setSelectedChoice(null);
+    setOsintHardGuess('');
     setHintsUsedCount(0);
     setShowEdu(false);
     setStage(question.category);
     addMessage(`QUESTION_SELECTED: ${CATEGORY_LABELS[question.category]} // ${question.difficulty.toUpperCase()} (${question.points} PTS)`, 'info');
   };
 
+  const completeQuestion = (question: QuestionItem) => {
+    if (!completedQuestions[question.id]) {
+      setStagePoints(prev => prev + question.points);
+      setCompletedQuestions(prev => ({ ...prev, [question.id]: true }));
+    }
+    addMessage(`CORRECT: +${question.points} points awarded.`, 'success');
+    playSound('correct');
+    const solvedAfter = Object.keys(completedQuestions).length + (completedQuestions[question.id] ? 0 : 1);
+    setActiveQuestion(null);
+    setSelectedChoice(null);
+    setOsintHardGuess('');
+    setStage('board');
+    if (solvedAfter >= totalQuestions) {
+      setStage('victory');
+      playSound('victory');
+    }
+  };
+
   const submitQuestionAnswer = () => {
     if (!activeQuestion || selectedChoice === null) return;
 
     if (selectedChoice === activeQuestion.answerIndex) {
-      if (!completedQuestions[activeQuestion.id]) {
-        setStagePoints(prev => prev + activeQuestion.points);
-        setCompletedQuestions(prev => ({ ...prev, [activeQuestion.id]: true }));
-      }
-      addMessage(`CORRECT: +${activeQuestion.points} points awarded.`, 'success');
-      playSound('correct');
-      const solvedAfter = Object.keys(completedQuestions).length + (completedQuestions[activeQuestion.id] ? 0 : 1);
-      setActiveQuestion(null);
-      setSelectedChoice(null);
-      setStage('board');
-      if (solvedAfter >= totalQuestions) {
-        setStage('victory');
-        playSound('victory');
-      }
+      completeQuestion(activeQuestion);
       return;
     }
 
     const penalty = activeQuestion.difficulty === 'easy' ? 10 : activeQuestion.difficulty === 'medium' ? 25 : 40;
     handleStageFail('Incorrect answer. Defensive posture weakened.', penalty);
+  };
+
+  const submitOsintHardAnswer = () => {
+    if (!activeQuestion || activeQuestion.id !== 'osint-hard') return;
+
+    const guess = osintHardGuess.trim().toLowerCase();
+    const expected = puzzleData?.osint.locationAnswer?.toLowerCase() || 'nelsonville';
+    if (guess.includes(expected) || guess.includes('hocking')) {
+      completeQuestion(activeQuestion);
+      return;
+    }
+
+    handleStageFail('Reverse image geolocation mismatch. Re-check landmarks and search results.', 30);
   };
 
   useEffect(() => {
@@ -2640,9 +2684,13 @@ export default function App() {
                         selectedChoice={selectedChoice}
                         onChoice={setSelectedChoice}
                         onSubmit={submitQuestionAnswer}
+                        osintHardGuess={osintHardGuess}
+                        onOsintHardGuessChange={setOsintHardGuess}
+                        onSubmitOsintHard={submitOsintHardAnswer}
                         onBack={() => {
                           setActiveQuestion(null);
                           setSelectedChoice(null);
+                          setOsintHardGuess('');
                           setStage('board');
                         }}
                         onHint={provideHint}

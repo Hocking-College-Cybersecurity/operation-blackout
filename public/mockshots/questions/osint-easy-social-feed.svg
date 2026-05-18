@@ -1,12 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Social media feed screenshot leaking personal clues">
-  <rect width="1280" height="720" fill="#09090b"/>
-  <rect x="140" y="32" width="1000" height="656" rx="16" fill="#18181b" stroke="#3f3f46"/>
-  <text x="184" y="84" font-family="Segoe UI, Arial" font-size="24" fill="#fafafa" font-weight="700">@southvalley_player</text>
-  <rect x="184" y="120" width="912" height="150" rx="12" fill="#27272a"/>
-  <text x="214" y="176" font-family="Segoe UI, Arial" font-size="24" fill="#f4f4f5">Bella is 5 today, best cat ever.</text>
-  <text x="214" y="214" font-family="Segoe UI, Arial" font-size="20" fill="#a1a1aa">#birthday #bella #family</text>
-  <rect x="184" y="296" width="912" height="150" rx="12" fill="#27272a"/>
-  <text x="214" y="352" font-family="Segoe UI, Arial" font-size="24" fill="#f4f4f5">Class of 2027 still undefeated.</text>
-  <text x="214" y="390" font-family="Segoe UI, Arial" font-size="20" fill="#a1a1aa">#class2027 #schoollife</text>
-  <text x="184" y="500" font-family="Segoe UI, Arial" font-size="22" fill="#f9a8d4" font-weight="700">Public posts can become password clues.</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="TikTok-style post screenshot leaking personal clues">
+  <rect width="1280" height="720" fill="#060606"/>
+  <rect x="460" y="24" width="360" height="672" rx="28" fill="#111111" stroke="#2a2a2a"/>
+  <rect x="484" y="72" width="312" height="520" rx="18" fill="#1f2937"/>
+  <text x="512" y="106" font-family="Segoe UI, Arial" font-size="18" fill="#f3f4f6" font-weight="700">For You</text>
+  <text x="592" y="106" font-family="Segoe UI, Arial" font-size="18" fill="#6b7280">Following</text>
+
+  <text x="512" y="510" font-family="Segoe UI, Arial" font-size="16" fill="#f9fafb" font-weight="700">@southvalley_player</text>
+  <text x="512" y="536" font-family="Segoe UI, Arial" font-size="14" fill="#e5e7eb">Bella is 5 today. Best cat ever.</text>
+  <text x="512" y="558" font-family="Segoe UI, Arial" font-size="13" fill="#d1d5db">#bella #birthday #schoollife #class2027</text>
+
+  <circle cx="770" cy="190" r="20" fill="#f43f5e"/>
+  <circle cx="770" cy="262" r="20" fill="#22d3ee"/>
+  <circle cx="770" cy="334" r="20" fill="#ffffff"/>
+  <text x="748" y="378" font-family="Segoe UI, Arial" font-size="12" fill="#d1d5db">1.2k</text>
+
+  <rect x="120" y="130" width="280" height="170" rx="12" fill="#111827" stroke="#ec4899"/>
+  <text x="142" y="178" font-family="Segoe UI, Arial" font-size="18" fill="#fbcfe8" font-weight="700">OSINT NOTE</text>
+  <text x="142" y="214" font-family="Segoe UI, Arial" font-size="14" fill="#fce7f3">Pet names + year hashtags</text>
+  <text x="142" y="236" font-family="Segoe UI, Arial" font-size="14" fill="#fce7f3">often become password clues.</text>
 </svg>
