@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Terminal screenshot illustrating ROT13 shift of 13 letters">
+  <rect width="1280" height="720" fill="#0a0a0a"/>
+  <rect x="80" y="60" width="1120" height="600" rx="14" fill="#111111" stroke="#f59e0b"/>
+  <text x="120" y="108" font-family="Consolas, monospace" font-size="24" fill="#fcd34d" font-weight="700">CIPHER PRACTICE TERMINAL</text>
+  <text x="120" y="170" font-family="Consolas, monospace" font-size="24" fill="#fde68a">ROT13 shift value: 13</text>
+  <rect x="120" y="210" width="1040" height="170" rx="10" fill="#1f2937"/>
+  <text x="160" y="278" font-family="Consolas, monospace" font-size="28" fill="#fef3c7">HELLO  ->  URYYB</text>
+  <text x="160" y="332" font-family="Consolas, monospace" font-size="24" fill="#fde68a">A<->N  B<->O  C<->P ...</text>
+  <rect x="120" y="416" width="1040" height="200" rx="10" fill="#0c0a09" stroke="#f59e0b"/>
+  <text x="160" y="490" font-family="Segoe UI, Arial" font-size="24" fill="#fde68a">Question asks: how many positions does ROT13 shift?</text>
+  <text x="160" y="530" font-family="Segoe UI, Arial" font-size="24" fill="#fcd34d" font-weight="700">Answer: 13</text>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Timeline screenshot showing periodic outbound C2 beacon intervals">
+  <rect width="1280" height="720" fill="#030712"/>
+  <rect x="50" y="50" width="1180" height="620" rx="14" fill="#111827" stroke="#38bdf8"/>
+  <text x="90" y="96" font-family="Segoe UI, Arial" font-size="26" fill="#bae6fd" font-weight="700">Outbound Connection Timeline</text>
+  <rect x="90" y="130" width="1100" height="420" rx="10" fill="#0f172a"/>
+  <line x1="130" y1="500" x2="1140" y2="500" stroke="#334155" stroke-width="3"/>
+  <line x1="180" y1="200" x2="180" y2="500" stroke="#22d3ee" stroke-width="4"/>
+  <line x1="340" y1="220" x2="340" y2="500" stroke="#22d3ee" stroke-width="4"/>
+  <line x1="500" y1="210" x2="500" y2="500" stroke="#22d3ee" stroke-width="4"/>
+  <line x1="660" y1="225" x2="660" y2="500" stroke="#22d3ee" stroke-width="4"/>
+  <line x1="820" y1="215" x2="820" y2="500" stroke="#22d3ee" stroke-width="4"/>
+  <line x1="980" y1="205" x2="980" y2="500" stroke="#22d3ee" stroke-width="4"/>
+  <text x="100" y="580" font-family="Consolas, monospace" font-size="20" fill="#e2e8f0">Every 5 minutes -> rare-domain.schoolcdn.cc -> small encrypted POST</text>
+  <text x="100" y="620" font-family="Segoe UI, Arial" font-size="22" fill="#93c5fd">Pattern suggests C2 beaconing, not normal updates.</text>
+</svg>

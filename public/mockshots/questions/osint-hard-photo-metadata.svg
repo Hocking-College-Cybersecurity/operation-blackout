@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Photo metadata panel screenshot showing location and timestamp exposure">
+  <rect width="1280" height="720" fill="#0a0a0a"/>
+  <rect x="40" y="40" width="800" height="640" rx="12" fill="#1f2937"/>
+  <rect x="860" y="40" width="380" height="640" rx="12" fill="#111827" stroke="#22c55e"/>
+  <text x="72" y="82" font-family="Segoe UI, Arial" font-size="22" fill="#f9fafb" font-weight="700">LAN Team Photo</text>
+  <rect x="72" y="110" width="736" height="520" rx="10" fill="#374151"/>
+  <text x="100" y="180" font-family="Segoe UI, Arial" font-size="24" fill="#d1d5db">[background badge names and room signs visible]</text>
+  <text x="892" y="90" font-family="Segoe UI, Arial" font-size="20" fill="#86efac" font-weight="700">Metadata</text>
+  <text x="892" y="132" font-family="Consolas, monospace" font-size="18" fill="#d1fae5">Date: 2026:05:18 19:04:22</text>
+  <text x="892" y="164" font-family="Consolas, monospace" font-size="18" fill="#d1fae5">GPS: 39.457,-82.232</text>
+  <text x="892" y="196" font-family="Consolas, monospace" font-size="18" fill="#d1fae5">Device: StudentPhone 12</text>
+  <text x="892" y="250" font-family="Segoe UI, Arial" font-size="18" fill="#bbf7d0">Before posting:</text>
+  <text x="892" y="282" font-family="Segoe UI, Arial" font-size="18" fill="#bbf7d0">- Strip EXIF</text>
+  <text x="892" y="312" font-family="Segoe UI, Arial" font-size="18" fill="#bbf7d0">- Check background details</text>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Social media feed screenshot leaking personal clues">
+  <rect width="1280" height="720" fill="#09090b"/>
+  <rect x="140" y="32" width="1000" height="656" rx="16" fill="#18181b" stroke="#3f3f46"/>
+  <text x="184" y="84" font-family="Segoe UI, Arial" font-size="24" fill="#fafafa" font-weight="700">@southvalley_player</text>
+  <rect x="184" y="120" width="912" height="150" rx="12" fill="#27272a"/>
+  <text x="214" y="176" font-family="Segoe UI, Arial" font-size="24" fill="#f4f4f5">Bella is 5 today, best cat ever.</text>
+  <text x="214" y="214" font-family="Segoe UI, Arial" font-size="20" fill="#a1a1aa">#birthday #bella #family</text>
+  <rect x="184" y="296" width="912" height="150" rx="12" fill="#27272a"/>
+  <text x="214" y="352" font-family="Segoe UI, Arial" font-size="24" fill="#f4f4f5">Class of 2027 still undefeated.</text>
+  <text x="214" y="390" font-family="Segoe UI, Arial" font-size="20" fill="#a1a1aa">#class2027 #schoollife</text>
+  <text x="184" y="500" font-family="Segoe UI, Arial" font-size="22" fill="#f9a8d4" font-weight="700">Public posts can become password clues.</text>
+</svg>

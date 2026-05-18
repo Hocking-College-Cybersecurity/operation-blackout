@@ -1163,15 +1163,31 @@ const MissionBoard = ({
 
 const QuestionMockScreenshot = ({ question }: { question: QuestionItem }) => {
   const baseUrl = import.meta.env.BASE_URL;
-  const screenshotByCategory: Record<Category, { src: string; label: string }> = {
-    phishing: { src: `${baseUrl}mockshots/phishing-discord.svg`, label: 'Discord Chat Evidence' },
-    osint: { src: `${baseUrl}mockshots/osint-social.svg`, label: 'Social Post Evidence' },
-    network: { src: `${baseUrl}mockshots/network-soc.svg`, label: 'SOC Log Evidence' },
-    cipher: { src: `${baseUrl}mockshots/cipher-terminal.svg`, label: 'Cipher Terminal Evidence' },
-    final: { src: `${baseUrl}mockshots/final-incident.svg`, label: 'Incident Channel Evidence' }
+  const screenshotByQuestionId: Record<string, { src: string; label: string }> = {
+    'phishing-easy': { src: `${baseUrl}mockshots/questions/phishing-easy-discord.svg`, label: 'Discord Link Drop Evidence' },
+    'phishing-medium': { src: `${baseUrl}mockshots/questions/phishing-medium-dm.svg`, label: 'Urgent DM Verification Evidence' },
+    'phishing-hard': { src: `${baseUrl}mockshots/questions/phishing-hard-email-auth.svg`, label: 'Email Auth Header Evidence' },
+
+    'osint-easy': { src: `${baseUrl}mockshots/questions/osint-easy-social-feed.svg`, label: 'Public Social Feed Evidence' },
+    'osint-medium': { src: `${baseUrl}mockshots/questions/osint-medium-password-hints.svg`, label: 'Password Clue Correlation Evidence' },
+    'osint-hard': { src: `${baseUrl}mockshots/questions/osint-hard-photo-metadata.svg`, label: 'Photo Metadata Leak Evidence' },
+
+    'network-easy': { src: `${baseUrl}mockshots/questions/network-easy-portscan.svg`, label: 'Sequential Port Scan Evidence' },
+    'network-medium': { src: `${baseUrl}mockshots/questions/network-medium-segmentation.svg`, label: 'Segmentation Control Evidence' },
+    'network-hard': { src: `${baseUrl}mockshots/questions/network-hard-beaconing.svg`, label: 'Periodic Beacon Timeline Evidence' },
+
+    'cipher-easy': { src: `${baseUrl}mockshots/questions/cipher-easy-rot13.svg`, label: 'ROT13 Shift Evidence' },
+    'cipher-medium': { src: `${baseUrl}mockshots/questions/cipher-medium-caesar.svg`, label: 'Caesar Shift Evidence' },
+    'cipher-hard': { src: `${baseUrl}mockshots/questions/cipher-hard-otp.svg`, label: 'One-Time Pad Evidence' },
+
+    'final-easy': { src: `${baseUrl}mockshots/questions/final-easy-defense-layers.svg`, label: 'Defense in Depth Evidence' },
+    'final-medium': { src: `${baseUrl}mockshots/questions/final-medium-incident-timeline.svg`, label: 'Containment First Evidence' },
+    'final-hard': { src: `${baseUrl}mockshots/questions/final-hard-zero-trust.svg`, label: 'Zero Trust Policy Evidence' }
   };
 
-  const shot = screenshotByCategory[question.category];
+  const shot = screenshotByQuestionId[question.id];
+
+  if (!shot) return null;
 
   return (
     <div className="border border-[#22c55e]/30 bg-black/40 rounded-md overflow-hidden mb-3">

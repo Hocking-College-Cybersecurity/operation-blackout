@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Direct message screenshot with fake account ban urgency">
+  <rect width="1280" height="720" fill="#111827"/>
+  <rect x="90" y="40" width="1100" height="640" rx="16" fill="#1f2937" stroke="#ef4444"/>
+  <text x="130" y="90" font-family="Segoe UI, Arial" font-size="24" fill="#f9fafb" font-weight="700">Direct Messages - support.alert</text>
+  <rect x="130" y="120" width="1020" height="140" rx="10" fill="#7f1d1d"/>
+  <text x="160" y="170" font-family="Segoe UI, Arial" font-size="26" fill="#fee2e2" font-weight="700">ACCOUNT BANNED IN 10 MINUTES</text>
+  <text x="160" y="210" font-family="Segoe UI, Arial" font-size="20" fill="#fecaca">Verify immediately: https://secure-account-recover.net</text>
+  <rect x="130" y="292" width="1020" height="320" rx="10" fill="#0f172a"/>
+  <text x="160" y="344" font-family="Segoe UI, Arial" font-size="22" fill="#e5e7eb">Red flags:</text>
+  <text x="160" y="384" font-family="Segoe UI, Arial" font-size="20" fill="#fca5a5">- Panic countdown</text>
+  <text x="160" y="418" font-family="Segoe UI, Arial" font-size="20" fill="#fca5a5">- Non-official domain</text>
+  <text x="160" y="452" font-family="Segoe UI, Arial" font-size="20" fill="#fca5a5">- Credential request through DM</text>
+</svg>

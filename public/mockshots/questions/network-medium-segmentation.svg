@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Network diagram screenshot showing segmented student and admin zones">
+  <rect width="1280" height="720" fill="#111827"/>
+  <text x="60" y="72" font-family="Segoe UI, Arial" font-size="28" fill="#e5e7eb" font-weight="700">Campus Network Map</text>
+  <rect x="60" y="110" width="520" height="520" rx="14" fill="#1f2937" stroke="#ef4444" stroke-width="2"/>
+  <text x="90" y="150" font-family="Segoe UI, Arial" font-size="24" fill="#fca5a5" font-weight="700">Student LAN</text>
+  <rect x="130" y="220" width="220" height="120" rx="10" fill="#7f1d1d"/>
+  <text x="156" y="288" font-family="Segoe UI, Arial" font-size="22" fill="#fee2e2">Compromised PC</text>
+  <rect x="700" y="110" width="520" height="520" rx="14" fill="#1f2937" stroke="#22c55e" stroke-width="2"/>
+  <text x="730" y="150" font-family="Segoe UI, Arial" font-size="24" fill="#86efac" font-weight="700">Admin Systems</text>
+  <rect x="776" y="220" width="300" height="120" rx="10" fill="#14532d"/>
+  <text x="820" y="290" font-family="Segoe UI, Arial" font-size="22" fill="#dcfce7">Gradebook Server</text>
+  <line x1="370" y1="280" x2="700" y2="280" stroke="#f59e0b" stroke-width="8"/>
+  <rect x="500" y="236" width="120" height="88" rx="8" fill="#f59e0b"/>
+  <text x="526" y="287" font-family="Segoe UI, Arial" font-size="18" fill="#111827" font-weight="700">FW/ACL</text>
+  <text x="60" y="676" font-family="Segoe UI, Arial" font-size="22" fill="#fcd34d">Segmentation limits lateral movement after compromise.</text>
+</svg>

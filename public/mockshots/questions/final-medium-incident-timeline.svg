@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Incident response timeline screenshot emphasizing containment first">
+  <rect width="1280" height="720" fill="#1f2937"/>
+  <rect x="60" y="54" width="1160" height="612" rx="14" fill="#111827" stroke="#f97316"/>
+  <text x="100" y="102" font-family="Segoe UI, Arial" font-size="30" fill="#fed7aa" font-weight="700">Incident Timeline - Gradebook Account Takeover</text>
+  <line x1="120" y1="190" x2="1160" y2="190" stroke="#9ca3af" stroke-width="4"/>
+  <circle cx="220" cy="190" r="22" fill="#ef4444"/><text x="184" y="236" font-family="Segoe UI, Arial" font-size="20" fill="#fecaca">Detect</text>
+  <circle cx="460" cy="190" r="22" fill="#f97316"/><text x="404" y="236" font-family="Segoe UI, Arial" font-size="20" fill="#fed7aa">Contain</text>
+  <circle cx="700" cy="190" r="22" fill="#f59e0b"/><text x="650" y="236" font-family="Segoe UI, Arial" font-size="20" fill="#fde68a">Eradicate</text>
+  <circle cx="940" cy="190" r="22" fill="#22c55e"/><text x="904" y="236" font-family="Segoe UI, Arial" font-size="20" fill="#bbf7d0">Recover</text>
+  <rect x="120" y="300" width="1040" height="300" rx="12" fill="#0b1220"/>
+  <text x="160" y="376" font-family="Segoe UI, Arial" font-size="26" fill="#fca5a5">First move in active compromise: contain affected systems/accounts.</text>
+  <text x="160" y="424" font-family="Segoe UI, Arial" font-size="22" fill="#cbd5e1">Preserve logs after containment, then continue IR phases.</text>
+</svg>

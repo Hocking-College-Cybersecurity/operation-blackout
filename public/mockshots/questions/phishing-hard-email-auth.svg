@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Email client screenshot showing SPF pass DKIM fail and mismatched reply-to">
+  <rect width="1280" height="720" fill="#f3f4f6"/>
+  <rect x="40" y="40" width="1200" height="640" rx="14" fill="#ffffff" stroke="#d1d5db"/>
+  <rect x="40" y="40" width="1200" height="58" rx="14" fill="#e5e7eb"/>
+  <text x="76" y="76" font-family="Segoe UI, Arial" font-size="22" fill="#111827" font-weight="700">Inbox - District Alerts</text>
+  <text x="84" y="142" font-family="Segoe UI, Arial" font-size="20" fill="#111827" font-weight="700">From: district-updates@school-notify.org</text>
+  <text x="84" y="176" font-family="Segoe UI, Arial" font-size="20" fill="#111827">Reply-To: support@district-helpdesk.net</text>
+  <text x="84" y="210" font-family="Segoe UI, Arial" font-size="20" fill="#111827">Subject: Immediate policy acknowledgement required</text>
+  <rect x="74" y="240" width="1130" height="170" rx="10" fill="#f9fafb" stroke="#e5e7eb"/>
+  <text x="94" y="288" font-family="Consolas, monospace" font-size="20" fill="#1f2937">Authentication-Results:</text>
+  <text x="94" y="322" font-family="Consolas, monospace" font-size="20" fill="#166534">SPF: pass</text>
+  <text x="300" y="322" font-family="Consolas, monospace" font-size="20" fill="#b91c1c">DKIM: fail</text>
+  <text x="94" y="356" font-family="Consolas, monospace" font-size="20" fill="#b91c1c">DMARC: fail (header mismatch)</text>
+  <rect x="74" y="438" width="1130" height="200" rx="10" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="94" y="484" font-family="Segoe UI, Arial" font-size="22" fill="#9a3412" font-weight="700">Mixed auth + mismatched identity = likely spoofing.</text>
+</svg>
