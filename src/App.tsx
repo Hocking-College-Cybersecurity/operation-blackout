@@ -990,7 +990,7 @@ const DecryptionRig = ({ hintsCount, stage }: { hintsCount: number, stage: GameS
 
 const LeaderboardTicker = ({ entries }: { entries: LeaderboardEntry[] }) => (
   <div className="w-full bg-[#22c55e]/5 border-b border-[#22c55e]/20 py-1.5 overflow-hidden whitespace-nowrap font-mono text-[9px] uppercase tracking-[0.2em] relative z-50">
-    <div className="flex animate-marquee hover:pause min-w-full">
+    <div className="flex animate-marquee min-w-max">
       {[...Array(4)].map((_, i) => (
         <div key={i} className="flex gap-12 px-6 items-center shrink-0">
           <span className="text-[#22c55e]/40 font-black">TOP OPERATIONAL RECORDS //</span>
@@ -1140,8 +1140,8 @@ const QuestionStage = ({
 
 const IntroStage = ({ onStart, onViewLeaderboard }: { onStart: (name: string) => void, onViewLeaderboard: () => void }) => {
   const [name, setName] = useState("");
-  const warGamesPrompt = "SHALL WE PLAY A GAME?";
-  const namePrompt = "PLEASE ENTER YOUR NAME:";
+  const warGamesPrompt = "RIVER PHANTOM IS ERASING SENIOR PASSING RECORDS.";
+  const namePrompt = "ENTER YOUR CODENAME:";
   const [typedPrompt, setTypedPrompt] = useState("");
   const [typedNamePrompt, setTypedNamePrompt] = useState("");
 
@@ -1189,7 +1189,7 @@ const IntroStage = ({ onStart, onViewLeaderboard }: { onStart: (name: string) =>
     >
       <div className="absolute top-4 left-4 flex gap-2 opacity-50 terminal-text">
         <Monitor size={14} className="text-[#22c55e]" />
-        <span className="text-[10px] uppercase font-black tracking-widest">WOPR TERMINAL // [SIM-LOG-83]</span>
+        <span className="text-[10px] uppercase font-black tracking-widest">BLACKOUT RANKED // [740-OPS-01]</span>
       </div>
 
       <div className="space-y-8 pt-8">
@@ -1202,7 +1202,7 @@ const IntroStage = ({ onStart, onViewLeaderboard }: { onStart: (name: string) =>
             BLACKOUT RANKED
           </motion.h1>
           <div className="h-1 shadow-glow bg-[#22c55e]/50 w-64 mx-auto" />
-          <p className="text-xs text-[#22c55e]/60 font-black tracking-[0.8em] uppercase terminal-text">Global Defense Simulation</p>
+          <p className="text-xs text-[#22c55e]/60 font-black tracking-[0.8em] uppercase terminal-text">South Gallia Cyber Season Finals</p>
         </div>
         
         <motion.div 
@@ -1217,7 +1217,7 @@ const IntroStage = ({ onStart, onViewLeaderboard }: { onStart: (name: string) =>
 
       <div className="space-y-8 max-w-sm mx-auto w-full pt-4">
         <div className="space-y-4">
-          <p className="text-[10px] font-black text-[#22c55e]/80 uppercase tracking-widest text-center terminal-text">AUTHORIZED ACCESS ONLY</p>
+          <p className="text-[10px] font-black text-[#22c55e]/80 uppercase tracking-widest text-center terminal-text">ENTER CODENAME TO DEFEND YOUR CLASS</p>
           <div className="relative group text-left">
             <div className="absolute -inset-0.5 bg-[#22c55e] opacity-20 blur group-focus-within:opacity-40 transition-all"></div>
             <div className="relative w-full bg-black border-2 border-[#22c55e]/40 px-4 py-4 font-mono space-y-3">
@@ -2121,12 +2121,12 @@ export default function App() {
       const tauntInterval = setInterval(() => {
         if (Math.random() > 0.6) {
           const taunts = [
-            "PHANTOM: 'You are analyzing old data, Operative.'",
-            "PHANTOM: 'The firewall is melting.'",
-            "PHANTOM: 'Do you really think Sparky is the only secret?'",
-            "PHANTOM: 'Your latency is growing...'",
-            "PHANTOM: 'I see your keystrokes.'",
-            "PHANTOM: 'Accessing Student Records... 78% complete.'"
+            "RIVER PHANTOM: 'I already rewrote your finals scores.'",
+            "RIVER PHANTOM: 'Clock is ticking. Graduation list is almost gone.'",
+            "RIVER PHANTOM: 'Your class chat leaks more than your firewall.'",
+            "RIVER PHANTOM: 'Keep stalling and nobody walks at graduation.'",
+            "RIVER PHANTOM: 'Nice defense... for last season.'",
+            "RIVER PHANTOM: 'Passing records purge at 100 percent.'"
           ];
           addMessage(taunts[Math.floor(Math.random() * taunts.length)], 'error');
           triggerGlitch();
@@ -2230,7 +2230,7 @@ export default function App() {
           if (hop > 4) {
             clearInterval(interval);
             addMessage("Trace timed out at edge router.", 'error');
-            addMessage("PHANTOM: 'You can't trace what you can't see, Analyst.'", 'error');
+            addMessage("RIVER PHANTOM: 'You cannot trace what you cannot defend.'", 'error');
             triggerGlitch();
           }
         }, 400);
@@ -2281,9 +2281,11 @@ export default function App() {
     setActiveQuestion(null);
     setSelectedChoice(null);
     setCompletedQuestions({});
-    setMessages([{ text: "Initializing defensive protocols...", type: 'info', timestamp: 'SYSTEM' }]);
+    setMessages([{ text: "BLACKOUT RANKED boot sequence engaged...", type: 'info', timestamp: 'SYSTEM' }]);
     addMessage(`OPERATIVE IDENTIFIED: ${name.toUpperCase()}`, 'success');
-    addMessage("Mission board online. Choose any category and any difficulty.", 'warning');
+    addMessage("ALERT: Rival faction RIVER PHANTOM breached South Gallia systems.", 'error');
+    addMessage("OBJECTIVE: Defend attendance, grades, and senior clearance before lockout.", 'warning');
+    addMessage("TACTICAL MODE: Choose any category and any difficulty.", 'info');
     addMessage("Complete all 15 challenge boxes to secure class records.", 'info');
     addMessage("Type 'HELP' in the system console for available sub-routines.", 'info');
     playSound('intro');
@@ -2347,7 +2349,7 @@ export default function App() {
         setTimeLeft(prev => {
           if (prev <= 1) {
             setStage('game-over');
-            setGameOverReason("Time expired. System compromise complete.");
+            setGameOverReason("Time expired. River Phantom wiped passing records before year-end clearance.");
             return 0;
           }
           if (prev < 30 && prev % 2 === 0) {
@@ -2409,8 +2411,8 @@ export default function App() {
                 <Cpu size={32} className="terminal-text" />
               </div>
               <div>
-                <h1 className="text-3xl font-black tracking-tighter uppercase italic terminal-text">COMMAND_CORE // DEFCON_SIM</h1>
-                <p className="text-[10px] text-[#22c55e]/60 uppercase tracking-[0.4em] font-bold">OPERATIVE: {operativeName || "GUEST"} // SECURE_LINE_01</p>
+                <h1 className="text-3xl font-black tracking-tighter uppercase italic terminal-text">BLACKOUT RANKED // CLASS DEFENSE OPS</h1>
+                <p className="text-[10px] text-[#22c55e]/60 uppercase tracking-[0.4em] font-bold">OPERATIVE: {operativeName || "GUEST"} // SCORE: {stagePoints}</p>
               </div>
             </div>
             <div className="flex items-center gap-12">
@@ -2468,7 +2470,7 @@ export default function App() {
               <div className="p-5 border-t border-[#22c55e]/20 bg-black/40 backdrop-blur-md">
                 <p className="text-[10px] text-white/50 leading-relaxed font-mono">
                   <span className="text-[#22c55e] mr-2 font-black tracking-widest uppercase">Intel Brief:</span> 
-                  {stage === 'board' && "Category boxes are unlocked. Choose any category and difficulty in any order."}
+                  {stage === 'board' && "RIVER PHANTOM is racing to delete year-end passing records. Pick your lanes and lock systems down."}
                   {activeQuestion && `Question active: ${activeQuestion.prompt}`}
                 </p>
               </div>
