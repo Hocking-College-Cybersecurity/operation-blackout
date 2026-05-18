@@ -936,11 +936,45 @@ const LeaderboardTicker = ({ entries }: { entries: LeaderboardEntry[] }) => (
 
 const IntroStage = ({ onStart, onViewLeaderboard }: { onStart: (name: string) => void, onViewLeaderboard: () => void }) => {
   const [name, setName] = useState("");
-  const [showPrompt, setShowPrompt] = useState(false);
+  const warGamesPrompt = "SHALL WE PLAY A GAME?";
+  const namePrompt = "PLEASE ENTER YOUR NAME:";
+  const [typedPrompt, setTypedPrompt] = useState("");
+  const [typedNamePrompt, setTypedNamePrompt] = useState("");
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowPrompt(true), 1500);
-    return () => clearTimeout(timer);
+    let promptInterval: NodeJS.Timeout | null = null;
+    let nameInterval: NodeJS.Timeout | null = null;
+
+    const promptTimer = setTimeout(() => {
+      let promptIndex = 0;
+      promptInterval = setInterval(() => {
+        promptIndex += 1;
+        setTypedPrompt(warGamesPrompt.slice(0, promptIndex));
+
+        if (promptIndex >= warGamesPrompt.length && promptInterval) {
+          clearInterval(promptInterval);
+
+          const nameTimer = setTimeout(() => {
+            let nameIndex = 0;
+            nameInterval = setInterval(() => {
+              nameIndex += 1;
+              setTypedNamePrompt(namePrompt.slice(0, nameIndex));
+              if (nameIndex >= namePrompt.length && nameInterval) {
+                clearInterval(nameInterval);
+              }
+            }, 45);
+          }, 250);
+
+          return () => clearTimeout(nameTimer);
+        }
+      }, 70);
+    }, 700);
+
+    return () => {
+      clearTimeout(promptTimer);
+      if (promptInterval) clearInterval(promptInterval);
+      if (nameInterval) clearInterval(nameInterval);
+    };
   }, []);
   
   return (
@@ -951,7 +985,7 @@ const IntroStage = ({ onStart, onViewLeaderboard }: { onStart: (name: string) =>
     >
       <div className="absolute top-4 left-4 flex gap-2 opacity-50 terminal-text">
         <Monitor size={14} className="text-[#22c55e]" />
-        <span className="text-[10px] uppercase font-black tracking-widest">WOPR TERMINAL // [NORAD-LOG-83]</span>
+        <span className="text-[10px] uppercase font-black tracking-widest">WOPR TERMINAL // [SIM-LOG-83]</span>
       </div>
 
       <div className="space-y-8 pt-8">
@@ -967,33 +1001,39 @@ const IntroStage = ({ onStart, onViewLeaderboard }: { onStart: (name: string) =>
           <p className="text-xs text-[#22c55e]/60 font-black tracking-[0.8em] uppercase terminal-text">Global Defense Simulation</p>
         </div>
         
-        <AnimatePresence>
-          {showPrompt && (
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-[#22c55e] text-2xl font-black tracking-widest terminal-text animate-pulse py-4"
-            >
-              SHALL WE PLAY A GAME?
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-[#22c55e] text-2xl font-black tracking-widest terminal-text py-4 min-h-[3rem]"
+        >
+          {typedPrompt}
+          <span className="animate-pulse">{typedPrompt.length < warGamesPrompt.length ? '█' : ''}</span>
+        </motion.div>
       </div>
 
       <div className="space-y-8 max-w-sm mx-auto w-full pt-4">
         <div className="space-y-4">
           <p className="text-[10px] font-black text-[#22c55e]/80 uppercase tracking-widest text-center terminal-text">AUTHORIZED ACCESS ONLY</p>
-          <div className="relative group">
+          <div className="relative group text-left">
             <div className="absolute -inset-0.5 bg-[#22c55e] opacity-20 blur group-focus-within:opacity-40 transition-all"></div>
-            <input 
-              type="text"
-              maxLength={12}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && name.trim() && onStart(name)}
-              placeholder="LOGON ID"
-              className="relative w-full bg-black border-2 border-[#22c55e]/40 px-6 py-5 text-[#22c55e] font-mono outline-none focus:border-[#22c55e] focus:bg-[#22c55e]/10 uppercase text-xl transition-all tracking-[0.4em] text-center"
-            />
+            <div className="relative w-full bg-black border-2 border-[#22c55e]/40 px-4 py-4 font-mono space-y-3">
+              <div className="text-[#22c55e]/85 text-xs uppercase tracking-[0.2em] min-h-[1rem]">
+                {typedNamePrompt}
+                <span className="animate-pulse">{typedNamePrompt.length < namePrompt.length ? '█' : ''}</span>
+              </div>
+              <div className="flex items-center gap-2 border-t border-[#22c55e]/20 pt-3">
+                <span className="text-[#22c55e] font-black">&gt;</span>
+                <input 
+                  type="text"
+                  maxLength={24}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && name.trim() && onStart(name)}
+                  className="flex-1 bg-transparent text-[#22c55e] font-mono outline-none uppercase text-lg tracking-[0.2em]"
+                />
+                <span className="text-[#22c55e] animate-pulse">█</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -1696,7 +1736,7 @@ const VictoryScreen = ({ onRestart, timeRemaining, dbIntegrity, operativeName, o
             onClick={handleSave}
             className="w-full py-5 bg-[#00FF41] text-black font-black uppercase tracking-[0.4em] hover:bg-white transition-all text-sm shadow-[0_0_30px_#00FF41]"
           >
-            Archive to NORAD TAPE
+            Archive to OPS LOG
           </button>
         ) : (
           <div className="space-y-6 w-full">
@@ -2067,7 +2107,7 @@ export default function App() {
                 <Cpu size={32} className="terminal-text" />
               </div>
               <div>
-                <h1 className="text-3xl font-black tracking-tighter uppercase italic terminal-text">NORAD_COMMAND // DEFCON_SIM</h1>
+                <h1 className="text-3xl font-black tracking-tighter uppercase italic terminal-text">COMMAND_CORE // DEFCON_SIM</h1>
                 <p className="text-[10px] text-[#22c55e]/60 uppercase tracking-[0.4em] font-bold">OPERATIVE: {operativeName || "GUEST"} // SECURE_LINE_01</p>
               </div>
             </div>
