@@ -1503,11 +1503,11 @@ const Leaderboard = ({ entries }: { entries: LeaderboardEntry[] }) => (
 const VictoryScreen = ({ onRestart, timeRemaining, dbIntegrity, operativeName, onSaveLeaderboard }: { onRestart: () => void, timeRemaining: number, dbIntegrity: number, operativeName: string, onSaveLeaderboard: (entry: LeaderboardEntry) => void }) => {
   const [submitted, setSubmitted] = useState(false);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
+  const [reelSourceIndex, setReelSourceIndex] = useState(0);
   const hockingProgramUrl = 'https://www.hocking.edu/cybersecurity';
-  const hockingReelVideoUrl = '/media/hocking-cyber-reel.mp4';
+  const reelSources = ['/media/hocking-cyber-reel.mp4', '/public/media/hocking-cyber-reel.mp4'];
+  const hockingReelVideoUrl = reelSources[reelSourceIndex];
   const hockingReelDirectUrl = 'https://www.facebook.com/reel/965681956111870/';
-  const hockingYouTubeChannelUrl = 'https://www.youtube.com/c/HockingCollege-Ohio';
-  const nclUrl = 'https://nationalcyberleague.org';
 
   useEffect(() => {
     const saved = localStorage.getItem('cyber-guard-leaderboard');
@@ -1602,13 +1602,18 @@ const VictoryScreen = ({ onRestart, timeRemaining, dbIntegrity, operativeName, o
                     controls
                     preload="metadata"
                     playsInline
+                    onError={() => {
+                      if (reelSourceIndex < reelSources.length - 1) {
+                        setReelSourceIndex(prev => prev + 1);
+                      }
+                    }}
                     className="w-full max-w-[380px] mx-auto rounded"
                   >
                     Your browser does not support the video tag.
                   </video>
                 </div>
                 <p className="text-[10px] text-[#e5e7eb]/70 leading-relaxed">
-                  If video playback is blocked, use an external source below.
+                  If video playback is blocked, use the direct Facebook reel below.
                 </p>
                 <div className="flex flex-wrap gap-2">
                   <a
@@ -1618,14 +1623,6 @@ const VictoryScreen = ({ onRestart, timeRemaining, dbIntegrity, operativeName, o
                     className="inline-block px-4 py-2 border border-[#00FF41]/60 text-[#00FF41] text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#00FF41] hover:text-black transition-all"
                   >
                     Open Reel on Facebook
-                  </a>
-                  <a
-                    href={hockingYouTubeChannelUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block px-4 py-2 border border-[#00FF41]/60 text-[#00FF41] text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#00FF41] hover:text-black transition-all"
-                  >
-                    Open Hocking YouTube
                   </a>
                 </div>
               </div>
@@ -1649,14 +1646,6 @@ const VictoryScreen = ({ onRestart, timeRemaining, dbIntegrity, operativeName, o
                     className="inline-block px-4 py-2 border border-[#00FF41]/60 text-[#00FF41] text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#00FF41] hover:text-black transition-all"
                   >
                     View Hocking Program
-                  </a>
-                  <a
-                    href={nclUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block px-4 py-2 border border-[#00FF41]/60 text-[#00FF41] text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#00FF41] hover:text-black transition-all"
-                  >
-                    Explore NCL
                   </a>
                 </div>
               </div>
